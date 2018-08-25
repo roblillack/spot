@@ -6,7 +6,7 @@ package gocoa
 import "C"
 import "unsafe"
 
-// Button represents a button control that can trigger actions
+// Button represents a button control that can trigger actions.
 type Button struct {
 	buttonPtr unsafe.Pointer
 }

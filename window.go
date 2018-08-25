@@ -6,12 +6,12 @@ package gocoa
 import "C"
 import "unsafe"
 
-// Window represents a ... window
+// Window is just that.
 type Window struct {
 	winPtr unsafe.Pointer
 }
 
-// NewWindow constructs a new window
+// NewWindow constructs and returns a new window.
 func NewWindow(title string, x int, y int, w int, h int) *Window {
 	cTitle := C.CString(title)
 	defer C.free(unsafe.Pointer(cTitle))

@@ -11,7 +11,7 @@ func InitApplication() {
 	C.InitSharedApplication()
 }
 
-// RunApplication launches the main Cocoa runloop
+// RunApplication launches the main Cocoa runloop.
 func RunApplication() {
 	C.RunApplication()
 }
