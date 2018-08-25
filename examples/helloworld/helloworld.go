@@ -6,9 +6,11 @@ import (
 
 func main() {
 	app := gocoa.GetSharedApplication()
-	wnd := gocoa.NewWindow("Hello World!", 150, 150, 600, 400)
-	button := gocoa.NewButton()
-	button.SetTitle("Quit")
+	width, height := 300, 200
+	wnd := gocoa.NewWindow("Hello World!", 150, 150, width, height)
+	buttonWidth, buttonHeight := 150, 24
+	button := gocoa.NewButton(width/2-buttonWidth/2, height/2-buttonHeight/2, buttonWidth, buttonHeight)
+	button.SetTitle("Click to quit app!")
 	wnd.AddButton(button)
 	wnd.MakeKeyAndOrderFront()
 	app.Run()
