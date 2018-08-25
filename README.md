@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-	app := gocoa.GetSharedApplication()
+	gocoa.InitApplication()
 	width, height := 300, 200
 	wnd := gocoa.NewWindow("Hello World!", 150, 150, width, height)
 	buttonWidth, buttonHeight := 150, 24
@@ -26,7 +26,7 @@ func main() {
 	button.SetTitle("Click to quit app!")
 	wnd.AddButton(button)
 	wnd.MakeKeyAndOrderFront()
-	app.Run()
+	gocoa.RunApplication()
 }
 ```
 
