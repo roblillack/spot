@@ -11,7 +11,7 @@ type Application struct {
 	sharedApp unsafe.Pointer
 }
 
-// GetSharedApplication Returns an application object pointing to the Cocoa shared application object.
+// GetSharedApplication returns an application object pointing to the Cocoa shared application object.
 func GetSharedApplication() *Application {
 	return &Application{sharedApp: C.GetSharedApplication()}
 }
