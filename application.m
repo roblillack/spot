@@ -1,21 +1,16 @@
 #import "application.h"
 #include "_cgo_export.h"
 
-// GetSharedApplication() Returns the shared application object, creating it if necessary.
-// TODO: What about lifetime/deconstruction/drain?
-// TODO: Should be some kind of singleton perhaps?
-void*
-GetSharedApplication() {
-    return [NSApplication sharedApplication];
+// InitSharedApplication calls NSApplication.sharedApplication() which initializes the 
+// global application instance NSApp.
+void InitSharedApplication() {
+    [NSApplication sharedApplication];
 }
 
-void
-App_Run(void* nsApp) {
-    NSApplication* app = (NSApplication*)nsApp;
-
+void RunApplication() {
     @autoreleasepool {
-        [app setActivationPolicy:NSApplicationActivationPolicyRegular];
-        [app activateIgnoringOtherApps:YES];
-        [app run];
+        [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+        [NSApp activateIgnoringOtherApps:YES];
+        [NSApp run];
     }
 }

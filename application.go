@@ -4,19 +4,14 @@ package gocoa
 // #cgo LDFLAGS: -framework Cocoa
 // #include "application.h"
 import "C"
-import "unsafe"
 
-// Application object
-type Application struct {
-	sharedApp unsafe.Pointer
+// InitApplication initializes the global application instance. Call this before using
+// the rest of the gocoa package.
+func InitApplication() {
+	C.InitSharedApplication()
 }
 
-// GetSharedApplication returns an application object pointing to the Cocoa shared application object.
-func GetSharedApplication() *Application {
-	return &Application{sharedApp: C.GetSharedApplication()}
-}
-
-// Run starts the main runloop
-func (app *Application) Run() {
-	C.App_Run(app.sharedApp)
+// RunApplication launches the main Cocoa runloop
+func RunApplication() {
+	C.RunApplication()
 }
