@@ -5,7 +5,6 @@ void* Button_New(int x, int y, int w, int h) {
     id button = [[[NSButton alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
     [button setTarget:NSApp];
     [button setAction:@selector(terminate:)];
-    [button setTitle:@"Quit!"];
 
     [button setButtonType:NSMomentaryLightButton];
     [button setBezelStyle:NSRoundedBezelStyle];
