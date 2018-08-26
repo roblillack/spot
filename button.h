@@ -1,4 +1,15 @@
 #import <Cocoa/Cocoa.h>
 
-void* Button_New(int x, int y, int w, int h);
-void Button_SetTitle(void *btnPtr, const char* title);
+// typedef void (*callback)(void);
+
+@interface ButtonHandler : NSObject
+
+@property (assign) int goButtonID;
+-(void) buttonClicked:(id) sender;
+
+@end
+
+typedef void* ButtonPtr;
+
+ButtonPtr Button_New(int goButtonID, int x, int y, int w, int h);
+void Button_SetTitle(ButtonPtr btnPtr, const char* title);

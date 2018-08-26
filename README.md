@@ -14,17 +14,34 @@ The following is the basic [Hello World](examples/helloworld) application.
 package main
 
 import (
+	"fmt"
+
 	"github.com/mojbro/gocoa"
 )
 
 func main() {
 	gocoa.InitApplication()
-	width, height := 300, 200
-	wnd := gocoa.NewWindow("Hello World!", 150, 150, width, height)
-	buttonWidth, buttonHeight := 150, 24
-	button := gocoa.NewButton(width/2-buttonWidth/2, height/2-buttonHeight/2, buttonWidth, buttonHeight)
-	button.SetTitle("Click to quit app!")
-	wnd.AddButton(button)
+	gocoa.OnApplicationDidFinishLaunching(func() {
+		fmt.Println("App running!")
+	})
+	wnd := gocoa.NewWindow("Hello World!", 150, 150, 300, 200)
+
+	// Change me button
+	currentTitle, nextTitle := "Change me!", "Change me again!"
+	changeButton := gocoa.NewButton(75, 125, 150, 25)
+	changeButton.SetTitle(currentTitle)
+	changeButton.OnClick(func() {
+		changeButton.SetTitle(nextTitle)
+		currentTitle, nextTitle = nextTitle, currentTitle
+	})
+	wnd.AddButton(changeButton)
+
+	// Quit button
+	quitButton := gocoa.NewButton(75, 50, 150, 25)
+	quitButton.SetTitle("Quit")
+	quitButton.OnClick(func() { gocoa.TerminateApplication() })
+	wnd.AddButton(quitButton)
+
 	wnd.MakeKeyAndOrderFront()
 	gocoa.RunApplication()
 }

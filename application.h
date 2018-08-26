@@ -2,3 +2,4 @@
 
 void InitSharedApplication();
 void RunApplication();
+void TerminateApplication();

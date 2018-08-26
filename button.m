@@ -1,17 +1,27 @@
 #import "button.h"
 #include "_cgo_export.h"
 
-void* Button_New(int x, int y, int w, int h) {
-    id button = [[[NSButton alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
-    [button setTarget:NSApp];
-    [button setAction:@selector(terminate:)];
+@implementation ButtonHandler
+-(void) buttonClicked:(id) sender
+{
+    onButtonClicked([self goButtonID]);
+}
+@end
 
-    [button setButtonType:NSMomentaryLightButton];
-    [button setBezelStyle:NSRoundedBezelStyle];
-    return button;
+ButtonPtr Button_New(int goButtonID, int x, int y, int w, int h) {
+    id nsButton = [[[NSButton alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
+    ButtonHandler* handler = [[ButtonHandler alloc] init]; // TODO: need to be released somewhere
+    [handler setGoButtonID:goButtonID];
+    [nsButton setTarget:handler];
+    [nsButton setAction:@selector(buttonClicked:)];
+
+    [nsButton setButtonType:NSMomentaryLightButton];
+    [nsButton setBezelStyle:NSRoundedBezelStyle];
+
+    return (ButtonPtr)nsButton;
 }
 
-void Button_SetTitle(void *btnPtr, const char* title) {
+void Button_SetTitle(ButtonPtr btnPtr, const char* title) {
     NSButton* button = (NSButton*)btnPtr;
     [button setTitle:[NSString stringWithUTF8String:title]];
 }

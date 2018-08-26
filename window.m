@@ -16,7 +16,7 @@ void Window_MakeKeyAndOrderFront(void *wndPtr) {
     [window makeKeyAndOrderFront:nil];
 }
 
-void Window_AddButton(void *wndPtr, void *btnPtr) {
+void Window_AddButton(void *wndPtr, ButtonPtr btnPtr) {
     NSButton* button = (NSButton*)btnPtr;
     NSWindow* window = (NSWindow*)wndPtr;
     [[window contentView] addSubview:button];
