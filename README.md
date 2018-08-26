@@ -8,7 +8,7 @@ Go bindings for the Cocoa framework to build macOS applications.
 
 ## How to use
 
-The following is the basic [Hello World](examples/helloworld) application.
+The following is a basic [Hello World](examples/helloworld) application.
 
 ```go
 package main
