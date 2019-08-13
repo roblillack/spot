@@ -6,8 +6,9 @@ void* Window_New(int x, int y, int width, int height, const char* title) {
     id window = [[NSWindow alloc] initWithContentRect:windowRect
                                             styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable)
                                               backing:NSBackingStoreBuffered
-                                                defer:NO]; // TODO: autorelease?
+                                                defer:NO];
     [window setTitle:[NSString stringWithUTF8String:title]];
+    [window autorelease];
     return window;
 }
 
