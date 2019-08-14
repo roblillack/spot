@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/phaus/gocoa"
+	"github.com/mojbro/gocoa"
 )
 
 var wnd *gocoa.Window
