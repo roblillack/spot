@@ -28,3 +28,13 @@ func (wnd *Window) MakeKeyAndOrderFront() {
 func (wnd *Window) AddButton(btn *Button) {
 	C.Window_AddButton(wnd.winPtr, btn.buttonPtr)
 }
+
+// AddProgressIndicator adds a ProgressIndicator to the window.
+func (wnd *Window) AddProgressIndicator(indicator *ProgressIndicator) {
+	C.Window_AddProgressIndicator(wnd.winPtr, indicator.progressIndicatorPtr)
+}
+
+// Update - forces the whole window to repaint
+func (wnd *Window) Update() {
+	C.Window_Update(wnd.winPtr)
+}

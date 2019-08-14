@@ -10,8 +10,9 @@
 
 ButtonPtr Button_New(int goButtonID, int x, int y, int w, int h) {
     id nsButton = [[[NSButton alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
-    ButtonHandler* handler = [[ButtonHandler alloc] init]; // TODO: need to be released somewhere
+    ButtonHandler* handler = [[ButtonHandler alloc] init];
     [handler setGoButtonID:goButtonID];
+    [handler autorelease];
     [nsButton setTarget:handler];
     [nsButton setAction:@selector(buttonClicked:)];
 

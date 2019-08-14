@@ -1,10 +1,11 @@
 # gocoa
+
 [![GoDoc](https://godoc.org/github.com/mojbro/gocoa?status.svg)](https://godoc.org/github.com/mojbro/gocoa)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mojbro/gocoa)](https://goreportcard.com/report/github.com/mojbro/gocoa)
 
 Go bindings for the Cocoa framework to build macOS applications.
 
-<img src="resources/images/helloworld-screenshot.png" width="412" />
+<img src="resources/images/helloworld-screenshot.gif" width="480" />
 
 ## How to use
 
