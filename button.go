@@ -18,9 +18,9 @@ var buttons []*Button
 
 //export onButtonClicked
 func onButtonClicked(id C.int) {
-	buttonId := int(id)
-	if buttonId < len(buttons) && buttons[buttonId].callback != nil {
-		buttons[buttonId].callback()
+	buttonID := int(id)
+	if buttonID < len(buttons) && buttons[buttonID].callback != nil {
+		buttons[buttonID].callback()
 	}
 }
 
@@ -29,8 +29,8 @@ func onButtonClicked(id C.int) {
 // callbacks have been implemented.
 // This func is not thread safe.
 func NewButton(x int, y int, width int, height int) *Button {
-	buttonId := len(buttons)
-	buttonPtr := C.Button_New(C.int(buttonId), C.int(x), C.int(y), C.int(width), C.int(height))
+	buttonID := len(buttons)
+	buttonPtr := C.Button_New(C.int(buttonID), C.int(x), C.int(y), C.int(width), C.int(height))
 
 	btn := &Button{
 		buttonPtr: buttonPtr,
@@ -46,6 +46,7 @@ func (btn *Button) SetTitle(title string) {
 	C.Button_SetTitle(btn.buttonPtr, cTitle)
 }
 
+// OnClick - function, that will be triggered, if the button is clicked.
 func (btn *Button) OnClick(fn func()) {
 	btn.callback = fn
 }
