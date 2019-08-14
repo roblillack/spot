@@ -51,4 +51,8 @@ func main() {
 ## Status of this project
 
 This package is very, very early and incomplete! It is mostly just an experiment and is not really
-useful yet. I will continue working on it with the aim to be able to make useful native macOS apps in Go.
+useful yet.
+
+## Contributors
+
+Big thanks to [Philipp Haussleiter](https://github.com/phaus) who has contributed a great deal to this project.
