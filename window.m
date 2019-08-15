@@ -26,6 +26,20 @@ void Window_AddButton(void *wndPtr, ButtonPtr btnPtr)
     [[window contentView] addSubview:button];
 }
 
+void Window_AddTextView(void *wndPtr, pTextView ptv)
+{
+    NSTextView* textview = (NSTextView*)ptv;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:indicator];
+}
+
+void Window_AddTextField(void *wndPtr, pTextField ptf)
+{
+    NSTextField* textfield = (NSTextField*)ptf;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:textfield];
+}
+
 void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndicatorPtr)
 {
     NSProgressIndicator* indicator = (NSProgressIndicator*)progressIndicatorPtr;

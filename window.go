@@ -29,6 +29,16 @@ func (wnd *Window) AddButton(btn *Button) {
 	C.Window_AddButton(wnd.winPtr, btn.buttonPtr)
 }
 
+// AddTextView - adds a Button to the window.
+func (wnd *Window) AddTextView(tv *TextView) {
+	C.Window_AddTextView(wnd.winPtr, tv.textView)
+}
+
+// AddTextField - adds a Button to the window.
+func (wnd *Window) AddTextField(tv *TextField) {
+	C.Window_AddTextField(wnd.winPtr, tv.textField)
+}
+
 // AddProgressIndicator adds a ProgressIndicator to the window.
 func (wnd *Window) AddProgressIndicator(indicator *ProgressIndicator) {
 	C.Window_AddProgressIndicator(wnd.winPtr, indicator.progressIndicatorPtr)
