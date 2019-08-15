@@ -30,7 +30,7 @@ void Window_AddTextView(void *wndPtr, pTextView ptv)
 {
     NSTextView* textview = (NSTextView*)ptv;
     NSWindow* window = (NSWindow*)wndPtr;
-    [[window contentView] addSubview:indicator];
+    [[window contentView] addSubview:textview];
 }
 
 void Window_AddTextField(void *wndPtr, pTextField ptf)
@@ -51,5 +51,4 @@ void Window_Update(void *wndPtr)
 {
     NSWindow* window = (NSWindow*)wndPtr;
     [[window contentView] setNeedsDisplay:YES];
-
 }

@@ -18,10 +18,12 @@ func RunApplication() {
 	C.RunApplication()
 }
 
+// OnApplicationDidFinishLaunching - handler if the Application finished loading
 func OnApplicationDidFinishLaunching(fn func()) {
 	appDidFinishLaunchingFunc = fn
 }
 
+//TerminateApplication - handler for Application Exit
 func TerminateApplication() {
 	C.TerminateApplication()
 }
