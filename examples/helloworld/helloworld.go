@@ -19,14 +19,16 @@ func main() {
 	})
 	wnd = gocoa.NewWindow("Hello World!", 150, 150, 300, 200)
 
-	wnd.OnDidMove(func(uwnd *gocoa.Window){
-		fmt.Printf("old: %s\nnew: %s\n", wnd, uwnd)
+	wnd.OnDidMove(func(uwnd *gocoa.Window) {
+		fmt.Printf("old: %v\nnew: %v\n", wnd, uwnd)
 	})
+	// TextField
+	mainTextField := gocoa.NewTextField(75, 145, 150, 25)
+	wnd.AddTextField(mainTextField)
 
 	// Change me button
 	currentTitle, nextTitle := "Change me!", "Change me again!"
-
-	changeButton := gocoa.NewButton(75, 125, 150, 25)
+	changeButton := gocoa.NewButton(75, 120, 150, 25)
 	changeButton.SetTitle(currentTitle)
 	changeButton.OnClick(func() {
 		changeButton.SetTitle(nextTitle)
@@ -34,15 +36,7 @@ func main() {
 	})
 	wnd.AddButton(changeButton)
 
-	// ProgressIndicator
-	indicator = gocoa.NewProgressIndicator(75, 0, 150, 25)
-	indicator.Hide()
-
-	indicator.SetLimits(0.00, maxValue)
-	indicator.SetValue(0.00)
-	indicator.SetAutohide(true)
-	wnd.AddProgressIndicator(indicator)
-
+	// Download button
 	loadButton := gocoa.NewButton(75, 75, 150, 25)
 	loadButton.SetTitle("download")
 
@@ -54,8 +48,17 @@ func main() {
 	})
 	wnd.AddButton(loadButton)
 
+	// ProgressIndicator
+	indicator = gocoa.NewProgressIndicator(75, 55, 150, 25)
+	indicator.Hide()
+
+	indicator.SetLimits(0.00, maxValue)
+	indicator.SetValue(0.00)
+	indicator.SetAutohide(true)
+	wnd.AddProgressIndicator(indicator)
+
 	// Quit button
-	quitButton := gocoa.NewButton(75, 50, 150, 25)
+	quitButton := gocoa.NewButton(75, 25, 150, 25)
 	quitButton.SetTitle("Quit")
 	quitButton.OnClick(func() {
 		gocoa.TerminateApplication()
