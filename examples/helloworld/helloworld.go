@@ -19,6 +19,10 @@ func main() {
 	})
 	wnd = gocoa.NewWindow("Hello World!", 150, 150, 300, 200)
 
+	wnd.OnDidMove(func(uwnd *gocoa.Window){
+		fmt.Printf("old: %s\nnew: %s\n", wnd, uwnd)
+	})
+
 	// Change me button
 	currentTitle, nextTitle := "Change me!", "Change me again!"
 

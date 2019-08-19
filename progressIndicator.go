@@ -90,7 +90,7 @@ func (indicator *ProgressIndicator) GetIsIndeterminate() bool {
 // SetIsIndeterminate - sets if the progressbar is indeterminate
 func (indicator *ProgressIndicator) SetIsIndeterminate(value bool) {
 	if value {
-		C.ProgressIndicator_SetIsIndeterminate(indicator.progressIndicatorPtr, 1)	
+		C.ProgressIndicator_SetIsIndeterminate(indicator.progressIndicatorPtr, 1)
 	} else {
 		C.ProgressIndicator_SetIsIndeterminate(indicator.progressIndicatorPtr, 0)
 	}
@@ -99,7 +99,7 @@ func (indicator *ProgressIndicator) SetIsIndeterminate(value bool) {
 // SetDisplayedWhenStopped - A Boolean that indicates whether the progress indicator hides itself when it isn’t animating.
 func (indicator *ProgressIndicator) SetDisplayedWhenStopped(value bool) {
 	if value {
-		C.ProgressIndicator_SetDisplayedWhenStopped(indicator.progressIndicatorPtr, 1)	
+		C.ProgressIndicator_SetDisplayedWhenStopped(indicator.progressIndicatorPtr, 1)
 	} else {
 		C.ProgressIndicator_SetDisplayedWhenStopped(indicator.progressIndicatorPtr, 0)
 	}
