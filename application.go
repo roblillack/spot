@@ -18,10 +18,12 @@ func RunApplication() {
 	C.RunApplication()
 }
 
+// OnApplicationDidFinishLaunching - will be triggered after Application Launch is finished
 func OnApplicationDidFinishLaunching(fn func()) {
 	appDidFinishLaunchingFunc = fn
 }
 
+// TerminateApplication - will be triggered, when the Application terminates
 func TerminateApplication() {
 	C.TerminateApplication()
 }

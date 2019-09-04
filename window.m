@@ -1,7 +1,10 @@
 #import "window.h"
+#import "windowdelegate.h"
 #include "_cgo_export.h"
 
-void* Window_New(int x, int y, int width, int height, const char* title) 
+WindowDelegate *gocoa_windowDelegate = nil;
+
+void* Window_New(int goWindowID, int x, int y, int width, int height, const char* title) 
 {
     NSRect windowRect = NSMakeRect(x, y, width, height);
     id window = [[NSWindow alloc] initWithContentRect:windowRect 
@@ -10,6 +13,10 @@ void* Window_New(int x, int y, int width, int height, const char* title)
         defer:NO];
     [window setTitle:[NSString stringWithUTF8String:title]];
     [window autorelease];
+
+    gocoa_windowDelegate = [[WindowDelegate alloc] init];
+    [gocoa_windowDelegate setGoWindowID:goWindowID];
+    [window setDelegate:gocoa_windowDelegate];
     return window;
 }
 
