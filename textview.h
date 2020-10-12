@@ -8,6 +8,7 @@
 
 @end
 
-typedef void* pTextView;
+typedef void* TextViewPtr;
 
-pTextView TextView_New(int goTextViewId, int x, int y, int w, int h);
+TextViewPtr TextView_New(int goTextViewId, int x, int y, int w, int h);
+void TextView_SetText(TextViewPtr textViewPtr, const char* text);

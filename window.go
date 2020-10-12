@@ -38,13 +38,13 @@ func NewWindow(title string, x int, y int, w int, h int) *Window {
 	cTitle := C.CString(title)
 	defer C.free(unsafe.Pointer(cTitle))
 	wnd := &Window{
-		title:  title,
-		x:      x,
-		y:      y,
-		w:      w,
-		h:      h,
+		title:     title,
+		x:         x,
+		y:         y,
+		w:         w,
+		h:         h,
 		callbacks: make(map[WindowEvent]EventHandler),
-		winPtr: C.Window_New(C.int(windowID), C.int(x), C.int(y), C.int(w), C.int(h), cTitle)}
+		winPtr:    C.Window_New(C.int(windowID), C.int(x), C.int(y), C.int(w), C.int(h), cTitle)}
 	windows = append(windows, wnd)
 	return wnd
 }
@@ -62,12 +62,12 @@ func (wnd *Window) AddButton(btn *Button) {
 
 // AddTextView - adds a Button to the window.
 func (wnd *Window) AddTextView(tv *TextView) {
-	C.Window_AddTextView(wnd.winPtr, tv.textView)
+	C.Window_AddTextView(wnd.winPtr, tv.textViewPtr)
 }
 
 // AddTextField - adds a Button to the window.
 func (wnd *Window) AddTextField(tv *TextField) {
-	C.Window_AddTextField(wnd.winPtr, tv.textField)
+	C.Window_AddTextField(wnd.winPtr, tv.textFieldPtr)
 }
 
 // AddProgressIndicator adds a ProgressIndicator to the window.
@@ -78,6 +78,12 @@ func (wnd *Window) AddProgressIndicator(indicator *ProgressIndicator) {
 // Update - forces the whole window to repaint
 func (wnd *Window) Update() {
 	C.Window_Update(wnd.winPtr)
+}
+
+func (wnd *Window) SetTitle(title string) {
+	cTitle := C.CString(title)
+	defer C.free(unsafe.Pointer(cTitle))
+	C.Window_SetTitle(wnd.winPtr, cTitle)
 }
 
 func (wnd *Window) OnDidResize(fn EventHandler) {
@@ -102,12 +108,12 @@ func onWindowEvent(id C.int, eventID C.int, x C.int, y C.int, w C.int, h C.int) 
 	event := WindowEvent(eventID)
 	if windowID < len(windows) && windows[windowID].callbacks[event] != nil {
 		wnd := windows[windowID]
-		windows[windowID].callbacks[event]( &Window{
+		windows[windowID].callbacks[event](&Window{
 			title:  wnd.title,
-			x: int(x),
-			y: int(y),
-			w: int(w),
-			h: int(h),
+			x:      int(x),
+			y:      int(y),
+			w:      int(w),
+			h:      int(h),
 			winPtr: wnd.winPtr})
 	}
 }

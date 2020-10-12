@@ -8,6 +8,9 @@
 
 @end
 
-typedef void* pTextField;
+typedef void* TextFieldPtr;
 
-pTextField TextField_New(int goTextFieldId, int x, int y, int w, int h);
+TextFieldPtr TextField_New(int goTextFieldId, int x, int y, int w, int h);
+
+const char* TextField_StringValue(TextFieldPtr textFieldPtr);
+void TextField_SetStringValue(TextFieldPtr textFieldPtr, const char* text);

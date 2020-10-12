@@ -11,20 +11,29 @@ var wnd *gocoa.Window
 var indicator *gocoa.ProgressIndicator
 
 const maxValue = 100.00
+const windowTitle = "Hello World!"
 
 func main() {
 	gocoa.InitApplication()
 	gocoa.OnApplicationDidFinishLaunching(func() {
 		fmt.Println("App running!")
 	})
-	wnd = gocoa.NewWindow("Hello World!", 150, 150, 300, 200)
+	wnd = gocoa.NewWindow(windowTitle, 150, 150, 300, 200)
 
 	wnd.OnDidMove(func(uwnd *gocoa.Window) {
 		fmt.Printf("old: %v\nnew: %v\n", wnd, uwnd)
 	})
 	// TextField
-	mainTextField := gocoa.NewTextField(75, 145, 150, 25)
-	wnd.AddTextField(mainTextField)
+	titleTextField := gocoa.NewTextField(85, 160, 90, 25)
+	titleTextField.SetStringValue(windowTitle)
+
+	wnd.AddTextField(titleTextField)
+	setTitleButton := gocoa.NewButton(175, 145, 50, 50)
+	setTitleButton.SetTitle("Set")
+	setTitleButton.OnClick(func() {
+		wnd.SetTitle(titleTextField.StringValue())
+	})
+	wnd.AddButton(setTitleButton)
 
 	// Change me button
 	currentTitle, nextTitle := "Change me!", "Change me again!"

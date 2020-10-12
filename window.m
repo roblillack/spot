@@ -33,16 +33,16 @@ void Window_AddButton(void *wndPtr, ButtonPtr btnPtr)
     [[window contentView] addSubview:button];
 }
 
-void Window_AddTextView(void *wndPtr, pTextView ptv)
+void Window_AddTextView(void *wndPtr, TextViewPtr tvPtr)
 {
-    NSTextView* textview = (NSTextView*)ptv;
+    NSTextView* textview = (NSTextView*)tvPtr;
     NSWindow* window = (NSWindow*)wndPtr;
     [[window contentView] addSubview:textview];
 }
 
-void Window_AddTextField(void *wndPtr, pTextField ptf)
+void Window_AddTextField(void *wndPtr, TextFieldPtr tfPtr)
 {
-    NSTextField* textfield = (NSTextField*)ptf;
+    NSTextField* textfield = (NSTextField*)tfPtr;
     NSWindow* window = (NSWindow*)wndPtr;
     [[window contentView] addSubview:textfield];
 }
@@ -58,4 +58,10 @@ void Window_Update(void *wndPtr)
 {
     NSWindow* window = (NSWindow*)wndPtr;
     [[window contentView] setNeedsDisplay:YES];
+}
+
+void Window_SetTitle(void *wndPtr, const char* title)
+{
+    NSWindow* window = (NSWindow*)wndPtr;
+    [window setTitle:[NSString stringWithUTF8String:title]];
 }
