@@ -18,8 +18,9 @@ func main() {
 	gocoa.OnApplicationDidFinishLaunching(func() {
 		fmt.Println("App running!")
 	})
-	wnd = gocoa.NewWindow(windowTitle, 150, 150, 300, 200)
-
+	wnd = gocoa.NewCenteredWindow(windowTitle, 300, 200)
+	fmt.Printf("created window: %v\n", wnd)
+	fmt.Printf("screen size %v\n", wnd.GetScreen())
 	wnd.OnDidMove(func(uwnd *gocoa.Window) {
 		fmt.Printf("old: %v\nnew: %v\n", wnd, uwnd)
 	})

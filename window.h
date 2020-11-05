@@ -6,6 +6,11 @@
 #include "progressIndicator.h"
 
 void* Window_New(int goWindowID, int x, int y, int width, int height, const char* title);
+void* Centered_Window_New(int goWindowID, int width, int height, const char* title);
+int Screen_Center_X(void *wndPtr);
+int Screen_Center_Y(void *wndPtr);
+int Screen_X(void *wndPtr);
+int Screen_Y(void *wndPtr);
 void Window_MakeKeyAndOrderFront(void *wndPtr);
 void Window_AddButton(void *wndPtr, ButtonPtr btnPtr);
 void Window_AddTextView(void *wndPtr, TextViewPtr tvPtr);
