@@ -30,6 +30,12 @@ type Window struct {
 	winPtr    unsafe.Pointer
 }
 
+// Screen the screen of the window.
+type Screen struct {
+	X int
+	Y int
+}
+
 var windows []*Window
 
 // NewWindow constructs and returns a new window.
@@ -47,6 +53,30 @@ func NewWindow(title string, x int, y int, w int, h int) *Window {
 		winPtr:    C.Window_New(C.int(windowID), C.int(x), C.int(y), C.int(w), C.int(h), cTitle)}
 	windows = append(windows, wnd)
 	return wnd
+}
+
+// NewCenteredWindow constructs and returns a new window.
+func NewCenteredWindow(title string, w int, h int) *Window {
+	windowID := len(windows)
+	cTitle := C.CString(title)
+	defer C.free(unsafe.Pointer(cTitle))
+	wnd := &Window{
+		title:     title,
+		w:         w,
+		h:         h,
+		callbacks: make(map[WindowEvent]EventHandler),
+		winPtr:    C.Centered_Window_New(C.int(windowID), C.int(w), C.int(h), cTitle)}
+	wnd.x = int(C.Screen_Center_X(wnd.winPtr))
+	wnd.y = int(C.Screen_Center_Y(wnd.winPtr))
+	windows = append(windows, wnd)
+	return wnd
+}
+
+// GetScreen - returns the screen dimensions
+func (wnd *Window) GetScreen() *Screen {
+	return &Screen{
+		X: int(C.Screen_X(wnd.winPtr)),
+		Y: int(C.Screen_Y(wnd.winPtr))}
 }
 
 // MakeKeyAndOrderFront moves the window to the front of the screen list, within its

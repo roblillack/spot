@@ -20,6 +20,52 @@ void* Window_New(int goWindowID, int x, int y, int width, int height, const char
     return window;
 }
 
+void* Centered_Window_New(int goWindowID, int width, int height, const char* title) 
+{
+    NSRect windowRect = NSMakeRect(0, 0, width, height);
+    id window = [[NSWindow alloc] initWithContentRect:windowRect 
+        styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable)
+        backing:NSBackingStoreBuffered
+        defer:NO];
+    [window setTitle:[NSString stringWithUTF8String:title]];
+    [window autorelease];
+    CGFloat xPos = NSWidth([[window screen] frame])/2 - NSWidth([window frame])/2;
+    CGFloat yPos = NSHeight([[window screen] frame])/2 - NSHeight([window frame])/2;
+    gocoa_windowDelegate = [[WindowDelegate alloc] init];
+    [gocoa_windowDelegate setGoWindowID:goWindowID];
+    [window setDelegate:gocoa_windowDelegate];
+    [window setFrame:NSMakeRect(xPos, yPos, NSWidth([window frame]), NSHeight([window frame])) display:YES];
+    return window;
+}
+
+int Screen_Center_X(void *wndPtr)
+{
+    NSWindow* window = (NSWindow*)wndPtr;
+    CGFloat xPos = NSWidth([[window screen] frame])/2 - NSWidth([window frame])/2;
+    return (int)(xPos);
+}
+
+int Screen_Center_Y(void *wndPtr)
+{
+    NSWindow* window = (NSWindow*)wndPtr;
+    CGFloat yPos = NSHeight([[window screen] frame])/2 - NSHeight([window frame])/2;
+    return (int)(yPos);
+}
+
+int Screen_X(void *wndPtr)
+{
+    NSWindow* window = (NSWindow*)wndPtr;
+    CGFloat xPos = NSWidth([[window screen] frame]);
+    return (int)(xPos);
+}
+
+int Screen_Y(void *wndPtr)
+{
+    NSWindow* window = (NSWindow*)wndPtr;
+    CGFloat yPos = NSHeight([[window screen] frame]);
+    return (int)(yPos);
+}
+
 void Window_MakeKeyAndOrderFront(void *wndPtr)
 {
     NSWindow* window = (NSWindow*)wndPtr;
