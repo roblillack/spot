@@ -42,7 +42,6 @@ func (textField *TextField) SetStringValue(text string) {
 }
 
 func (textField *TextField) Enabled() bool {
-	fmt.Println(C.TextField_Enabled(textField.textFieldPtr))
 	return C.TextField_Enabled(textField.textFieldPtr) == 1
 }
 
