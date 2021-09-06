@@ -1,3 +1,3 @@
-module github.com/StarHack/gocoa
+module github.com/mojbro/gocoa
 
 go 1.12
