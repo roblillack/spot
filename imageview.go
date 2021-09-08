@@ -4,6 +4,7 @@ package gocoa
 // #cgo LDFLAGS: -framework Cocoa
 // #import "imageview.h"
 import "C"
+import "fmt"
 
 // Represents an ImageView control that can display images.
 type ImageView struct {
@@ -56,11 +57,11 @@ func NewImageView(x int, y int, width int, height int, url string) *ImageView {
 }
 
 func (imageView *ImageView) SetEditable(editable bool) {
-
-}
-
-func (imageView *ImageView) SetAllowsCutCopyPaste(cutCopyPaste bool) {
-
+	if editable {
+		C.ImageView_SetEditable(imageView.imageViewPtr, 1)
+	} else {
+		C.ImageView_SetEditable(imageView.imageViewPtr, 0)
+	}
 }
 
 func (imageView *ImageView) SetImageFrameStyle(frameStyle FrameStyle) {
@@ -76,5 +77,15 @@ func (imageView *ImageView) SetImageScaling(imageScaling ImageScaling) {
 }
 
 func (imageView *ImageView) SetAnimates(animates bool) {
+	if animates {
+		C.ImageView_SetAnimates(imageView.imageViewPtr, 1)
+	} else {
+		C.ImageView_SetAnimates(imageView.imageViewPtr, 0)
+	}
+}
 
+func (imageView *ImageView) SetContentTintColor(hexRGBA string) {
+	var r, g, b, a = 0, 0, 0, 0
+	fmt.Sscanf(hexRGBA, "#%02x%02x%02x%02x", &r, &g, &b, &a)
+	C.ImageView_SetContentTintColor(imageView.imageViewPtr, C.int(r), C.int(g), C.int(b), C.int(a))
 }
