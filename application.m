@@ -24,9 +24,17 @@ void releaseSharedApplication() {
 
 void RunApplication() {
     @autoreleasepool {
+
+        NSString *gocoaBundleIdentifier = @"gocoa";
+        NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+        bundleIdentifier = gocoaBundleIdentifier;
+
         [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
         [NSApp activateIgnoringOtherApps:YES];
+        [NSApp deactivate];
+        [NSApp activateIgnoringOtherApps:YES];
         [NSApp run];
+
         releaseSharedApplication();
     }
 }
