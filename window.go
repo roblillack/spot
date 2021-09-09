@@ -116,6 +116,10 @@ func (wnd *Window) SetTitle(title string) {
 	C.Window_SetTitle(wnd.winPtr, cTitle)
 }
 
+func (wnd *Window) AddDefaultQuitMenu() {
+	C.Window_AddDefaultQuitMenu(wnd.winPtr)
+}
+
 func (wnd *Window) OnDidResize(fn EventHandler) {
 	wnd.callbacks[didResize] = fn
 }

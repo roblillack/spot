@@ -36,26 +36,6 @@ void* Centered_Window_New(int goWindowID, int width, int height, const char* tit
     [window setDelegate:gocoa_windowDelegate];
     [window setFrame:NSMakeRect(xPos, yPos, NSWidth([window frame]), NSHeight([window frame])) display:YES];
     
-    
-    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-
-    id menubar = [[NSMenu new] autorelease];
-    id appMenuItem = [[NSMenuItem new] autorelease];
-    [menubar addItem:appMenuItem];
-    [NSApp setMainMenu:menubar];
-    id appMenu = [[NSMenu new] autorelease];
-    id appName = [[NSProcessInfo processInfo] processName];
-    id quitTitle = [@"Quit " stringByAppendingString:appName];
-    id quitMenuItem = [[[NSMenuItem alloc] initWithTitle:quitTitle
-        action:@selector(terminate:) keyEquivalent:@"q"] autorelease];
-    [appMenu addItem:quitMenuItem];
-    [appMenuItem setSubmenu:appMenu];
-
-    [window makeKeyAndOrderFront:nil];
-    [NSApp activateIgnoringOtherApps:YES];
-    
-    
-    
     return window;
 }
 
@@ -131,5 +111,21 @@ void Window_SetTitle(void *wndPtr, const char* title)
 {
     NSWindow* window = (NSWindow*)wndPtr;
     [window setTitle:[NSString stringWithUTF8String:title]];
+}
+
+void Window_AddDefaultQuitMenu(void *wndPtr) {
+    NSWindow* window = (NSWindow*)wndPtr;
+
+    id menubar = [[NSMenu new] autorelease];
+    id appMenuItem = [[NSMenuItem new] autorelease];
+    [menubar addItem:appMenuItem];
+    [NSApp setMainMenu:menubar];
+    id appMenu = [[NSMenu new] autorelease];
+    id appName = [[NSProcessInfo processInfo] processName];
+    id quitTitle = [@"Quit " stringByAppendingString:appName];
+    id quitMenuItem = [[[NSMenuItem alloc] initWithTitle:quitTitle
+        action:@selector(terminate:) keyEquivalent:@"q"] autorelease];
+    [appMenu addItem:quitMenuItem];
+    [appMenuItem setSubmenu:appMenu];
 }
 
