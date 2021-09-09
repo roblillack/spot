@@ -26,3 +26,13 @@ void Button_SetTitle(ButtonPtr btnPtr, const char* title) {
     NSButton* button = (NSButton*)btnPtr;
     [button setTitle:[NSString stringWithUTF8String:title]];
 }
+
+void Button_SetButtonType(ButtonPtr btnPtr, int buttonType) {
+    NSButton* button = (NSButton*)btnPtr;
+    [button setButtonType:buttonType];
+}
+
+void Button_SetBezelStyle(ButtonPtr btnPtr, int bezelStyle) {
+    NSButton* button = (NSButton*)btnPtr;
+    [button setBezelStyle:bezelStyle];
+}
