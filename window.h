@@ -1,6 +1,7 @@
 #import <Cocoa/Cocoa.h>
 
 #include "button.h"
+#include "datepicker.h"
 #include "textview.h"
 #include "textfield.h"
 #include "progressIndicator.h"
@@ -13,6 +14,7 @@ int Screen_X(void *wndPtr);
 int Screen_Y(void *wndPtr);
 void Window_MakeKeyAndOrderFront(void *wndPtr);
 void Window_AddButton(void *wndPtr, ButtonPtr btnPtr);
+void Window_AddDatePicker(void *wndPtr, DatePickerPtr datePickerPtr);
 void Window_AddTextView(void *wndPtr, TextViewPtr tvPtr);
 void Window_AddTextField(void *wndPtr, TextFieldPtr tfPtr);
 void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndicatorPtr);

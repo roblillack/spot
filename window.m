@@ -79,6 +79,13 @@ void Window_AddButton(void *wndPtr, ButtonPtr btnPtr)
     [[window contentView] addSubview:button];
 }
 
+void Window_AddDatePicker(void *wndPtr, DatePickerPtr datePickerPtr)
+{
+    NSDatePicker* datePicker = (NSDatePicker*)datePickerPtr;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:datePicker];
+}
+
 void Window_AddTextView(void *wndPtr, TextViewPtr tvPtr)
 {
     NSTextView* textview = (NSTextView*)tvPtr;

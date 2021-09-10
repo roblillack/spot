@@ -90,6 +90,11 @@ func (wnd *Window) AddButton(btn *Button) {
 	C.Window_AddButton(wnd.winPtr, btn.buttonPtr)
 }
 
+// AddDatePicker adds a DatePicker to the window.
+func (wnd *Window) AddDatePicker(datePicker *DatePicker) {
+	C.Window_AddDatePicker(wnd.winPtr, datePicker.datePickerPtr)
+}
+
 // AddTextView - adds a Button to the window.
 func (wnd *Window) AddTextView(tv *TextView) {
 	C.Window_AddTextView(wnd.winPtr, tv.textViewPtr)
