@@ -2,6 +2,7 @@
 
 #include "button.h"
 #include "datepicker.h"
+#include "imageview.h"
 #include "textview.h"
 #include "textfield.h"
 #include "progressIndicator.h"
@@ -18,5 +19,7 @@ void Window_AddDatePicker(void *wndPtr, DatePickerPtr datePickerPtr);
 void Window_AddTextView(void *wndPtr, TextViewPtr tvPtr);
 void Window_AddTextField(void *wndPtr, TextFieldPtr tfPtr);
 void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndicatorPtr);
+void Window_AddImageView(void *wndPtr, ImageViewPtr imageViewPtr);
 void Window_Update(void *wndPtr);
 void Window_SetTitle(void *wndPtr, const char* title);
+void Window_AddDefaultQuitMenu(void *wndPtr);
