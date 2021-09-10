@@ -35,6 +35,10 @@ void* Centered_Window_New(int goWindowID, int width, int height, const char* tit
     [gocoa_windowDelegate setGoWindowID:goWindowID];
     [window setDelegate:gocoa_windowDelegate];
     [window setFrame:NSMakeRect(xPos, yPos, NSWidth([window frame]), NSHeight([window frame])) display:YES];
+    
+    NSButton *button = [window standardWindowButton:NSWindowMiniaturizeButton];
+    [button setEnabled: NO];
+
     return window;
 }
 
@@ -110,4 +114,14 @@ void Window_SetTitle(void *wndPtr, const char* title)
 {
     NSWindow* window = (NSWindow*)wndPtr;
     [window setTitle:[NSString stringWithUTF8String:title]];
+}
+
+void Window_SetMaximumSize(void *wndPtr, int maxWidth, int maxHeight) {
+    NSWindow* window = (NSWindow*)wndPtr;
+    [window setMaxSize:NSMakeSize(maxWidth, maxHeight)];
+}
+
+void Window_SetMinimumSize(void *wndPtr, int minWidth, int minHeight) {
+    NSWindow* window = (NSWindow*)wndPtr;
+    [window setMinSize:NSMakeSize(minWidth, minHeight)];
 }

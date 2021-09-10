@@ -18,3 +18,5 @@ void Window_AddTextField(void *wndPtr, TextFieldPtr tfPtr);
 void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndicatorPtr);
 void Window_Update(void *wndPtr);
 void Window_SetTitle(void *wndPtr, const char* title);
+void Window_SetMaximumSize(void *wndPtr, int maxWidth, int maxHeight);
+void Window_SetMinimumSize(void *wndPtr, int minWidth, int minHeight);

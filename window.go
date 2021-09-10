@@ -116,6 +116,14 @@ func (wnd *Window) SetTitle(title string) {
 	C.Window_SetTitle(wnd.winPtr, cTitle)
 }
 
+func (wnd *Window) SetMaximumSize(maxWidth int, maxHeight int) {
+	C.Window_SetMaximumSize(wnd.winPtr, C.int(maxWidth), C.int(maxHeight))
+}
+
+func (wnd *Window) SetMinimumSize(minWidth int, minHeight int) {
+	C.Window_SetMinimumSize(wnd.winPtr, C.int(minWidth), C.int(minHeight))
+}
+
 func (wnd *Window) OnDidResize(fn EventHandler) {
 	wnd.callbacks[didResize] = fn
 }
