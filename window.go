@@ -105,6 +105,11 @@ func (wnd *Window) AddTextField(tv *TextField) {
 	C.Window_AddTextField(wnd.winPtr, tv.textFieldPtr)
 }
 
+// AddTextField - adds a Button to the window.
+func (wnd *Window) AddLabel(tv *TextField) {
+	C.Window_AddTextField(wnd.winPtr, tv.textFieldPtr)
+}
+
 // AddProgressIndicator adds a ProgressIndicator to the window.
 func (wnd *Window) AddProgressIndicator(indicator *ProgressIndicator) {
 	C.Window_AddProgressIndicator(wnd.winPtr, indicator.progressIndicatorPtr)

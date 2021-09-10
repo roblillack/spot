@@ -97,3 +97,27 @@ func (textField *TextField) SetBorderColor(hexRGBA string) {
 func (textField *TextField) SetBorderWidth(borderWidth int) {
 	C.TextField_SetBorderWidth(textField.textFieldPtr, C.int(borderWidth))
 }
+
+func (textField *TextField) SetBezeled(bezeled bool) {
+	if bezeled {
+		C.TextField_SetBezeled(textField.textFieldPtr, C.int(1))
+	} else {
+		C.TextField_SetBezeled(textField.textFieldPtr, C.int(0))
+	}
+}
+
+func (textField *TextField) SetDrawsBackground(drawsBackground bool) {
+	if drawsBackground {
+		C.TextField_SetDrawsBackground(textField.textFieldPtr, C.int(1))
+	} else {
+		C.TextField_SetDrawsBackground(textField.textFieldPtr, C.int(0))
+	}
+}
+
+func (textField *TextField) SetSelectable(selectable bool) {
+	if selectable {
+		C.TextField_SetSelectable(textField.textFieldPtr, C.int(1))
+	} else {
+		C.TextField_SetSelectable(textField.textFieldPtr, C.int(0))
+	}
+}
