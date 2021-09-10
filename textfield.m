@@ -77,3 +77,18 @@ void TextField_SetBorderWidth(TextFieldPtr textFieldPtr, const int borderWidth) 
 	textField.wantsLayer = true;
 	textField.layer.borderWidth = borderWidth;
 }
+
+void TextField_SetBezeled(TextFieldPtr textFieldPtr, const int bezeled) {
+	NSTextField* textField = (NSTextField*)textFieldPtr;
+	[textField setBezeled:bezeled];
+}
+
+void TextField_SetDrawsBackground(TextFieldPtr textFieldPtr, const int drawsBackground) {
+	NSTextField* textField = (NSTextField*)textFieldPtr;
+	[textField setDrawsBackground:drawsBackground];
+}
+
+void TextField_SetSelectable(TextFieldPtr textFieldPtr, const int selectable) {
+	NSTextField* textField = (NSTextField*)textFieldPtr;
+	[textField setSelectable:selectable];
+}
