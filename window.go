@@ -90,6 +90,11 @@ func (wnd *Window) AddButton(btn *Button) {
 	C.Window_AddButton(wnd.winPtr, btn.buttonPtr)
 }
 
+// AddDatePicker adds a DatePicker to the window.
+func (wnd *Window) AddDatePicker(datePicker *DatePicker) {
+	C.Window_AddDatePicker(wnd.winPtr, datePicker.datePickerPtr)
+}
+
 // AddTextView - adds a Button to the window.
 func (wnd *Window) AddTextView(tv *TextView) {
 	C.Window_AddTextView(wnd.winPtr, tv.textViewPtr)
@@ -105,6 +110,11 @@ func (wnd *Window) AddProgressIndicator(indicator *ProgressIndicator) {
 	C.Window_AddProgressIndicator(wnd.winPtr, indicator.progressIndicatorPtr)
 }
 
+// AddImageView adds an ImageView to the window.
+func (wnd *Window) AddImageView(imageView *ImageView) {
+	C.Window_AddImageView(wnd.winPtr, imageView.imageViewPtr)
+}
+
 // Update - forces the whole window to repaint
 func (wnd *Window) Update() {
 	C.Window_Update(wnd.winPtr)
@@ -114,6 +124,10 @@ func (wnd *Window) SetTitle(title string) {
 	cTitle := C.CString(title)
 	defer C.free(unsafe.Pointer(cTitle))
 	C.Window_SetTitle(wnd.winPtr, cTitle)
+}
+
+func (wnd *Window) AddDefaultQuitMenu() {
+	C.Window_AddDefaultQuitMenu(wnd.winPtr)
 }
 
 func (wnd *Window) OnDidResize(fn EventHandler) {
