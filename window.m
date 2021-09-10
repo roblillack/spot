@@ -100,6 +100,13 @@ void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndi
     [[window contentView] addSubview:indicator];
 }
 
+void Window_AddImageView(void *wndPtr, ImageViewPtr imageViewPtr)
+{
+    NSImageView* imageView = (NSImageView*)imageViewPtr;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:imageView];
+}
+
 void Window_Update(void *wndPtr)
 {
     NSWindow* window = (NSWindow*)wndPtr;

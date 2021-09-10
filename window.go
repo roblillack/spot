@@ -105,6 +105,11 @@ func (wnd *Window) AddProgressIndicator(indicator *ProgressIndicator) {
 	C.Window_AddProgressIndicator(wnd.winPtr, indicator.progressIndicatorPtr)
 }
 
+// AddImageView adds an ImageView to the window.
+func (wnd *Window) AddImageView(imageView *ImageView) {
+	C.Window_AddImageView(wnd.winPtr, imageView.imageViewPtr)
+}
+
 // Update - forces the whole window to repaint
 func (wnd *Window) Update() {
 	C.Window_Update(wnd.winPtr)
