@@ -24,8 +24,6 @@ void releaseSharedApplication() {
 
 void RunApplication() {
     @autoreleasepool {
-        [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-        [NSApp activateIgnoringOtherApps:YES];
         [NSApp run];
         releaseSharedApplication();
     }

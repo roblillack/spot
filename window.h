@@ -20,3 +20,4 @@ void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndi
 void Window_AddImageView(void *wndPtr, ImageViewPtr imageViewPtr);
 void Window_Update(void *wndPtr);
 void Window_SetTitle(void *wndPtr, const char* title);
+void Window_AddDefaultQuitMenu(void *wndPtr);
