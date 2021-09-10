@@ -35,7 +35,6 @@ void DatePicker_SetMinimumDate(DatePickerPtr datePickerPtr, const char* date, co
     dateFormatter.dateFormat = [NSString stringWithUTF8String:dateFormat];
     NSDate *formattedDate = [dateFormatter dateFromString: [NSString stringWithUTF8String:date]];
 
-    // datePicker.minimumDate = formattedDate;
     [datePicker setMinDate:formattedDate];
 }
 
@@ -45,7 +44,6 @@ void DatePicker_SetMaximumDate(DatePickerPtr datePickerPtr, const char* date, co
     dateFormatter.dateFormat = [NSString stringWithUTF8String:dateFormat];
     NSDate *formattedDate = [dateFormatter dateFromString: [NSString stringWithUTF8String:date]];
 
-    // datePicker.maximumDate = formattedDate;
     [datePicker setMaxDate:formattedDate];
 }
 
