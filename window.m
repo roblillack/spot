@@ -115,6 +115,13 @@ void Window_AddImageView(void *wndPtr, ImageViewPtr imageViewPtr)
     [[window contentView] addSubview:imageView];
 }
 
+void Window_AddSlider(void *wndPtr, SliderPtr sliderPtr)
+{
+    NSSlider* slider = (NSSlider*)sliderPtr;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:slider];
+}
+
 void Window_Update(void *wndPtr)
 {
     NSWindow* window = (NSWindow*)wndPtr;

@@ -6,6 +6,7 @@
 #include "textview.h"
 #include "textfield.h"
 #include "progressIndicator.h"
+#include "slider.h"
 
 void* Window_New(int goWindowID, int x, int y, int width, int height, const char* title);
 void* Centered_Window_New(int goWindowID, int width, int height, const char* title);
@@ -20,6 +21,7 @@ void Window_AddTextView(void *wndPtr, TextViewPtr tvPtr);
 void Window_AddTextField(void *wndPtr, TextFieldPtr tfPtr);
 void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndicatorPtr);
 void Window_AddImageView(void *wndPtr, ImageViewPtr imageViewPtr);
+void Window_AddSlider(void *wndPtr, SliderPtr sliderPtr);
 void Window_Update(void *wndPtr);
 void Window_SetTitle(void *wndPtr, const char* title);
 void Window_AddDefaultQuitMenu(void *wndPtr);
