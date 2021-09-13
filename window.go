@@ -120,6 +120,10 @@ func (wnd *Window) AddImageView(imageView *ImageView) {
 	C.Window_AddImageView(wnd.winPtr, imageView.imageViewPtr)
 }
 
+func (wnd *Window) AddSlider(slider *Slider) {
+	C.Window_AddSlider(wnd.winPtr, slider.sliderPtr)
+}
+
 // Update - forces the whole window to repaint
 func (wnd *Window) Update() {
 	C.Window_Update(wnd.winPtr)
