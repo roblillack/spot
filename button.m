@@ -80,3 +80,26 @@ void Button_SetBorderWidth(ButtonPtr btnPtr, int borderWidth) {
     button.wantsLayer = true;
 	button.layer.borderWidth = borderWidth;
 }
+
+void Button_SetState(ButtonPtr btnPtr, int state) {
+    NSButton* button = (NSButton*)btnPtr;
+    button.wantsLayer = true;
+	if(state == 0) {
+        button.state = NSControlStateValueOff;
+    } else if(state == 1) {
+        button.state = NSControlStateValueOn;
+    } else {
+        button.state = NSControlStateValueMixed;
+    }
+}
+
+int Button_State(ButtonPtr btnPtr) {
+    NSButton* button = (NSButton*)btnPtr;
+    if(button.state == NSControlStateValueOn) {
+        return 1;
+    } else if(button.state == NSControlStateValueOff) {
+        return 0;
+    } else {
+        return 3;
+    }
+}

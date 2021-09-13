@@ -17,6 +17,7 @@ type Button struct {
 
 type ButtonType int32
 type ButtonBezelStyle int32
+type ButtonState int32
 
 const (
 	ButtonTypeMomentaryPushIn       ButtonType = 7
@@ -45,6 +46,12 @@ const (
 	ButtonBezelStyleHelpButton        ButtonBezelStyle = 9
 	ButtonBezelStyleTexturedRounded   ButtonBezelStyle = 11
 	ButtonBezelStyleTexturedSquare    ButtonBezelStyle = 8
+)
+
+const (
+	ButtonStateValueOff   ButtonState = 0
+	ButtonStateValueOn    ButtonState = 1
+	ButtonStateValueMixed ButtonState = 2
 )
 
 var buttons []*Button
@@ -121,6 +128,14 @@ func (btn *Button) SetBorderColor(hexRGBA string) {
 
 func (btn *Button) SetBorderWidth(borderWidth int) {
 	C.Button_SetBorderWidth(btn.buttonPtr, C.int(borderWidth))
+}
+
+func (btn *Button) SetState(state ButtonState) {
+	C.Button_SetState(btn.buttonPtr, C.int(state))
+}
+
+func (btn *Button) State() ButtonState {
+	return ButtonState(int(C.Button_State(btn.buttonPtr)))
 }
 
 // OnClick - function, that will be triggered, if the button is clicked.
