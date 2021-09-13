@@ -5,6 +5,7 @@ package gocoa
 // #import "button.h"
 import "C"
 import (
+	"fmt"
 	"unsafe"
 )
 
@@ -78,12 +79,48 @@ func (btn *Button) SetTitle(title string) {
 	C.Button_SetTitle(btn.buttonPtr, cTitle)
 }
 
+func (btn *Button) Title() string {
+	return C.GoString(C.Button_Title(btn.buttonPtr))
+}
+
 func (btn *Button) SetButtonType(buttonType ButtonType) {
 	C.Button_SetButtonType(btn.buttonPtr, C.int(buttonType))
 }
 
 func (btn *Button) SetBezelStyle(bezelStyle ButtonBezelStyle) {
 	C.Button_SetBezelStyle(btn.buttonPtr, C.int(bezelStyle))
+}
+
+func (btn *Button) SetFontFamily(fontFamily string) {
+	cText := C.CString(fontFamily)
+	defer C.free(unsafe.Pointer(cText))
+	C.Button_SetFontFamily(btn.buttonPtr, cText)
+}
+
+func (btn *Button) SetFontSize(fontSize int) {
+	C.Button_SetFontSize(btn.buttonPtr, C.int(fontSize))
+}
+
+func (btn *Button) SetColor(hexRGBA string) {
+	var r, g, b, a = 0, 0, 0, 0
+	fmt.Sscanf(hexRGBA, "#%02x%02x%02x%02x", &r, &g, &b, &a)
+	C.Button_SetColor(btn.buttonPtr, C.int(r), C.int(g), C.int(b), C.int(a))
+}
+
+func (btn *Button) SetBackgroundColor(hexRGBA string) {
+	var r, g, b, a = 0, 0, 0, 0
+	fmt.Sscanf(hexRGBA, "#%02x%02x%02x%02x", &r, &g, &b, &a)
+	C.Button_SetBackgroundColor(btn.buttonPtr, C.int(r), C.int(g), C.int(b), C.int(a))
+}
+
+func (btn *Button) SetBorderColor(hexRGBA string) {
+	var r, g, b, a = 0, 0, 0, 0
+	fmt.Sscanf(hexRGBA, "#%02x%02x%02x%02x", &r, &g, &b, &a)
+	C.Button_SetBorderColor(btn.buttonPtr, C.int(r), C.int(g), C.int(b), C.int(a))
+}
+
+func (btn *Button) SetBorderWidth(borderWidth int) {
+	C.Button_SetBorderWidth(btn.buttonPtr, C.int(borderWidth))
 }
 
 // OnClick - function, that will be triggered, if the button is clicked.
