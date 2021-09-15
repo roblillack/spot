@@ -124,6 +124,10 @@ func (wnd *Window) AddSlider(slider *Slider) {
 	C.Window_AddSlider(wnd.winPtr, slider.sliderPtr)
 }
 
+func (wnd *Window) AddComboBox(comboBox *ComboBox) {
+	C.Window_AddComboBox(wnd.winPtr, comboBox.comboBoxPtr)
+}
+
 // Update - forces the whole window to repaint
 func (wnd *Window) Update() {
 	C.Window_Update(wnd.winPtr)
