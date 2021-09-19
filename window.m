@@ -80,6 +80,13 @@ void Window_AddButton(void *wndPtr, ButtonPtr btnPtr)
     [[window contentView] addSubview:button];
 }
 
+void Window_AddDatePicker(void *wndPtr, DatePickerPtr datePickerPtr)
+{
+    NSDatePicker* datePicker = (NSDatePicker*)datePickerPtr;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:datePicker];
+}
+
 void Window_AddTextView(void *wndPtr, TextViewPtr tvPtr)
 {
     NSTextView* textview = (NSTextView*)tvPtr;
@@ -101,6 +108,20 @@ void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndi
     [[window contentView] addSubview:indicator];
 }
 
+void Window_AddImageView(void *wndPtr, ImageViewPtr imageViewPtr)
+{
+    NSImageView* imageView = (NSImageView*)imageViewPtr;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:imageView];
+}
+
+void Window_AddSlider(void *wndPtr, SliderPtr sliderPtr)
+{
+    NSSlider* slider = (NSSlider*)sliderPtr;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:slider];
+}
+
 void Window_Update(void *wndPtr)
 {
     NSWindow* window = (NSWindow*)wndPtr;
@@ -113,6 +134,7 @@ void Window_SetTitle(void *wndPtr, const char* title)
     [window setTitle:[NSString stringWithUTF8String:title]];
 }
 
+<<<<<<< HEAD
 void Window_SetMiniaturizeButtonEnabled(void *wndPtr, int enabled) {
     NSWindow* window = (NSWindow*)wndPtr;
     NSButton *button = [window standardWindowButton:NSWindowMiniaturizeButton];
@@ -139,3 +161,21 @@ void Window_SetAllowsResizing(void *wndPtr, int allowsResizing) {
         window.styleMask &= ~NSWindowStyleMaskResizable;
     }
 }
+=======
+void Window_AddDefaultQuitMenu(void *wndPtr) {
+    NSWindow* window = (NSWindow*)wndPtr;
+
+    id menubar = [[NSMenu new] autorelease];
+    id appMenuItem = [[NSMenuItem new] autorelease];
+    [menubar addItem:appMenuItem];
+    [NSApp setMainMenu:menubar];
+    id appMenu = [[NSMenu new] autorelease];
+    id appName = [[NSProcessInfo processInfo] processName];
+    id quitTitle = [@"Quit " stringByAppendingString:appName];
+    id quitMenuItem = [[[NSMenuItem alloc] initWithTitle:quitTitle
+        action:@selector(terminate:) keyEquivalent:@"q"] autorelease];
+    [appMenu addItem:quitMenuItem];
+    [appMenuItem setSubmenu:appMenu];
+}
+
+>>>>>>> master

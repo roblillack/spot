@@ -24,3 +24,6 @@ void TextField_SetColor(TextFieldPtr textFieldPtr, const int r, const int g, con
 void TextField_SetBackgroundColor(TextFieldPtr textFieldPtr, const int r, const int g, const int b, const int a);
 void TextField_SetBorderColor(TextFieldPtr textFieldPtr, const int r, const int g, const int b, const int a);
 void TextField_SetBorderWidth(TextFieldPtr textFieldPtr, const int borderWidth);
+void TextField_SetBezeled(TextFieldPtr textFieldPtr, const int bezeled);
+void TextField_SetDrawsBackground(TextFieldPtr textFieldPtr, const int drawsBackground);
+void TextField_SetSelectable(TextFieldPtr textFieldPtr, const int selectable);
