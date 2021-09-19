@@ -22,6 +22,7 @@ func main() {
 	wnd.SetZoomButtonEnabled(false)
 	wnd.SetMiniaturizeButtonEnabled(false)
 	wnd.SetAllowsResizing(false)
+	wnd.AddDefaultQuitMenu()
 
 	// Quit button
 	quitButton := gocoa.NewButton(75, 25, 150, 25)

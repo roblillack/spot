@@ -135,7 +135,6 @@ func (wnd *Window) SetTitle(title string) {
 	C.Window_SetTitle(wnd.winPtr, cTitle)
 }
 
-<<<<<<< HEAD
 func (wnd *Window) SetMiniaturizeButtonEnabled(enabled bool) {
 	if enabled {
 		C.Window_SetMiniaturizeButtonEnabled(wnd.winPtr, C.int(1))
@@ -166,10 +165,10 @@ func (wnd *Window) SetAllowsResizing(allowsResizing bool) {
 	} else {
 		C.Window_SetAllowsResizing(wnd.winPtr, C.int(0))
 	}
-=======
+}
+
 func (wnd *Window) AddDefaultQuitMenu() {
 	C.Window_AddDefaultQuitMenu(wnd.winPtr)
->>>>>>> master
 }
 
 func (wnd *Window) OnDidResize(fn EventHandler) {

@@ -134,7 +134,6 @@ void Window_SetTitle(void *wndPtr, const char* title)
     [window setTitle:[NSString stringWithUTF8String:title]];
 }
 
-<<<<<<< HEAD
 void Window_SetMiniaturizeButtonEnabled(void *wndPtr, int enabled) {
     NSWindow* window = (NSWindow*)wndPtr;
     NSButton *button = [window standardWindowButton:NSWindowMiniaturizeButton];
@@ -161,7 +160,7 @@ void Window_SetAllowsResizing(void *wndPtr, int allowsResizing) {
         window.styleMask &= ~NSWindowStyleMaskResizable;
     }
 }
-=======
+
 void Window_AddDefaultQuitMenu(void *wndPtr) {
     NSWindow* window = (NSWindow*)wndPtr;
 
@@ -177,5 +176,3 @@ void Window_AddDefaultQuitMenu(void *wndPtr) {
     [appMenu addItem:quitMenuItem];
     [appMenuItem setSubmenu:appMenu];
 }
-
->>>>>>> master

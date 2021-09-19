@@ -24,11 +24,8 @@ void Window_AddImageView(void *wndPtr, ImageViewPtr imageViewPtr);
 void Window_AddSlider(void *wndPtr, SliderPtr sliderPtr);
 void Window_Update(void *wndPtr);
 void Window_SetTitle(void *wndPtr, const char* title);
-<<<<<<< HEAD
 void Window_SetMiniaturizeButtonEnabled(void *wndPtr, int enabled);
 void Window_SetZoomButtonEnabled(void *wndPtr, int enabled);
 void Window_SetCloseButtonEnabled(void *wndPtr, int enabled);
 void Window_SetAllowsResizing(void *wndPtr, int enabled);
-=======
 void Window_AddDefaultQuitMenu(void *wndPtr);
->>>>>>> master
