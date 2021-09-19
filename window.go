@@ -139,6 +139,38 @@ func (wnd *Window) SetTitle(title string) {
 	C.Window_SetTitle(wnd.winPtr, cTitle)
 }
 
+func (wnd *Window) SetMiniaturizeButtonEnabled(enabled bool) {
+	if enabled {
+		C.Window_SetMiniaturizeButtonEnabled(wnd.winPtr, C.int(1))
+	} else {
+		C.Window_SetMiniaturizeButtonEnabled(wnd.winPtr, C.int(0))
+	}
+}
+
+func (wnd *Window) SetZoomButtonEnabled(enabled bool) {
+	if enabled {
+		C.Window_SetZoomButtonEnabled(wnd.winPtr, C.int(1))
+	} else {
+		C.Window_SetZoomButtonEnabled(wnd.winPtr, C.int(0))
+	}
+}
+
+func (wnd *Window) SetCloseButtonEnabled(enabled bool) {
+	if enabled {
+		C.Window_SetCloseButtonEnabled(wnd.winPtr, C.int(1))
+	} else {
+		C.Window_SetCloseButtonEnabled(wnd.winPtr, C.int(0))
+	}
+}
+
+func (wnd *Window) SetAllowsResizing(allowsResizing bool) {
+	if allowsResizing {
+		C.Window_SetAllowsResizing(wnd.winPtr, C.int(1))
+	} else {
+		C.Window_SetAllowsResizing(wnd.winPtr, C.int(0))
+	}
+}
+
 func (wnd *Window) AddDefaultQuitMenu() {
 	C.Window_AddDefaultQuitMenu(wnd.winPtr)
 }

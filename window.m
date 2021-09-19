@@ -141,6 +141,33 @@ void Window_SetTitle(void *wndPtr, const char* title)
     [window setTitle:[NSString stringWithUTF8String:title]];
 }
 
+void Window_SetMiniaturizeButtonEnabled(void *wndPtr, int enabled) {
+    NSWindow* window = (NSWindow*)wndPtr;
+    NSButton *button = [window standardWindowButton:NSWindowMiniaturizeButton];
+    [button setEnabled: enabled];
+}
+
+void Window_SetZoomButtonEnabled(void *wndPtr, int enabled) {
+    NSWindow* window = (NSWindow*)wndPtr;
+    NSButton *button = [window standardWindowButton:NSWindowZoomButton];
+    [button setEnabled: enabled];
+}
+
+void Window_SetCloseButtonEnabled(void *wndPtr, int enabled) {
+    NSWindow* window = (NSWindow*)wndPtr;
+    NSButton *button = [window standardWindowButton:NSWindowCloseButton];
+    [button setEnabled: enabled];
+}
+
+void Window_SetAllowsResizing(void *wndPtr, int allowsResizing) {
+    NSWindow* window = (NSWindow*)wndPtr;
+    if(allowsResizing) {
+        window.styleMask |= NSWindowStyleMaskResizable;
+    } else {
+        window.styleMask &= ~NSWindowStyleMaskResizable;
+    }
+}
+
 void Window_AddDefaultQuitMenu(void *wndPtr) {
     NSWindow* window = (NSWindow*)wndPtr;
 
@@ -156,4 +183,3 @@ void Window_AddDefaultQuitMenu(void *wndPtr) {
     [appMenu addItem:quitMenuItem];
     [appMenuItem setSubmenu:appMenu];
 }
-
