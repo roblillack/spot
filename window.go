@@ -116,12 +116,36 @@ func (wnd *Window) SetTitle(title string) {
 	C.Window_SetTitle(wnd.winPtr, cTitle)
 }
 
-func (wnd *Window) SetMaximumSize(maxWidth int, maxHeight int) {
-	C.Window_SetMaximumSize(wnd.winPtr, C.int(maxWidth), C.int(maxHeight))
+func (wnd *Window) SetMiniaturizeButtonEnabled(enabled bool) {
+	if enabled {
+		C.Window_SetMiniaturizeButtonEnabled(wnd.winPtr, C.int(1))
+	} else {
+		C.Window_SetMiniaturizeButtonEnabled(wnd.winPtr, C.int(0))
+	}
 }
 
-func (wnd *Window) SetMinimumSize(minWidth int, minHeight int) {
-	C.Window_SetMinimumSize(wnd.winPtr, C.int(minWidth), C.int(minHeight))
+func (wnd *Window) SetZoomButtonEnabled(enabled bool) {
+	if enabled {
+		C.Window_SetZoomButtonEnabled(wnd.winPtr, C.int(1))
+	} else {
+		C.Window_SetZoomButtonEnabled(wnd.winPtr, C.int(0))
+	}
+}
+
+func (wnd *Window) SetCloseButtonEnabled(enabled bool) {
+	if enabled {
+		C.Window_SetCloseButtonEnabled(wnd.winPtr, C.int(1))
+	} else {
+		C.Window_SetCloseButtonEnabled(wnd.winPtr, C.int(0))
+	}
+}
+
+func (wnd *Window) SetAllowsResizing(allowsResizing bool) {
+	if allowsResizing {
+		C.Window_SetAllowsResizing(wnd.winPtr, C.int(1))
+	} else {
+		C.Window_SetAllowsResizing(wnd.winPtr, C.int(0))
+	}
 }
 
 func (wnd *Window) OnDidResize(fn EventHandler) {

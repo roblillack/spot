@@ -36,9 +36,6 @@ void* Centered_Window_New(int goWindowID, int width, int height, const char* tit
     [window setDelegate:gocoa_windowDelegate];
     [window setFrame:NSMakeRect(xPos, yPos, NSWidth([window frame]), NSHeight([window frame])) display:YES];
     
-    NSButton *button = [window standardWindowButton:NSWindowMiniaturizeButton];
-    [button setEnabled: NO];
-
     return window;
 }
 
@@ -116,12 +113,29 @@ void Window_SetTitle(void *wndPtr, const char* title)
     [window setTitle:[NSString stringWithUTF8String:title]];
 }
 
-void Window_SetMaximumSize(void *wndPtr, int maxWidth, int maxHeight) {
+void Window_SetMiniaturizeButtonEnabled(void *wndPtr, int enabled) {
     NSWindow* window = (NSWindow*)wndPtr;
-    [window setMaxSize:NSMakeSize(maxWidth, maxHeight)];
+    NSButton *button = [window standardWindowButton:NSWindowMiniaturizeButton];
+    [button setEnabled: enabled];
 }
 
-void Window_SetMinimumSize(void *wndPtr, int minWidth, int minHeight) {
+void Window_SetZoomButtonEnabled(void *wndPtr, int enabled) {
     NSWindow* window = (NSWindow*)wndPtr;
-    [window setMinSize:NSMakeSize(minWidth, minHeight)];
+    NSButton *button = [window standardWindowButton:NSWindowZoomButton];
+    [button setEnabled: enabled];
+}
+
+void Window_SetCloseButtonEnabled(void *wndPtr, int enabled) {
+    NSWindow* window = (NSWindow*)wndPtr;
+    NSButton *button = [window standardWindowButton:NSWindowCloseButton];
+    [button setEnabled: enabled];
+}
+
+void Window_SetAllowsResizing(void *wndPtr, int allowsResizing) {
+    NSWindow* window = (NSWindow*)wndPtr;
+    if(allowsResizing) {
+        window.styleMask |= NSWindowStyleMaskResizable;
+    } else {
+        window.styleMask &= ~NSWindowStyleMaskResizable;
+    }
 }
