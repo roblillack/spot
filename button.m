@@ -16,8 +16,8 @@ ButtonPtr Button_New(int goButtonID, int x, int y, int w, int h) {
     [nsButton setTarget:handler];
     [nsButton setAction:@selector(buttonClicked:)];
 
-    [nsButton setButtonType:NSMomentaryLightButton];
-    [nsButton setBezelStyle:NSRoundedBezelStyle];
+    [nsButton setButtonType:NSButtonTypeMomentaryLight];
+    [nsButton setBezelStyle:NSBezelStyleRounded];
 
     return (ButtonPtr)nsButton;
 }
