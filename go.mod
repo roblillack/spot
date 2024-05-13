@@ -1,4 +1,4 @@
-module journey
+module github.com/roblillack/spot
 
 go 1.21.7
 

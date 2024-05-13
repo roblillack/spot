@@ -3,9 +3,8 @@
 package ui
 
 import (
-	"journey/spot"
-
 	"github.com/mojbro/gocoa"
+	"github.com/roblillack/spot"
 )
 
 type TextField struct {

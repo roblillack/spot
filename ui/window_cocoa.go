@@ -1,11 +1,10 @@
-//go:build !cocoa && (fltk || !darwin)
+//go:build !fltk && (darwin || cocoa)
 
 package ui
 
 import (
-	"journey/spot"
-
-	goFltk "github.com/pwiecz/go-fltk"
+	"github.com/mojbro/gocoa"
+	"github.com/roblillack/spot"
 )
 
 type Window struct {
@@ -16,7 +15,7 @@ type Window struct {
 	Y         int
 	Resizable bool
 	Children  []spot.Component
-	ref       *goFltk.Window
+	ref       *gocoa.Window
 }
 
 func (w *Window) Equals(other spot.Component) bool {
@@ -52,20 +51,36 @@ func (w *Window) mountChild(child spot.Component) spot.Component {
 		return nil
 	}
 
-	if list, ok := child.(spot.ComponentList); ok {
-		for _, cc := range list {
+	switch c := child.(type) {
+	case spot.ComponentList:
+		for _, cc := range c {
 			w.mountChild(cc)
 		}
-		return child
+	case *Button:
+		w.ref.AddButton(c.Mount().(*gocoa.Button))
+	case *Checkbox:
+		w.ref.AddButton(c.Mount().(*gocoa.Button))
+	case *ComboBox:
+		w.ref.AddComboBox(c.Mount().(*gocoa.ComboBox))
+	case *Dial:
+		w.ref.AddSlider(c.Mount().(*gocoa.Slider))
+	case *Label:
+		w.ref.AddTextView(c.Mount().(*gocoa.TextView))
+	case *ProgressIndicator:
+		w.ref.AddProgressIndicator(c.Mount().(*gocoa.ProgressIndicator))
+	case *Slider:
+		w.ref.AddSlider(c.Mount().(*gocoa.Slider))
+	case *Spinner:
+		w.ref.AddTextField(c.Mount().(*gocoa.TextField))
+	case *TextField:
+		w.ref.AddTextField(c.Mount().(*gocoa.TextField))
+	case *TextView:
+		w.ref.AddTextView(c.Mount().(*gocoa.TextView))
+	default:
+		panic("Unknown component type")
 	}
 
-	ref := child.Mount()
-	if widget, ok := ref.(goFltk.Widget); ok {
-		w.ref.Add(widget)
-		return child
-	}
-
-	panic("Unknown component type")
+	return child
 }
 
 func (w *Window) Update(nextComponent spot.Component) bool {
@@ -77,7 +92,7 @@ func (w *Window) Update(nextComponent spot.Component) bool {
 	if next.Title != w.Title {
 		w.Title = next.Title
 		if w.ref != nil {
-			w.ref.SetLabel(w.Title)
+			w.ref.SetTitle(w.Title)
 		}
 	}
 
@@ -94,7 +109,7 @@ func (w *Window) Update(nextComponent spot.Component) bool {
 	if next.Resizable != w.Resizable {
 		w.Resizable = next.Resizable
 		if w.ref != nil {
-			// w.ref.SetSizeRange(w.Resizable)
+			w.ref.SetAllowsResizing(w.Resizable)
 		}
 	}
 
@@ -124,15 +139,13 @@ func (w *Window) Update(nextComponent spot.Component) bool {
 }
 
 func (w *Window) Mount() any {
-	w.ref = goFltk.NewWindow(w.Width, w.Height, w.Title)
+	w.ref = gocoa.NewWindow(w.Title, w.X, w.Y, w.Width, w.Height)
 	for _, child := range w.Children {
 		w.mountChild(child)
 	}
-	// w.ref.SetAllowsResizing(w.Resizable)
+	w.ref.SetAllowsResizing(w.Resizable)
 
-	// w.ref.MakeKeyAndOrderFront()
-	// w.ref.AddDefaultQuitMenu()
-	w.ref.End()
-	w.ref.Show()
+	w.ref.MakeKeyAndOrderFront()
+	w.ref.AddDefaultQuitMenu()
 	return w.ref
 }

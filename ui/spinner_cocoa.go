@@ -4,9 +4,9 @@ package ui
 
 import (
 	"fmt"
-	"journey/spot"
 
 	"github.com/mojbro/gocoa"
+	"github.com/roblillack/spot"
 )
 
 type Spinner struct {

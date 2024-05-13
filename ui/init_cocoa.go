@@ -3,10 +3,10 @@
 package ui
 
 import (
-	"journey/spot"
 	"runtime"
 
 	"github.com/mojbro/gocoa"
+	"github.com/roblillack/spot"
 )
 
 func Init() {

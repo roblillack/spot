@@ -3,10 +3,10 @@
 package ui
 
 import (
-	"journey/spot"
 	"runtime"
 
 	goFltk "github.com/pwiecz/go-fltk"
+	"github.com/roblillack/spot"
 )
 
 func RunOnMainLoop(fn func()) {

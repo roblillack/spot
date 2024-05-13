@@ -3,9 +3,8 @@
 package ui
 
 import (
-	"journey/spot"
-
 	goFltk "github.com/pwiecz/go-fltk"
+	"github.com/roblillack/spot"
 )
 
 type TextView struct {

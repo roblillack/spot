@@ -1,6 +1,6 @@
 package ui
 
-import "journey/spot"
+import "github.com/roblillack/spot"
 
 var _ spot.Component = &Checkbox{}
 

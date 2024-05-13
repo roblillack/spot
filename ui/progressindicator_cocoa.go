@@ -4,10 +4,10 @@ package ui
 
 import (
 	"fmt"
-	"journey/spot"
 	"time"
 
 	"github.com/mojbro/gocoa"
+	"github.com/roblillack/spot"
 )
 
 type ProgressIndicator struct {

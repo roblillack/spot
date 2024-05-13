@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"journey/spot"
+	"github.com/roblillack/spot"
 )
 
 var _ spot.Component = &Label{}

@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"journey/spot"
-	"journey/spot/ui"
 	"math/rand"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui"
 )
 
 func QuitButton(ctx *spot.RenderContext) spot.Component {

@@ -3,12 +3,11 @@
 package ui
 
 import (
-	"journey/spot"
-
 	goFltk "github.com/pwiecz/go-fltk"
+	"github.com/roblillack/spot"
 )
 
-type ProgressIndicator struct {
+type Slider struct {
 	X              int
 	Y              int
 	Width          int
@@ -16,12 +15,13 @@ type ProgressIndicator struct {
 	Min            float64
 	Max            float64
 	Value          float64
+	Type           goFltk.SliderType
 	OnValueChanged func(float64)
-	ref            *goFltk.Progress
+	ref            *goFltk.Slider
 }
 
-func (b *ProgressIndicator) Equals(other spot.Component) bool {
-	next, ok := other.(*ProgressIndicator)
+func (b *Slider) Equals(other spot.Component) bool {
+	next, ok := other.(*Slider)
 	if !ok {
 		return false
 	}
@@ -31,11 +31,12 @@ func (b *ProgressIndicator) Equals(other spot.Component) bool {
 	}
 
 	return next.Max == b.Max && next.Min == b.Min &&
-		next.Value == b.Value
+		next.Value == b.Value &&
+		next.Type == b.Type
 }
 
-func (b *ProgressIndicator) Update(nextComponent spot.Component) bool {
-	next, ok := nextComponent.(*ProgressIndicator)
+func (b *Slider) Update(nextComponent spot.Component) bool {
+	next, ok := nextComponent.(*Slider)
 	if !ok {
 		return false
 	}
@@ -59,18 +60,27 @@ func (b *ProgressIndicator) Update(nextComponent spot.Component) bool {
 		b.ref.SetValue(b.Value)
 	}
 
+	if next.Type != b.Type {
+		b.Type = next.Type
+		b.ref.SetType(b.Type)
+	}
+
 	return true
 }
 
-func (b *ProgressIndicator) Mount() any {
+func (b *Slider) Mount() any {
 	if b.ref != nil {
 		return b.ref
 	}
 
-	b.ref = goFltk.NewProgress(b.X, b.Y, b.Width, b.Height)
+	b.ref = goFltk.NewSlider(b.X, b.Y, b.Width, b.Height)
 	b.ref.SetMaximum(b.Max)
 	b.ref.SetMinimum(b.Min)
 	b.ref.SetValue(b.Value)
+	// b.ref.SetType(b.Type)
+	// b.ref.SetType(goFltk.HOR_SLIDER)
+	b.ref.SetType(goFltk.HOR_NICE_SLIDER)
+	b.ref.SetBox(goFltk.FLAT_BOX)
 	b.ref.SetCallback(func() {
 		if b.OnValueChanged != nil {
 			b.OnValueChanged(b.ref.Value())
@@ -79,4 +89,4 @@ func (b *ProgressIndicator) Mount() any {
 	return b.ref
 }
 
-var _ spot.Component = &ProgressIndicator{}
+var _ spot.Component = &Slider{}

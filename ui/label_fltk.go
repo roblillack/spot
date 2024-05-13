@@ -3,23 +3,22 @@
 package ui
 
 import (
-	"journey/spot"
-
 	goFltk "github.com/pwiecz/go-fltk"
+	"github.com/roblillack/spot"
 )
 
-type TextField struct {
+type Label struct {
 	X        int
 	Y        int
 	Width    int
 	Height   int
 	Value    string
 	FontSize int
-	ref      *goFltk.TextEditor
+	ref      *goFltk.TextDisplay
 }
 
-func (w *TextField) Equals(other spot.Component) bool {
-	next, ok := other.(*TextField)
+func (w *Label) Equals(other spot.Component) bool {
+	next, ok := other.(*Label)
 	if !ok {
 		return false
 	}
@@ -31,8 +30,8 @@ func (w *TextField) Equals(other spot.Component) bool {
 	return next.Value == w.Value && w.FontSize == next.FontSize
 }
 
-func (w *TextField) Update(nextComponent spot.Component) bool {
-	next, ok := nextComponent.(*TextField)
+func (w *Label) Update(nextComponent spot.Component) bool {
+	next, ok := nextComponent.(*Label)
 	if !ok {
 		return false
 	}
@@ -61,18 +60,16 @@ func (w *TextField) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (w *TextField) Mount() any {
+func (w *Label) Mount() any {
 	if w.ref != nil {
 		return w.ref
 	}
 
-	w.ref = goFltk.NewTextEditor(w.X, w.Y, w.Width, w.Height)
-	w.ref.SetBuffer(goFltk.NewTextBuffer())
-	w.ref.Buffer().SetText(w.Value)
-	// w.ref.Deactivate()
-	w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
+	w.ref = goFltk.NewTextDisplay(w.X, w.Y, w.Width, w.Height)
+	buf := goFltk.NewTextBuffer()
+	buf.SetText(w.Value)
+	w.ref.SetBuffer(buf)
 	w.ref.SetTextSize(w.FontSize)
+	w.ref.HideCursor()
 	return w.ref
 }
-
-var _ spot.Component = &TextField{}

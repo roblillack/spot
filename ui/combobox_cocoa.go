@@ -1,12 +1,10 @@
-//go:build !cocoa && (fltk || !darwin)
+//go:build !fltk && (darwin || cocoa)
 
 package ui
 
 import (
-	"fmt"
-	"journey/spot"
-
-	goFltk "github.com/pwiecz/go-fltk"
+	"github.com/mojbro/gocoa"
+	"github.com/roblillack/spot"
 )
 
 type ComboBox struct {
@@ -18,7 +16,7 @@ type ComboBox struct {
 	SelectedIndex        int
 	Editable             bool
 	OnSelectionDidChange func(index int)
-	ref                  *goFltk.Choice
+	ref                  *gocoa.ComboBox
 }
 
 var _ spot.Component = &ComboBox{}
@@ -28,19 +26,17 @@ func (w *ComboBox) Mount() any {
 		return w.ref
 	}
 
-	w.ref = goFltk.NewChoice(w.X, w.Y, w.Width, w.Height)
-	for idx, item := range w.Items {
-		idx := idx
-		item := item
-		w.ref.Add(item, func() {
-			fmt.Printf("Selected item: %d/%s\n", idx, item)
-			if w.OnSelectionDidChange != nil {
-				fmt.Printf("Firing for item: %d/%s\n", idx, item)
-				w.OnSelectionDidChange(idx)
-			}
-		})
+	w.ref = gocoa.NewComboBox(w.X, w.Y, w.Width, w.Height)
+	for _, item := range w.Items {
+		w.ref.AddItem(item)
 	}
-	w.ref.SetValue(w.SelectedIndex)
+	w.ref.SetEditable(w.Editable)
+	w.ref.SetSelectedIndex(w.SelectedIndex)
+	w.ref.OnSelectionDidChange(func() {
+		if w.OnSelectionDidChange != nil {
+			w.OnSelectionDidChange(w.ref.SelectedIndex())
+		}
+	})
 	return w.ref
 }
 
@@ -63,7 +59,6 @@ func (w *ComboBox) Equals(other spot.Component) bool {
 			return false
 		}
 	}
-	w.OnSelectionDidChange = next.OnSelectionDidChange
 
 	return next.SelectedIndex == w.SelectedIndex && next.Editable == w.Editable
 }
@@ -82,12 +77,14 @@ func (w *ComboBox) Update(next spot.Component) bool {
 		// }
 	}
 
-	w.OnSelectionDidChange = nextComboBox.OnSelectionDidChange
-
 	if w.SelectedIndex != nextComboBox.SelectedIndex {
 		w.SelectedIndex = nextComboBox.SelectedIndex
-		w.ref.SetValue(w.SelectedIndex)
-		w.ref.Redraw()
+		w.ref.SetSelectedIndex(w.SelectedIndex)
+	}
+
+	if w.Editable != nextComboBox.Editable {
+		w.Editable = nextComboBox.Editable
+		w.ref.SetEditable(w.Editable)
 	}
 
 	return true

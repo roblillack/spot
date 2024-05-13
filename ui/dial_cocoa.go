@@ -1,11 +1,10 @@
-//go:build !cocoa && (fltk || !darwin)
+//go:build !fltk && (darwin || cocoa)
 
 package ui
 
 import (
-	"journey/spot"
-
-	goFltk "github.com/pwiecz/go-fltk"
+	"github.com/mojbro/gocoa"
+	"github.com/roblillack/spot"
 )
 
 type Dial struct {
@@ -17,7 +16,7 @@ type Dial struct {
 	Max            float64
 	Value          float64
 	OnValueChanged func(float64)
-	ref            *goFltk.Slider
+	ref            *gocoa.Slider
 }
 
 func (b *Dial) Equals(other spot.Component) bool {
@@ -46,12 +45,12 @@ func (b *Dial) Update(nextComponent spot.Component) bool {
 
 	if next.Min != b.Min {
 		b.Min = next.Min
-		b.ref.SetMinimum(b.Min)
+		b.ref.SetMinimumValue(b.Min)
 	}
 
 	if next.Max != b.Max {
 		b.Max = next.Max
-		b.ref.SetMaximum(b.Max)
+		b.ref.SetMaximumValue(b.Max)
 	}
 
 	if next.Value != b.Value {
@@ -67,13 +66,12 @@ func (b *Dial) Mount() any {
 		return b.ref
 	}
 
-	b.ref = goFltk.NewSlider(b.X, b.Y, b.Width, b.Height)
-	b.ref.SetMaximum(b.Max)
-	b.ref.SetMinimum(b.Min)
+	b.ref = gocoa.NewSlider(b.X, b.Y, b.Width, b.Height)
+	b.ref.SetMaximumValue(b.Max)
+	b.ref.SetMinimumValue(b.Min)
 	b.ref.SetValue(b.Value)
-	// b.ref.SetType(b.Type)
-	b.ref.SetType(goFltk.HOR_SLIDER)
-	b.ref.SetCallback(func() {
+	b.ref.SetSliderType(gocoa.SliderTypeCircular)
+	b.ref.OnSliderValueChanged(func() {
 		if b.OnValueChanged != nil {
 			b.OnValueChanged(b.ref.Value())
 		}
