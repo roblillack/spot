@@ -9,6 +9,8 @@ import (
 	"github.com/roblillack/spot"
 )
 
+const BackendName = "cocoa"
+
 func Init() {
 	spot.RunOnMainLoop = gocoa.RunOnMainLoop
 

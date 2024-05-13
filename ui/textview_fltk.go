@@ -35,7 +35,8 @@ func (w *TextView) Update(nextComponent spot.Component) bool {
 
 	if next.Text != w.Text {
 		w.Text = next.Text
-		w.ref.SetLabel(w.Text)
+		w.ref.SetBuffer(goFltk.NewTextBuffer())
+		w.ref.Buffer().SetText(w.Text)
 	}
 
 	return true
@@ -46,7 +47,9 @@ func (w *TextView) Mount() any {
 		return w.ref
 	}
 
-	w.ref = goFltk.NewTextDisplay(w.X, w.Y, w.Width, w.Height, w.Text)
+	w.ref = goFltk.NewTextDisplay(w.X, w.Y, w.Width, w.Height)
+	w.ref.SetBuffer(goFltk.NewTextBuffer())
+	w.ref.Buffer().SetText(w.Text)
 	w.ref.Deactivate()
 	w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
 	return w.ref

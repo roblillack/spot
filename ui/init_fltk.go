@@ -9,6 +9,8 @@ import (
 	"github.com/roblillack/spot"
 )
 
+const BackendName = "fltk"
+
 func RunOnMainLoop(fn func()) {
 	// goFltk.Lock()
 	// fn()

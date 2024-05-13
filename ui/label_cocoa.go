@@ -7,24 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Label struct {
-	X        int
-	Y        int
-	Width    int
-	Height   int
-	Value    string
-	FontSize int
-	ref      *gocoa.TextView
-}
-
-func (w *Label) Equals(other spot.Component) bool {
-	next, ok := other.(*Label)
-	if !ok {
-		return false
-	}
-
-	return next.Value == w.Value
-}
+type nativeTypeLabel = *gocoa.TextView
 
 func (w *Label) Update(nextComponent spot.Component) bool {
 	next, ok := nextComponent.(*Label)
@@ -32,9 +15,20 @@ func (w *Label) Update(nextComponent spot.Component) bool {
 		return false
 	}
 
+	if w.ref == nil {
+		return false
+	}
+
 	if next.Value != w.Value {
 		w.Value = next.Value
 		w.ref.SetText(w.Value)
+	}
+
+	if next.FontSize != w.FontSize {
+		w.FontSize = next.FontSize
+		if w.FontSize > 0 {
+			w.ref.SetFontSize(w.FontSize)
+		}
 	}
 
 	return true
@@ -47,5 +41,8 @@ func (w *Label) Mount() any {
 
 	w.ref = gocoa.NewTextView(w.X, w.Y, w.Width, w.Height)
 	w.ref.SetText(w.Value)
+	if w.FontSize > 0 {
+		w.ref.SetFontSize(w.FontSize)
+	}
 	return w.ref
 }

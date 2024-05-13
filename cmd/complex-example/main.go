@@ -11,6 +11,31 @@ import (
 	"github.com/roblillack/spot/ui"
 )
 
+func BlinkingLabel(ctx *spot.RenderContext, x, y, width, height int, text string, size int) spot.Component {
+	visible, setVisible := spot.UseState(ctx, true)
+	spot.UseEffect(ctx, func() {
+		go func() {
+			val := visible
+			for {
+				time.Sleep(500 * time.Millisecond)
+				val = !val
+				setVisible(val)
+			}
+		}()
+	}, []any{})
+
+	txt := text
+	if !visible {
+		txt = "🙈"
+	}
+
+	return &ui.Label{
+		X: x, Y: y, Width: width,
+		Height: height, Value: txt,
+		FontSize: size,
+	}
+}
+
 func QuitButton(ctx *spot.RenderContext) spot.Component {
 	enabled, setEnabled := spot.UseState(ctx, false)
 	spot.UseEffect(ctx, func() {
@@ -25,7 +50,7 @@ func QuitButton(ctx *spot.RenderContext) spot.Component {
 	if !enabled {
 		return &ui.Button{
 			X:      210,
-			Y:      100,
+			Y:      370,
 			Width:  180,
 			Height: 25,
 			Title:  "Please wait...",
@@ -166,7 +191,10 @@ func main() {
 						setCounter(counter + 1)
 					},
 				},
-				// Make2(QuitButton),
+				&ui.Label{X: 210, Y: 100, Width: 180, Height: 25, Value: "Current backend:"},
+				ctx.Make(func(x *spot.RenderContext) spot.Component {
+					return BlinkingLabel(x, 210, 120, 180, 30, ui.BackendName, 20)
+				}),
 				ctx.Make(QuitButton),
 				&ui.TextField{
 					X: 10, Y: 10, Width: 380, Height: 80,

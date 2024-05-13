@@ -2,86 +2,67 @@ package main
 
 import (
 	"fmt"
-	"journey/cocoa"
-	"journey/spot"
 
-	"github.com/mojbro/gocoa"
+	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui"
 )
 
-func NoProps(ctx *spot.RenderContext) spot.Component {
-	return &cocoa.Button{
-		X: 25, Y: 30, Width: 150, Height: 25,
-		Title:   "Custom button",
-		OnClick: func() { fmt.Println("Button clicked!") },
+func StateLessComponent() spot.Component {
+	return &ui.Button{
+		X: 10, Y: 25, Width: 230, Height: 25,
+		Title: "Stateless button",
 	}
 }
 
-func CustomButton(ctx *spot.RenderContext, title string) spot.Component {
-	return &cocoa.Button{
-		X:      25,
-		Y:      80,
-		Width:  150,
-		Height: 25,
-		Title:  title,
-		OnClick: func() {
-			fmt.Println("Button clicked!")
-		},
+func StatefulNoProps(ctx *spot.RenderContext) spot.Component {
+	counter, setCounter := spot.UseState[int](ctx, 0)
+
+	title := "Stateful button"
+	if counter > 0 {
+		title = fmt.Sprintf("Clicked Stateful %dx", counter)
+	}
+
+	return &ui.Button{
+		X: 10, Y: 65, Width: 230, Height: 25,
+		Title:   title,
+		OnClick: func() { setCounter(counter + 1) },
 	}
 }
 
-func ButtonOrNot(ctx *spot.RenderContext, counter int) spot.Component {
-	if counter < 3 {
-		return nil
+func StatefulWithProps(ctx *spot.RenderContext, initialTitle string) spot.Component {
+	counter, setCounter := spot.UseState[int](ctx, 0)
+
+	title := initialTitle
+	if counter > 0 {
+		title = fmt.Sprintf("Clicked %s %dx", initialTitle, counter)
 	}
 
-	return &cocoa.Button{
-		X:      25,
-		Y:      30,
-		Width:  150,
-		Height: 25,
-		Title:  "okokok",
-		OnClick: func() {
-			fmt.Println("Button clicked!")
-		},
+	return &ui.Button{
+		X: 10, Y: 105, Width: 230, Height: 25,
+		Title:   title,
+		OnClick: func() { setCounter(counter + 1) },
 	}
 }
 
 func main() {
-	// runtime.LockOSThread()
-	gocoa.InitApplication()
+	ui.Init()
 
 	root := spot.Make(func(ctx *spot.RenderContext) spot.Component {
-		counter, setCounter := spot.UseState[int](ctx, 0)
-
-		buttonTitle := "Click me!"
-		if counter > 0 {
-			buttonTitle = fmt.Sprintf("Clicked %d times!", counter)
-		}
-
-		return &cocoa.Window{
-			Title:  "Hello World!",
-			Width:  200,
-			Height: 125,
+		return &ui.Window{
+			Title:  "Custom components in Spot",
+			Width:  250,
+			Height: 155,
 			Children: []spot.Component{
+				StateLessComponent(),
+				ctx.Make(StatefulNoProps),
 				ctx.Make(func(x *spot.RenderContext) spot.Component {
-					return CustomButton(x, buttonTitle)
+					return StatefulWithProps(x, "Stateful w/ props")
 				}),
-				ctx.Make(NoProps),
-				&cocoa.Button{
-					X:      25,
-					Y:      50,
-					Width:  150,
-					Height: 25,
-					Title:  buttonTitle,
-					OnClick: func() {
-						setCounter(counter + 1)
-					},
-				},
 			},
 		}
 	})
 
 	root.Mount()
 
-	gocoa.RunApplication()
+	ui.Run()
 }
