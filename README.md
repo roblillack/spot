@@ -51,6 +51,20 @@ func main() {
 
 ## Features
 
+- **Simple**: You can add Spot as a simple dependency to your project and start
+  building your UI right away. No need to use additional tools or code
+  generation steps. Just write Go code and get a native GUI application as a
+  self-contained binary.
+- **Cross-platform**: Spot uses native widgets where available and
+  automatically selects the best backend for the platform you are running on
+  at compile time.
+- **Reactive**: Spot automatically updates the UI when the state of the
+  application changes. You just provide side-effect free rendering functions
+  and manage the state of your application using the `UseState` hook.
+- **Broad widget support**: Spot provides a wide range of UI controls out of
+  the box, including buttons, labels, text inputs, sliders, dropdowns, and
+  more. See the full list: [List of supported UI controls](#list-of-supported-ui-controls).
+
 ## FAQs
 
 #### What does "reactive" mean?
@@ -72,6 +86,28 @@ let Spot take care of updating the UI.
 Currently, Spot uses a Cocoa backend on macOS and a FLTK-based one on all other
 platforms. Optionally, FLTK can be used on the Mac, too. Better support for
 Windows is planned for the future.
+
+#### Can I implement my own hooks?
+
+Yes, just like in React, you can implement your own hooks. Just create a
+function which takes a `*spot.RenderContext` as first argument and use this to
+"hook" into the Spot lifecycle by calling `spot.UseState`, `spot.UseEffect`,
+etc. Convention here is to prefix the function with `Use…`.
+
+#### How do I write custom components?
+
+There are many ways to separate your UI into components in Spot.
+For some ideas, check out the `custom-components` example.
+
+#### Can I use Spot with a completely different widget library than the provided one?
+
+Yes, you can. You just need to create some structs that implement the
+`spot.Component` interface and which take care of managing the native widgets.
+
+#### Can I use `spot/ui`, but with a different backend than Cocoa or FLTK?
+
+Currently, these are the only backends that are supported. But feel free to
+create a PR if you want to add support for another backend. _\*hint hint\*_
 
 ## Features, Spot does not have right now
 
