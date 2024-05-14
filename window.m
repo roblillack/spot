@@ -1,5 +1,6 @@
 #import "window.h"
 #import "windowdelegate.h"
+#import "flippedview.h"
 #include "_cgo_export.h"
 
 WindowDelegate *gocoa_windowDelegate = nil;
@@ -11,6 +12,7 @@ void* Window_New(int goWindowID, int x, int y, int width, int height, const char
         styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable)
         backing:NSBackingStoreBuffered
         defer:NO];
+    [window setContentView: [[FlippedView alloc] initWithFrame:windowRect]];
     [window setTitle:[NSString stringWithUTF8String:title]];
     [window autorelease];
 
@@ -27,6 +29,7 @@ void* Centered_Window_New(int goWindowID, int width, int height, const char* tit
         styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable | NSWindowStyleMaskMiniaturizable)
         backing:NSBackingStoreBuffered
         defer:NO];
+    [window setContentView: [[FlippedView alloc] initWithFrame:windowRect]];
     [window setTitle:[NSString stringWithUTF8String:title]];
     [window autorelease];
     CGFloat xPos = NSWidth([[window screen] frame])/2 - NSWidth([window frame])/2;
