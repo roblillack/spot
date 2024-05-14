@@ -15,3 +15,9 @@ void TextView_SetText(TextViewPtr textViewPtr, const char* text) {
 	NSTextView* tv = (NSTextView*)textViewPtr;
 	[tv setString:[NSString stringWithUTF8String:text]];
 }
+
+void TextView_SetFontSize(TextViewPtr textViewPtr, int size) {
+	NSTextView* tv = (NSTextView*)textViewPtr;
+	NSFont* font = [NSFont fontWithName:@"Helvetica" size:size];
+	[tv setFont:font];
+}

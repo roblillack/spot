@@ -32,3 +32,8 @@ func (textview *TextView) SetText(text string) {
 	defer C.free(unsafe.Pointer(cText))
 	C.TextView_SetText(textview.textViewPtr, cText)
 }
+
+// SetText sets the text of the text view
+func (textview *TextView) SetFontSize(size int) {
+	C.TextView_SetFontSize(textview.textViewPtr, C.int(size))
+}
