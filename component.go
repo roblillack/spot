@@ -6,6 +6,10 @@ type Component interface {
 	Mount() any
 }
 
+type Container interface {
+	GetChildren() []Component
+}
+
 func Make(render func(ctx *RenderContext) Component) Component {
 	ctx := &RenderContext{
 		render: render,

@@ -1,5 +1,10 @@
 package spot
 
+import (
+	"fmt"
+	"strings"
+)
+
 type RenderContext struct {
 	root    Component
 	render  func(ctx *RenderContext) Component
@@ -19,11 +24,31 @@ func (ctx *RenderContext) Make(render func(*RenderContext) Component) Component 
 	return root
 }
 
+func printComponentTree(c Component, indent int) {
+	w, ok := c.(Container)
+	if !ok {
+		fmt.Printf("%s<%T/>\n", strings.Repeat("  ", indent), c)
+		return
+	}
+
+	fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), c)
+	for _, child := range w.GetChildren() {
+		printComponentTree(child, indent+1)
+	}
+	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), c)
+}
+
 func (ctx *RenderContext) TriggerUpdate() {
 	if ctx.root == nil {
 		// fmt.Printf("[%v] Root is nil, returning.\n", ctx)
 		return
 	}
+
+	fmt.Println("STATE VALUES ******")
+	for i := 0; i < ctx.count; i++ {
+		fmt.Printf("%02d -> %v\n", i, ctx.values[i])
+	}
+	fmt.Println("*******************")
 
 	// We need to make sure we're running on the main loop
 	// for two reasons:
@@ -41,12 +66,14 @@ func (ctx *RenderContext) TriggerUpdate() {
 		// fmt.Printf("[%v] RENDER TRIGGERED!\n", ctx)
 		ctx.count = 0
 		oldTree := ctx.root
-		// fmt.Println("**** RENDER STARTING ****")
+		fmt.Println("**** RENDER STARTING ****")
 		newTree := ctx.render(ctx)
-		// fmt.Println("**** RENDER DONE ****")
+		fmt.Println("**** RENDER DONE ****")
 
-		// fmt.Printf("[%v] Old tree: %+v\n", ctx, oldTree)
-		// fmt.Printf("[%v] New tree: %+v\n", ctx, newTree)
+		fmt.Printf("[%v] Old tree: %+v\n", ctx, oldTree)
+		printComponentTree(oldTree, 0)
+		fmt.Printf("[%v] New tree: %+v\n", ctx, newTree)
+		printComponentTree(newTree, 0)
 
 		if !oldTree.Equals(newTree) {
 			// fmt.Printf("[%v] Updating tree!\n", ctx)
