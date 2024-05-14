@@ -1,3 +1,16 @@
+# What is this?
+
+> This is a friendly fork of @mojbro's gocoa package with some additional features and bug fixes so it is suitable as Cocoa backend of my [Spot](https://github.com/roblillack/spot) GUI toolkit. I'll be in touch with the original author to get my changes upstreamed or make this a proper, maintained fork. Original README follows.
+>
+> —@roblillack
+>
+> #### Changes to original
+>
+> - e85e4be progressindicator: Don't hide by default as this would increase time to create widgets in the first place
+> - 724ee73 textview: Add hacky SetFontSize functionality.
+> - 57058d9 window: Flip all views by default
+> - c93457a application: Add RunOnMainLoop
+
 # gocoa
 
 [![GoDoc](https://godoc.org/github.com/mojbro/gocoa?status.svg)](https://godoc.org/github.com/mojbro/gocoa)

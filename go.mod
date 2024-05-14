@@ -1,3 +1,3 @@
-module github.com/mojbro/gocoa
+module github.com/roblillack/gocoa
 
 go 1.12
