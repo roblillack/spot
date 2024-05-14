@@ -1,15 +1,15 @@
 # What is this?
 
-> This is a friendly fork of @mojbro's gocoa package with some additional features and bug fixes so it is suitable as Cocoa backend of my [Spot](https://github.com/roblillack/spot) GUI toolkit. I'll be in touch with the original author to get my changes upstreamed or make this a proper, maintained fork. Original README follows.
+> This is a friendly fork of [@mojbro](https://github.com/mojbro)'s gocoa package with some additional features and bug fixes so it is suitable as Cocoa backend of my [Spot](https://github.com/roblillack/spot) GUI toolkit. I'll be in touch with the original author to get my changes upstreamed or make this a proper, maintained fork. Original README follows.
 >
-> —@roblillack
+> —[@roblillack](https://github.com/roblillack)
 >
 > #### Changes to original
 >
-> - e85e4be progressindicator: Don't hide by default as this would increase time to create widgets in the first place
-> - 724ee73 textview: Add hacky SetFontSize functionality.
-> - 57058d9 window: Flip all views by default
-> - c93457a application: Add RunOnMainLoop
+> - [e85e4be](https://github.com/roblillack/gocoa/commit/e85e4be) progressindicator: Don't hide by default as this would increase time to create widgets in the first place
+> - [724ee73](https://github.com/roblillack/gocoa/commit/724ee73) textview: Add hacky SetFontSize functionality.
+> - [57058d9](https://github.com/roblillack/gocoa/commit/57058d9) window: Flip all views by default
+> - [c93457a](https://github.com/roblillack/gocoa/commit/c93457a) application: Add RunOnMainLoop
 
 # gocoa
 
