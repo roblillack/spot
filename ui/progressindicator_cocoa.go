@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mojbro/gocoa"
+	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
 )
 
