@@ -4,6 +4,7 @@ package gocoa
 // #cgo LDFLAGS: -framework Cocoa
 // #include "application.h"
 import "C"
+import "runtime/cgo"
 
 var appDidFinishLaunchingFunc func()
 
@@ -33,4 +34,17 @@ func callOnApplicationDidFinishLaunchingHandler() {
 	if appDidFinishLaunchingFunc != nil {
 		appDidFinishLaunchingFunc()
 	}
+}
+
+//export go_callback
+func go_callback(h C.uintptr_t) {
+	hnd := cgo.Handle(h)
+	fn := hnd.Value().(func())
+	fn()
+	hnd.Delete()
+}
+
+func RunOnMainLoop(fn func()) {
+	h := cgo.NewHandle(fn)
+	C.RunOnMainLoop(C.uintptr_t(h))
 }
