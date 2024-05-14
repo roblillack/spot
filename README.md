@@ -1,4 +1,9 @@
+<center><img src="./resources/2024-05-13-demo-video.gif" width="50%" height="50%" /></center>
+
 # Spot
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/roblillack/spot.svg)](https://pkg.go.dev/github.com/roblillack/spot)
+[![Go Report Card](https://goreportcard.com/badge/github.com/roblillack/spot)](https://goreportcard.com/report/github.com/roblillack/spot)
 
 Spot is a simple, cross-platform, reactive GUI toolkit for Go using native
 widgets where available. It is designed to be easy to use and to provide a
@@ -57,13 +62,18 @@ func main() {
   self-contained binary.
 - **Cross-platform**: Spot uses native widgets where available and
   automatically selects the best backend for the platform you are running on
-  at compile time.
+  at compile time. Currently, two backend implementations are provided: one
+  based on [FLTK](https://fltk.org) using
+  [go-fltk](https://github.com/pwiecz/go-fltk) and one based on Cocoa using
+  ([a modified version of](https://github.com/roblillack/gocoa))
+  [gocoa](https://github.com/mojbro/gocoa).
 - **Reactive**: Spot automatically updates the UI when the state of the
   application changes. You just provide side-effect free rendering functions
-  and manage the state of your application using the `UseState` hook.
+  and manage the state of your application using the [`UseState`](https://pkg.go.dev/github.com/roblillack/spot#UseState) hook.
 - **Broad widget support**: Spot provides a wide range of UI controls out of
   the box, including buttons, labels, text inputs, sliders, dropdowns, and
-  more. See the full list: [List of supported UI controls](#list-of-supported-ui-controls).
+  more. See the full list:
+  [List of supported UI controls](#list-of-supported-ui-controls).
 
 ## FAQs
 

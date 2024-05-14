@@ -99,6 +99,7 @@ func (w *TextField) Mount() any {
 	w.ref.SetBezeled(w.Bezeled)
 	w.ref.SetSelectable(w.Selectable)
 	w.ref.SetStringValue(w.Value)
+	w.ref.SetFontFamily("Arial")
 	w.ref.SetFontSize(w.FontSize)
 	w.ref.SetDrawsBackground(!w.NoBackground)
 	return w.ref
