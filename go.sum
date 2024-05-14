@@ -2,3 +2,7 @@ github.com/pwiecz/go-fltk v0.0.0-20240504080144-6bdd1085772c h1:bb16Jm8irz/3eBt0
 github.com/pwiecz/go-fltk v0.0.0-20240504080144-6bdd1085772c/go.mod h1:uMK5daOr9p+ba2BPs5QadbfaqqrHR5TGj13yWGsAsmw=
 github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed h1:7/j/4x3KAwuJB9sWdfhi+1UFbv42TyJ4LyUI/GHS+p8=
 github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed/go.mod h1:uMK5daOr9p+ba2BPs5QadbfaqqrHR5TGj13yWGsAsmw=
+github.com/roblillack/gocoa v0.0.0-20210919194729-7c5d188a0cd2 h1:P4mV4D364SBZcxjl54qrULW40Z0dr25Lq74vPnOREyI=
+github.com/roblillack/gocoa v0.0.0-20210919194729-7c5d188a0cd2/go.mod h1:CwYtDl7ZIiyBU1/84Wr/JqNYPP8dDK9ffGknG2znkao=
+github.com/roblillack/gocoa v0.0.0-20240514071545-e85e4be21ef3 h1:fiZnt8MlnIxmXxjJkgCmtVd7W0lSJDcFfCCoDhg8qN8=
+github.com/roblillack/gocoa v0.0.0-20240514071545-e85e4be21ef3/go.mod h1:CwYtDl7ZIiyBU1/84Wr/JqNYPP8dDK9ffGknG2znkao=

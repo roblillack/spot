@@ -7,4 +7,6 @@ require (
 	github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed
 )
 
-replace github.com/mojbro/gocoa => ./libs/gocoa
+replace github.com/mojbro/gocoa => github.com/roblillack/gocoa v0.0.0-20240514071545-e85e4be21ef3
+
+// replace github.com/mojbro/gocoa => ./libs/gocoa
