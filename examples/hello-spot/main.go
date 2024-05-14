@@ -125,7 +125,7 @@ func main() {
 		}
 
 		return &ui.Window{
-			Title: "Hello World!",
+			Title: "Hello Spot!",
 			Width: 400, Height: 500,
 			Children: []spot.Component{
 				&ui.Label{
