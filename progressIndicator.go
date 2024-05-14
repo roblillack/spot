@@ -25,7 +25,7 @@ func NewProgressIndicator(x int, y int, w int, h int) *ProgressIndicator {
 		autohide:             false,
 	}
 	indicator.SetIsIndeterminate(false)
-	indicator.Hide()
+	// indicator.Hide()
 	return indicator
 }
 
