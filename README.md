@@ -1,4 +1,4 @@
-<center><img src="./resources/2024-05-13-demo-video.gif" width="50%" height="50%" /></center>
+<p style="text-align:center"><img src="./resources/2024-05-13-demo-video.gif" width="50%" height="50%" /></p>
 
 # Spot
 
