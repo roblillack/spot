@@ -139,7 +139,7 @@ func (w *Window) Update(nextComponent spot.Component) bool {
 }
 
 func (w *Window) Mount() any {
-	w.ref = gocoa.NewWindow(w.Title, w.X, w.Y, w.Width, w.Height)
+	w.ref = gocoa.NewCenteredWindow(w.Title, w.Width, w.Height)
 	for _, child := range w.Children {
 		w.mountChild(child)
 	}

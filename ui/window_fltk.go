@@ -11,8 +11,6 @@ type Window struct {
 	Title     string
 	Width     int
 	Height    int
-	X         int
-	Y         int
 	Resizable bool
 	Children  []spot.Component
 	ref       *goFltk.Window
@@ -41,8 +39,6 @@ func (w *Window) Equals(other spot.Component) bool {
 	return next.Title == w.Title &&
 		next.Width == w.Width &&
 		next.Height == w.Height &&
-		next.X == w.X &&
-		next.Y == w.Y &&
 		next.Resizable == w.Resizable
 }
 
@@ -83,11 +79,6 @@ func (w *Window) Update(nextComponent spot.Component) bool {
 	if next.Width != w.Width || next.Height != w.Height {
 		w.Width = next.Width
 		w.Height = next.Height
-	}
-
-	if next.X != w.X || next.Y != w.Y {
-		w.X = next.X
-		w.Y = next.Y
 	}
 
 	if next.Resizable != w.Resizable {
