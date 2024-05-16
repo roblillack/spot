@@ -34,10 +34,10 @@ func (b *Slider) Update(nextComponent spot.Control) bool {
 		b.ref.SetValue(b.Value)
 	}
 
-	if next.Type != b.Type {
-		b.Type = next.Type
-		b.ref.SetType(b.Type)
-	}
+	// if next.Type != b.Type {
+	// 	b.Type = next.Type
+	// 	b.ref.SetType(b.Type)
+	// }
 
 	return true
 }
