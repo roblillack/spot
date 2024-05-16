@@ -124,6 +124,47 @@ Yes, you can. You just need to create some structs that implement the
 Currently, these are the only backends that are supported. But feel free to
 create a PR if you want to add support for another backend. _\*hint hint\*_
 
+#### What's the difference between `spot/ui` and `spot`?
+
+`spot` is the core package that provides the reactive model and the rendering
+functionality. It is backend-agnostic and can be used with any set of controls
+which implement the `spot.Control` interface.
+
+`spot/ui` is a package that provides a set of pre-built cross-platform GUI
+controls that which can be used with `spot`.
+
+#### What's the difference between a “component” and a “control”?
+
+In Spot, a _component_ is a logical unit of the application that contains
+business logic and state. Any component is made out of other componens and
+can ultimately be rendered down to a single or multiple "controls".
+
+A _control_ is special kind component is mounted to the UI tree and represents
+a visual element on the screen. Usually a control is backed by a native
+implementation of the GUI backend, like a button, a label, or a text input.
+
+#### What do the terms ”make”, “render”, “build”, “mount”, and “update” mean in the context of Spot?
+
+- _Make_: The process of creating a new component instance. This is done by
+  creating a reference to an instance of a struct that implements the
+  `spot.Component` interface or by calling `spot.Make` with a render function.
+
+- _Render_: The process of applying a component's state to its building blocks
+  and hereby returning another component instance. This is done by calling the
+  `Render` method on a component instance.
+
+- _Build_: The process of creating a new UI tree from a component instance.
+  This is done by _recursively_ rendering a component to create a tree of
+  controls. This can be done by calling `spot.Build` with a component instance
+  or `spot.BuildFn` with a render function.
+
+- _Mount_: The process of creating real UI controls from a (virtual) tree of
+  controls. This is done by calling `Mount` on a tree node or `spot.Mount` with
+  a component instance or `spot.MountFn` with a render function.
+
+- _Update_: The process of updating a tree of (mounted) controls. This is done
+  by calling `Update` on a tree node.
+
 ## Features, Spot does not have right now
 
 - Automatic layouting
