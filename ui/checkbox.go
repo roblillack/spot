@@ -2,17 +2,20 @@ package ui
 
 import "github.com/roblillack/spot"
 
+type Checkbox struct {
+	X        int
+	Y        int
+	Width    int
+	Height   int
+	Label    string
+	Checked  bool
+	OnChange func(checked bool)
+	ref      nativeTypeCheckbox
+}
+
 var _ spot.Component = &Checkbox{}
+var _ spot.Control = &Checkbox{}
 
-func (b *Checkbox) Equals(other spot.Component) bool {
-	next, ok := other.(*Checkbox)
-	if !ok {
-		return false
-	}
-
-	if b == nil && next != nil || b != nil && next == nil {
-		return false
-	}
-
-	return next.Label == b.Label
+func (c *Checkbox) Render(ctx *spot.RenderContext) spot.Component {
+	return c
 }

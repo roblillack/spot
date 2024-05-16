@@ -9,20 +9,9 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Spinner struct {
-	X              int
-	Y              int
-	Width          int
-	Height         int
-	Min            float64
-	Max            float64
-	Step           float64
-	Value          float64
-	OnValueChanged func(float64)
-	ref            *gocoa.TextField
-}
+type nativeTypeSpinner = *gocoa.TextField
 
-func (w *Spinner) Update(nextComponent spot.Component) bool {
+func (w *Spinner) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Spinner)
 	if !ok {
 		return false
@@ -50,13 +39,17 @@ func (w *Spinner) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (w *Spinner) Mount() any {
+func (w *Spinner) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
 
 	w.ref = gocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
 	w.ref.SetStringValue(fmt.Sprintf("%f", w.Value))
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.AddTextField(w.ref)
+	}
 
 	return w.ref
 }

@@ -10,21 +10,9 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type ProgressIndicator struct {
-	X             int
-	Y             int
-	Width         int
-	Height        int
-	Min           float64
-	Max           float64
-	Value         float64
-	Indeterminate bool
-	ref           *gocoa.ProgressIndicator
-}
+type nativeTypeProgressIndicator = *gocoa.ProgressIndicator
 
-var _ spot.Component = &ProgressIndicator{}
-
-func (w *ProgressIndicator) Mount() any {
+func (w *ProgressIndicator) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -36,25 +24,15 @@ func (w *ProgressIndicator) Mount() any {
 	w.ref.SetValue(w.Value)
 	w.ref.SetIsIndeterminate(w.Indeterminate)
 	// w.ref.Show()
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.AddProgressIndicator(w.ref)
+	}
+
 	return w.ref
 }
 
-func (w *ProgressIndicator) Equals(other spot.Component) bool {
-	next, ok := other.(*ProgressIndicator)
-	if !ok {
-		return false
-	}
-
-	if w == nil && next != nil || w != nil && next == nil {
-		return false
-	}
-
-	return next.Width == w.Width && next.Height == w.Height &&
-		next.Min == w.Min && next.Max == w.Max &&
-		next.Value == w.Value && next.Indeterminate == w.Indeterminate
-}
-
-func (w *ProgressIndicator) Update(nextComponent spot.Component) bool {
+func (w *ProgressIndicator) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*ProgressIndicator)
 	if !ok {
 		return false

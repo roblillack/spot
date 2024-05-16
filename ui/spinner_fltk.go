@@ -7,20 +7,9 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Spinner struct {
-	X              int
-	Y              int
-	Width          int
-	Height         int
-	Min            float64
-	Max            float64
-	Step           float64
-	Value          float64
-	OnValueChanged func(float64)
-	ref            *goFltk.Spinner
-}
+type nativeTypeSpinner = *goFltk.Spinner
 
-func (b *Spinner) Update(nextComponent spot.Component) bool {
+func (b *Spinner) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Spinner)
 	if !ok {
 		return false
@@ -53,7 +42,7 @@ func (b *Spinner) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (b *Spinner) Mount() any {
+func (b *Spinner) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -68,5 +57,10 @@ func (b *Spinner) Mount() any {
 			b.OnValueChanged(b.ref.Value())
 		}
 	})
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(b.ref)
+	}
+
 	return b.ref
 }

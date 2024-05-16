@@ -15,16 +15,8 @@ type Label struct {
 }
 
 var _ spot.Component = &Label{}
+var _ spot.Control = &Label{}
 
-func (w *Label) Equals(other spot.Component) bool {
-	next, ok := other.(*Label)
-	if !ok {
-		return false
-	}
-
-	if w == nil && next != nil || w != nil && next == nil {
-		return false
-	}
-
-	return next.Value == w.Value && w.FontSize == next.FontSize
+func (c *Label) Render(ctx *spot.RenderContext) spot.Component {
+	return c
 }

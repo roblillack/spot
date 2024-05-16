@@ -9,21 +9,9 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type ComboBox struct {
-	X                    int
-	Y                    int
-	Width                int
-	Height               int
-	Items                []string
-	SelectedIndex        int
-	Editable             bool
-	OnSelectionDidChange func(index int)
-	ref                  *goFltk.Choice
-}
+type nativeTypeComboBox = *goFltk.Choice
 
-var _ spot.Component = &ComboBox{}
-
-func (w *ComboBox) Mount() any {
+func (w *ComboBox) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -41,34 +29,15 @@ func (w *ComboBox) Mount() any {
 		})
 	}
 	w.ref.SetValue(w.SelectedIndex)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(w.ref)
+	}
+
 	return w.ref
 }
 
-func (w *ComboBox) Equals(other spot.Component) bool {
-	next, ok := other.(*ComboBox)
-	if !ok {
-		return false
-	}
-
-	if w == nil && next != nil || w != nil && next == nil {
-		return false
-	}
-
-	if len(w.Items) != len(next.Items) {
-		return false
-	}
-
-	for i, item := range w.Items {
-		if item != next.Items[i] {
-			return false
-		}
-	}
-	w.OnSelectionDidChange = next.OnSelectionDidChange
-
-	return next.SelectedIndex == w.SelectedIndex && next.Editable == w.Editable
-}
-
-func (w *ComboBox) Update(next spot.Component) bool {
+func (w *ComboBox) Update(next spot.Control) bool {
 	nextComboBox, ok := next.(*ComboBox)
 	if !ok {
 		return false

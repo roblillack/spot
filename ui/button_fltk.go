@@ -7,18 +7,10 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Button struct {
-	X       int
-	Y       int
-	Width   int
-	Height  int
-	Title   string
-	OnClick func()
-	ref     *goFltk.Button
-}
+type nativeTypeButton = *goFltk.Button
 
-func (b *Button) Update(nextComponent spot.Component) bool {
-	next, ok := nextComponent.(*Button)
+func (b *Button) Update(nextControl spot.Control) bool {
+	next, ok := nextControl.(*Button)
 	if !ok {
 		return false
 	}
@@ -37,13 +29,31 @@ func (b *Button) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (b *Button) Mount() any {
+func (b *Button) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
+	}
+
+	if parent == nil {
+		return nil
 	}
 
 	b.ref = goFltk.NewButton(b.X, b.Y, b.Width, b.Height)
 	b.ref.SetLabel(b.Title)
 	b.ref.SetCallback(b.OnClick)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(b.ref)
+	}
+
 	return b.ref
+}
+
+func (b *Button) Unmount() {
+	if b.ref == nil {
+		return
+	}
+
+	b.ref.Destroy()
+	b.ref = nil
 }

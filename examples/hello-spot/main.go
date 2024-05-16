@@ -11,7 +11,13 @@ import (
 	"github.com/roblillack/spot/ui"
 )
 
-func BlinkingLabel(ctx *spot.RenderContext, x, y, width, height int, text string, size int) spot.Component {
+type BlinkingLabel struct {
+	X, Y, Width, Height int
+	Text                string
+	Size                int
+}
+
+func (b *BlinkingLabel) Render(ctx *spot.RenderContext) spot.Component {
 	visible, setVisible := spot.UseState(ctx, true)
 	spot.UseEffect(ctx, func() {
 		go func() {
@@ -24,15 +30,15 @@ func BlinkingLabel(ctx *spot.RenderContext, x, y, width, height int, text string
 		}()
 	}, []any{})
 
-	txt := text
+	txt := b.Text
 	if !visible {
 		txt = "🙈"
 	}
 
 	return &ui.Label{
-		X: x, Y: y, Width: width,
-		Height: height, Value: txt,
-		FontSize: size,
+		X: b.X, Y: b.Y, Width: b.Width, Height: b.Height,
+		Value:    txt,
+		FontSize: b.Size,
 	}
 }
 
@@ -58,8 +64,8 @@ func QuitButton(ctx *spot.RenderContext) spot.Component {
 	}
 
 	return &ui.Button{
-		X:      200,
-		Y:      100,
+		X:      210,
+		Y:      370,
 		Width:  180,
 		Height: 25,
 		Title:  "Quit",
@@ -101,7 +107,7 @@ func main() {
 	ui.Init()
 
 	startTime := time.Now()
-	spot.Make(func(ctx *spot.RenderContext) spot.Component {
+	spot.MountFn(func(ctx *spot.RenderContext) spot.Component {
 		counter, setCounter := spot.UseState[int](ctx, 0)
 		duration, setDuration := spot.UseState[time.Duration](ctx, 0.0)
 		spot.UseEffect(ctx, func() {
@@ -139,7 +145,8 @@ func main() {
 					max := float64(1 + i)
 					val := (duration % (time.Duration(1+i) * time.Second)).Seconds()
 					y := 100 + i*30
-					return spot.List(
+
+					return spot.Fragment{
 						&ui.ProgressIndicator{
 							X: 10, Y: y, Width: 90, Height: 25,
 							Min: 0, Max: max, Value: val,
@@ -156,7 +163,7 @@ func main() {
 							// Editable: true, Selectable: true, Bezeled: true,
 							Value: fmt.Sprintf("%.0f%%", val/max*100),
 						},
-					)
+					}
 				}),
 				&ui.ComboBox{
 					X: 210, Y: 220, Width: 180, Height: 25,
@@ -200,10 +207,8 @@ func main() {
 					},
 				},
 				&ui.Label{X: 210, Y: 100, Width: 180, Height: 25, Value: "Current backend:"},
-				ctx.Make(func(x *spot.RenderContext) spot.Component {
-					return BlinkingLabel(x, 210, 120, 180, 30, ui.BackendName, 20)
-				}),
-				ctx.Make(QuitButton),
+				&BlinkingLabel{X: 210, Y: 120, Width: 180, Height: 30, Text: ui.BackendName, Size: 20},
+				spot.Make(QuitButton),
 				&ui.TextField{
 					X: 10, Y: 10, Width: 380, Height: 80,
 					Value: randText,
@@ -211,7 +216,7 @@ func main() {
 				},
 			},
 		}
-	}).Mount()
+	})
 
 	ui.Run()
 }

@@ -1,68 +1,79 @@
 package spot
 
 type Component interface {
-	Update(next Component) bool
-	Equals(other Component) bool
-	Mount() any
+	Render(ctx *RenderContext) Component
 }
 
-func Make(render func(ctx *RenderContext) Component) Component {
+type Fragment []Component
+
+func (l Fragment) Render(ctx *RenderContext) Component {
+	return l
+}
+
+// Control is a component that can be mounted into the UI tree.
+type Control interface {
+	Component
+	Mount(parent Control) any
+	Update(next Control) bool
+	// Unmount()
+}
+
+// Unmountable is a control component that can be unmounted from the UI tree again.
+type Unmountable interface {
+	Control
+	Unmount()
+}
+
+// Container is a control component that owns other controls.
+type Container interface {
+	Control
+	BuildNode(ctx *RenderContext) Node // BuildNode renders the control and its children into tree of nodes.
+}
+
+type RenderFn = func(ctx *RenderContext) Component
+
+type makeRenderable RenderFn
+
+func (r makeRenderable) Render(ctx *RenderContext) Component {
+	return r(ctx)
+}
+
+var _ Component = makeRenderable(nil)
+
+// Make creates a component from a render function.
+func Make(fn RenderFn) Component {
+	return makeRenderable(fn)
+}
+
+// Build renders a component into a tree of controls. This tree can be mounted
+// to display the UI.
+func Build(el Component) Node {
 	ctx := &RenderContext{
-		render: render,
-		values: make(map[int]any),
+		content: el,
+		values:  make(map[int]any),
 	}
-	root := render(ctx)
-	ctx.root = root
-	// root.Mount()
-	// root.Update(root)
-	return root
+	rendered := ctx.BuildNode(el)
+	ctx.root = rendered
+	// fmt.Println("Rendered control tree:")
+	// printNodes(rendered, 0)
+	return rendered
 }
 
-type ComponentList []Component
-
-var _ Component = ComponentList{}
-
-func (s ComponentList) Update(next Component) bool {
-	nexts, ok := next.(ComponentList)
-	if !ok {
-		return false
-	}
-
-	if len(s) != len(nexts) {
-		return false
-	}
-
-	for i, c := range s {
-		if !c.Update(nexts[i]) {
-			return false
-		}
-	}
-
-	return true
+// BuildFn renders a render function into a tree of controls. It is a shortcut
+// for `Build(Make(fn))`.
+func BuildFn(fn RenderFn) Node {
+	return Build(Make(fn))
 }
 
-func (s ComponentList) Equals(other Component) bool {
-	nexts, ok := other.(ComponentList)
-	if !ok {
-		return false
-	}
-
-	if len(s) != len(nexts) {
-		return false
-	}
-
-	for i, c := range s {
-		if !c.Equals(nexts[i]) {
-			return false
-		}
-	}
-
-	return true
+// Mount renders a component into a tree of controls and mounts it into the UI.
+// This is a shortcut for `Build(el).Mount()`.
+func Mount(el Component) {
+	Build(el).Mount()
 }
 
-func (s ComponentList) Mount() any {
-	for _, c := range s {
-		c.Mount()
-	}
-	return nil
+// MountFn creates a component from a render function, builds it into a tree of
+// controls, and mounts it into the UI. This is a shortcut for
+// `Build(Make(fn)).Mount()`.
+func MountFn(fn func(ctx *RenderContext) Component) {
+	Build(Make(fn)).Mount()
 }

@@ -44,24 +44,43 @@ func StatefulWithProps(ctx *spot.RenderContext, initialTitle string) spot.Compon
 	}
 }
 
+type StructComponent struct {
+	X, Y, Width, Height int
+	Title               string
+}
+
+func (r *StructComponent) Render(ctx *spot.RenderContext) spot.Component {
+	counter, setCounter := spot.UseState[int](ctx, 0)
+
+	title := r.Title
+	if counter > 0 {
+		title = fmt.Sprintf("Clicked %s %dx", r.Title, counter)
+	}
+	return &ui.Button{
+		X: r.X, Y: r.Y, Width: r.Width, Height: r.Height,
+		Title: title, OnClick: func() { setCounter(counter + 1) },
+	}
+}
+
 func main() {
 	ui.Init()
 
-	root := spot.Make(func(ctx *spot.RenderContext) spot.Component {
+	root := spot.Build(spot.Make(func(ctx *spot.RenderContext) spot.Component {
 		return &ui.Window{
 			Title:  "Custom components in Spot",
 			Width:  250,
-			Height: 155,
+			Height: 200,
 			Children: []spot.Component{
 				StateLessComponent(),
-				ctx.Make(StatefulNoProps),
-				ctx.Make(func(x *spot.RenderContext) spot.Component {
-					return StatefulWithProps(x, "Stateful w/ props")
-				}),
+				StatefulNoProps(ctx),
+				StatefulWithProps(ctx, "Stateful w/ props"),
+				&StructComponent{
+					X: 10, Y: 145, Width: 230, Height: 25,
+					Title: "Struct component",
+				},
 			},
 		}
-	})
-
+	}))
 	root.Mount()
 
 	ui.Run()

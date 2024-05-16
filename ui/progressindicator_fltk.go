@@ -7,33 +7,9 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type ProgressIndicator struct {
-	X              int
-	Y              int
-	Width          int
-	Height         int
-	Min            float64
-	Max            float64
-	Value          float64
-	OnValueChanged func(float64)
-	ref            *goFltk.Progress
-}
+type nativeTypeProgressIndicator = *goFltk.Progress
 
-func (b *ProgressIndicator) Equals(other spot.Component) bool {
-	next, ok := other.(*ProgressIndicator)
-	if !ok {
-		return false
-	}
-
-	if b == nil && next != nil || b != nil && next == nil {
-		return false
-	}
-
-	return next.Max == b.Max && next.Min == b.Min &&
-		next.Value == b.Value
-}
-
-func (b *ProgressIndicator) Update(nextComponent spot.Component) bool {
+func (b *ProgressIndicator) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*ProgressIndicator)
 	if !ok {
 		return false
@@ -61,7 +37,7 @@ func (b *ProgressIndicator) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (b *ProgressIndicator) Mount() any {
+func (b *ProgressIndicator) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -70,12 +46,17 @@ func (b *ProgressIndicator) Mount() any {
 	b.ref.SetMaximum(b.Max)
 	b.ref.SetMinimum(b.Min)
 	b.ref.SetValue(b.Value)
-	b.ref.SetCallback(func() {
-		if b.OnValueChanged != nil {
-			b.OnValueChanged(b.ref.Value())
-		}
-	})
+	// b.ref.SetCallback(func() {
+	// 	if b.OnValueChanged != nil {
+	// 		b.OnValueChanged(b.ref.Value())
+	// 	}
+	// })
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(b.ref)
+	}
+
 	return b.ref
 }
 
-var _ spot.Component = &ProgressIndicator{}
+var _ spot.Control = &ProgressIndicator{}

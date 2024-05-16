@@ -9,7 +9,7 @@ import (
 
 type nativeTypeLabel = *gocoa.TextView
 
-func (w *Label) Update(nextComponent spot.Component) bool {
+func (w *Label) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Label)
 	if !ok {
 		return false
@@ -34,7 +34,7 @@ func (w *Label) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (w *Label) Mount() any {
+func (w *Label) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -44,5 +44,10 @@ func (w *Label) Mount() any {
 	if w.FontSize > 0 {
 		w.ref.SetFontSize(w.FontSize)
 	}
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.AddTextView(w.ref)
+	}
+
 	return w.ref
 }

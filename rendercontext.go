@@ -1,29 +1,91 @@
 package spot
 
+import (
+	"fmt"
+	"strings"
+)
+
 type RenderContext struct {
-	root    Component
-	render  func(ctx *RenderContext) Component
-	changed bool
+	content Component
+	root    Node
 	values  map[int]any
 	count   int
 }
 
-func (ctx *RenderContext) Make(render func(*RenderContext) Component) Component {
+// BuildNode recursively renders a component and its children into a tree
+// of UI controls.
+func (ctx *RenderContext) BuildNode(component Component) Node {
+	if component == nil {
+		return Node{}
+	}
+
+	if l, ok := component.(Fragment); ok {
+		list := []Node{}
+		for _, e := range l {
+			childNode := ctx.BuildNode(e)
+			if childNode.Content == nil {
+				if len(childNode.Children) == 0 {
+					continue
+				} else {
+					list = append(list, childNode.Children...)
+					continue
+				}
+			}
+			list = append(list, childNode)
+		}
+		return Node{Children: list}
+	}
+
+	if container, ok := component.(Container); ok {
+		return container.BuildNode(ctx)
+	}
+
+	if c, ok := component.(Control); ok {
+		return Node{Content: c}
+	}
+
+	if r, ok := component.(Component); ok {
+		return ctx.BuildNode(r.Render(ctx))
+	}
+
+	panic(fmt.Sprintf("Unknown component type: %T", component))
+}
+
+func (ctx *RenderContext) Make(render func(*RenderContext) Component) Node {
 	subContext, _ := UseState(ctx, &RenderContext{
-		render: render,
-		values: make(map[int]any),
+		content: makeRenderable(render),
+		values:  make(map[int]any),
 	})
 	subContext.count = 0
-	root := render(subContext)
+	root := ctx.BuildNode(subContext.content)
 	subContext.root = root
 	return root
 }
 
+func printNodes(node Node, indent int) {
+	if len(node.Children) == 0 {
+		fmt.Printf("%s<%T/>\n", strings.Repeat("  ", indent), node.Content)
+		return
+	}
+
+	fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), node.Content)
+	for _, child := range node.Children {
+		printNodes(child, indent+1)
+	}
+	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), node.Content)
+}
+
 func (ctx *RenderContext) TriggerUpdate() {
-	if ctx.root == nil {
+	if ctx.root.Content == nil {
 		// fmt.Printf("[%v] Root is nil, returning.\n", ctx)
 		return
 	}
+
+	// fmt.Println("STATE VALUES ******")
+	// for i := 0; i < ctx.count; i++ {
+	// 	fmt.Printf("%02d -> %v\n", i, ctx.values[i])
+	// }
+	// fmt.Println("*******************")
 
 	// We need to make sure we're running on the main loop
 	// for two reasons:
@@ -42,19 +104,14 @@ func (ctx *RenderContext) TriggerUpdate() {
 		ctx.count = 0
 		oldTree := ctx.root
 		// fmt.Println("**** RENDER STARTING ****")
-		newTree := ctx.render(ctx)
+		newTree := ctx.BuildNode(ctx.content)
 		// fmt.Println("**** RENDER DONE ****")
 
 		// fmt.Printf("[%v] Old tree: %+v\n", ctx, oldTree)
+		// printNodes(oldTree, 0)
 		// fmt.Printf("[%v] New tree: %+v\n", ctx, newTree)
+		// printNodes(newTree, 0)
 
-		if !oldTree.Equals(newTree) {
-			// fmt.Printf("[%v] Updating tree!\n", ctx)
-			// fmt.Printf("[%v] On main thread here.\n", ctx)
-			oldTree.Update(newTree)
-			// fmt.Printf("[%v] Updating tree done.\n", ctx)
-		}
-
-		ctx.changed = false
+		oldTree.Update(newTree, nil)
 	})
 }

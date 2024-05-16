@@ -7,16 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Checkbox struct {
-	X        int
-	Y        int
-	Width    int
-	Height   int
-	Label    string
-	Checked  bool
-	OnChange func(checked bool)
-	ref      *goFltk.CheckButton
-}
+type nativeTypeCheckbox = *goFltk.CheckButton
 
 func (w *Checkbox) callback() {
 	if w.OnChange != nil {
@@ -24,7 +15,7 @@ func (w *Checkbox) callback() {
 	}
 }
 
-func (b *Checkbox) Update(nextComponent spot.Component) bool {
+func (b *Checkbox) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Checkbox)
 	if !ok {
 		return false
@@ -53,7 +44,7 @@ func (b *Checkbox) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (b *Checkbox) Mount() any {
+func (b *Checkbox) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -66,5 +57,10 @@ func (b *Checkbox) Mount() any {
 		b.ref.SetCallback(b.callback)
 	}
 	b.ref.SetValue(b.Checked)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(b.ref)
+	}
+
 	return b.ref
 }
