@@ -36,7 +36,7 @@ func BlinkingLabel(ctx *spot.RenderContext, x, y, width, height int, text string
 	}
 }
 
-func QuitButton(ctx *spot.RenderContext) spot.Element {
+func QuitButton(ctx *spot.RenderContext) spot.Component {
 	enabled, setEnabled := spot.UseState(ctx, false)
 	spot.UseEffect(ctx, func() {
 		fmt.Println("Setting up timer!")
@@ -101,7 +101,7 @@ func main() {
 	ui.Init()
 
 	startTime := time.Now()
-	spot.Render(spot.Make(func(ctx *spot.RenderContext) spot.Element {
+	spot.Render(spot.Make(func(ctx *spot.RenderContext) spot.Component {
 		counter, setCounter := spot.UseState[int](ctx, 0)
 		duration, setDuration := spot.UseState[time.Duration](ctx, 0.0)
 		spot.UseEffect(ctx, func() {
@@ -127,7 +127,7 @@ func main() {
 		return &ui.Window{
 			Title: "Hello Spot!",
 			Width: 400, Height: 500,
-			Children: []spot.Element{
+			Children: []spot.Component{
 				&ui.Label{
 					X: 10, Y: 410, Width: 380, Height: 80,
 					Value: fmt.Sprintf("%02d:%02d.%03d", int(duration.Minutes())%60,
@@ -135,13 +135,13 @@ func main() {
 					FontSize: 60,
 					// Editable: false, Selectable: false, Bezeled: false, NoBackground: false,
 				},
-				(func() (r []spot.Element) {
+				(func() (r spot.Fragment) {
 					for i := 0; i < 10; i++ {
 						max := float64(1 + i)
 						val := (duration % (time.Duration(1+i) * time.Second)).Seconds()
 						y := 100 + i*30
 
-						r = append(r, []spot.Element{
+						r = append(r, spot.Fragment{
 							&ui.ProgressIndicator{
 								X: 10, Y: y, Width: 90, Height: 25,
 								Min: 0, Max: max, Value: val,
@@ -204,7 +204,7 @@ func main() {
 					},
 				},
 				&ui.Label{X: 210, Y: 100, Width: 180, Height: 25, Value: "Current backend:"},
-				spot.Make(func(x *spot.RenderContext) spot.Element {
+				spot.Make(func(x *spot.RenderContext) spot.Component {
 					return BlinkingLabel(x, 210, 120, 180, 30, ui.BackendName, 20)
 				}),
 				spot.Make(QuitButton),

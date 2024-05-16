@@ -2,32 +2,31 @@ package spot
 
 import "fmt"
 
-type Element interface{}
-
 type Component interface {
-	Render(ctx *RenderContext) Element
+	Render(ctx *RenderContext) Component
 }
 
-// type ComponentList  []Component
-// func (l ComponentList) Render(ctx *RenderContext) Element {
-// 	return l
-// }
+type Fragment []Component
+
+func (l Fragment) Render(ctx *RenderContext) Component {
+	return l
+}
 
 type Unmountable interface {
 	Unmount()
 }
 
 type HostComponent interface {
-	// Component
+	Component
 	Update(next HostComponent) bool
 	Equals(other HostComponent) bool
 	Mount(parent HostComponent) any
 	// Unmount()
 }
 
-type makeRenderable func(ctx *RenderContext) Element
+type makeRenderable func(ctx *RenderContext) Component
 
-func (r makeRenderable) Render(ctx *RenderContext) Element {
+func (r makeRenderable) Render(ctx *RenderContext) Component {
 	return r(ctx)
 }
 
@@ -37,19 +36,19 @@ var _ Component = makeRenderable(nil)
 // 	return Render(makeRenderable(render))
 // }
 
-func Build(el Element) {
+func Build(el Component) {
 	Render(el).Mount(nil)
 }
 
-func BuildFn(fn func(ctx *RenderContext) Element) {
+func BuildFn(fn func(ctx *RenderContext) Component) {
 	Render(Make(fn)).Mount(nil)
 }
 
-func Make(fn func(ctx *RenderContext) Element) Element {
+func Make(fn func(ctx *RenderContext) Component) Component {
 	return makeRenderable(fn)
 }
 
-func Render(el Element) Node {
+func Render(el Component) Node {
 	ctx := &RenderContext{
 		root:   el,
 		values: make(map[int]any),

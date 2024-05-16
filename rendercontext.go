@@ -6,7 +6,7 @@ import (
 )
 
 type RenderContext struct {
-	root     Element
+	root     Component
 	rendered Node
 	// render   func(ctx *RenderContext) Component
 	// changed  bool
@@ -16,12 +16,12 @@ type RenderContext struct {
 
 // RenderElement recursively renders an element and its children into a tree
 // of HostComponents.
-func (ctx *RenderContext) RenderElement(el Element) Node {
+func (ctx *RenderContext) RenderElement(el Component) Node {
 	if el == nil {
 		return Node{}
 	}
 
-	if l, ok := el.([]Element); ok {
+	if l, ok := el.(Fragment); ok {
 		list := []Node{}
 		for _, e := range l {
 			childNode := ctx.RenderElement(e)
@@ -53,7 +53,7 @@ func (ctx *RenderContext) RenderElement(el Element) Node {
 	panic(fmt.Sprintf("Unknown element type: %T", el))
 }
 
-func (ctx *RenderContext) Make(render func(*RenderContext) Element) Element {
+func (ctx *RenderContext) Make(render func(*RenderContext) Component) Node {
 	subContext, _ := UseState(ctx, &RenderContext{
 		root:   makeRenderable(render),
 		values: make(map[int]any),

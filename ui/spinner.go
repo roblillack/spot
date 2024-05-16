@@ -4,6 +4,10 @@ import "github.com/roblillack/spot"
 
 var _ spot.HostComponent = &Spinner{}
 
+func (c *Spinner) Render(ctx *spot.RenderContext) spot.Component {
+	return c
+}
+
 func (b *Spinner) Equals(other spot.HostComponent) bool {
 	next, ok := other.(*Spinner)
 	if !ok {

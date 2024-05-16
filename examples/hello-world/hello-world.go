@@ -11,7 +11,7 @@ import (
 func main() {
 	ui.Init()
 
-	root := spot.Render(spot.Make(func(ctx *spot.RenderContext) spot.Element {
+	root := spot.Render(spot.Make(func(ctx *spot.RenderContext) spot.Component {
 		counter, setCounter := spot.UseState[int](ctx, 0)
 		spot.UseEffect(ctx, func() {
 			go func() {
@@ -29,7 +29,7 @@ func main() {
 			Title:  "Hello World!",
 			Width:  200,
 			Height: 125,
-			Children: []spot.Element{
+			Children: []spot.Component{
 				&ui.Button{
 					X: 25, Y: 50, Width: 150, Height: 25,
 					Title: buttonTitle,

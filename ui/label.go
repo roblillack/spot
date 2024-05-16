@@ -16,6 +16,10 @@ type Label struct {
 
 var _ spot.HostComponent = &Label{}
 
+func (c *Label) Render(ctx *spot.RenderContext) spot.Component {
+	return c
+}
+
 func (w *Label) Equals(other spot.HostComponent) bool {
 	next, ok := other.(*Label)
 	if !ok {

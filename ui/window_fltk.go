@@ -12,7 +12,7 @@ type Window struct {
 	Width     int
 	Height    int
 	Resizable bool
-	Children  []spot.Element
+	Children  []spot.Component
 	ref       *goFltk.Window
 }
 

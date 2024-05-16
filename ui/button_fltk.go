@@ -7,15 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Button struct {
-	X       int
-	Y       int
-	Width   int
-	Height  int
-	Title   string
-	OnClick func()
-	ref     *goFltk.Button
-}
+type nativeTypeButton = *goFltk.Button
 
 func (b *Button) Update(nextComponent spot.HostComponent) bool {
 	next, ok := nextComponent.(*Button)
