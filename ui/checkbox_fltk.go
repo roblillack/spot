@@ -24,7 +24,7 @@ func (w *Checkbox) callback() {
 	}
 }
 
-func (b *Checkbox) Update(nextComponent spot.Component) bool {
+func (b *Checkbox) Update(nextComponent spot.HostComponent) bool {
 	next, ok := nextComponent.(*Checkbox)
 	if !ok {
 		return false
@@ -53,7 +53,7 @@ func (b *Checkbox) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (b *Checkbox) Mount() any {
+func (b *Checkbox) Mount(parent spot.HostComponent) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -66,5 +66,10 @@ func (b *Checkbox) Mount() any {
 		b.ref.SetCallback(b.callback)
 	}
 	b.ref.SetValue(b.Checked)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(b.ref)
+	}
+
 	return b.ref
 }

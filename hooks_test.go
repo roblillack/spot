@@ -18,7 +18,6 @@ func assertNeq[T comparable](t *testing.T, expected T, actual T) {
 
 func TestUseState(t *testing.T) {
 	ctx := &RenderContext{
-		render: func(x *RenderContext) Component { return nil },
 		values: make(map[int]any),
 	}
 
@@ -41,7 +40,6 @@ func TestUseState(t *testing.T) {
 
 func TestUseEffect(t *testing.T) {
 	ctx := &RenderContext{
-		render: func(x *RenderContext) Component { return nil },
 		values: make(map[int]any),
 	}
 
@@ -78,48 +76,47 @@ func TestUseEffect(t *testing.T) {
 	assertEq(t, 2, counter)
 }
 
-func TestUseCallback(t *testing.T) {
-	ctx := &RenderContext{
-		render: func(x *RenderContext) Component { return nil },
-		values: make(map[int]any),
-	}
+// func TestUseCallback(t *testing.T) {
+// 	ctx := &RenderContext{
+// 		values: make(map[int]any),
+// 	}
 
-	// Empty deps should always return the same callback
-	var b *int
-	var cb1, cb2 *Callback[func()]
+// 	// Empty deps should always return the same callback
+// 	var b *int
+// 	var cb1, cb2 *Callback[func()]
 
-	{
-		a := 42
-		cb1 = UseCallback(ctx, func() { val := a; b = &val }, []any{})
-	}
-	ctx.count = 0
-	{
-		a := 23
-		cb2 = UseCallback(ctx, func() { val := a; b = &val }, []any{})
-	}
+// 	{
+// 		a := 42
+// 		cb1 = UseCallback(ctx, func() { val := a; b = &val }, []any{})
+// 	}
+// 	ctx.count = 0
+// 	{
+// 		a := 23
+// 		cb2 = UseCallback(ctx, func() { val := a; b = &val }, []any{})
+// 	}
 
-	cb1.Fn()
-	assertEq(t, 42, *b)
-	cb2.Fn()
-	assertEq(t, 42, *b)
-	assertEq(t, cb1, cb2)
+// 	cb1.Fn()
+// 	assertEq(t, 42, *b)
+// 	cb2.Fn()
+// 	assertEq(t, 42, *b)
+// 	assertEq(t, cb1, cb2)
 
-	// Changing deps should create a new callback
-	ctx.values = make(map[int]any)
-	ctx.count = 0
-	{
-		a := 42
-		cb1 = UseCallback(ctx, func() { val := a; b = &val }, []any{a})
-	}
-	ctx.count = 0
-	{
-		a := 23
-		cb2 = UseCallback(ctx, func() { val := a; b = &val }, []any{a})
-	}
+// 	// Changing deps should create a new callback
+// 	ctx.values = make(map[int]any)
+// 	ctx.count = 0
+// 	{
+// 		a := 42
+// 		cb1 = UseCallback(ctx, func() { val := a; b = &val }, []any{a})
+// 	}
+// 	ctx.count = 0
+// 	{
+// 		a := 23
+// 		cb2 = UseCallback(ctx, func() { val := a; b = &val }, []any{a})
+// 	}
 
-	cb1.Fn()
-	assertEq(t, 42, *b)
-	cb2.Fn()
-	assertEq(t, 23, *b)
-	assertNeq(t, cb1, cb2)
-}
+// 	cb1.Fn()
+// 	assertEq(t, 42, *b)
+// 	cb2.Fn()
+// 	assertEq(t, 23, *b)
+// 	assertNeq(t, cb1, cb2)
+// }

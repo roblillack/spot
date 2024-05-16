@@ -2,9 +2,9 @@ package ui
 
 import "github.com/roblillack/spot"
 
-var _ spot.Component = &Checkbox{}
+var _ spot.HostComponent = &Checkbox{}
 
-func (b *Checkbox) Equals(other spot.Component) bool {
+func (b *Checkbox) Equals(other spot.HostComponent) bool {
 	next, ok := other.(*Checkbox)
 	if !ok {
 		return false

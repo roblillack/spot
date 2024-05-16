@@ -2,9 +2,9 @@ package ui
 
 import "github.com/roblillack/spot"
 
-var _ spot.Component = &Button{}
+var _ spot.HostComponent = &Button{}
 
-func (b *Button) Equals(other spot.Component) bool {
+func (b *Button) Equals(other spot.HostComponent) bool {
 	next, ok := other.(*Button)
 	if !ok {
 		return false

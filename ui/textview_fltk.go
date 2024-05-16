@@ -16,9 +16,9 @@ type TextView struct {
 	ref    *goFltk.TextDisplay
 }
 
-var _ spot.Component = &TextView{}
+var _ spot.HostComponent = &TextView{}
 
-func (w *TextView) Equals(other spot.Component) bool {
+func (w *TextView) Equals(other spot.HostComponent) bool {
 	next, ok := other.(*TextView)
 	if !ok {
 		return false
@@ -27,7 +27,7 @@ func (w *TextView) Equals(other spot.Component) bool {
 	return next.Text == w.Text
 }
 
-func (w *TextView) Update(nextComponent spot.Component) bool {
+func (w *TextView) Update(nextComponent spot.HostComponent) bool {
 	next, ok := nextComponent.(*TextView)
 	if !ok {
 		return false
@@ -42,7 +42,7 @@ func (w *TextView) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (w *TextView) Mount() any {
+func (w *TextView) Mount(parent spot.HostComponent) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -52,5 +52,10 @@ func (w *TextView) Mount() any {
 	w.ref.Buffer().SetText(w.Text)
 	w.ref.Deactivate()
 	w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(w.ref)
+	}
+
 	return w.ref
 }

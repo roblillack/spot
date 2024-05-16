@@ -2,9 +2,9 @@ package ui
 
 import "github.com/roblillack/spot"
 
-var _ spot.Component = &Spinner{}
+var _ spot.HostComponent = &Spinner{}
 
-func (b *Spinner) Equals(other spot.Component) bool {
+func (b *Spinner) Equals(other spot.HostComponent) bool {
 	next, ok := other.(*Spinner)
 	if !ok {
 		return false

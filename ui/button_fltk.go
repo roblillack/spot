@@ -17,7 +17,7 @@ type Button struct {
 	ref     *goFltk.Button
 }
 
-func (b *Button) Update(nextComponent spot.Component) bool {
+func (b *Button) Update(nextComponent spot.HostComponent) bool {
 	next, ok := nextComponent.(*Button)
 	if !ok {
 		return false
@@ -37,13 +37,22 @@ func (b *Button) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (b *Button) Mount() any {
+func (b *Button) Mount(parent spot.HostComponent) any {
 	if b.ref != nil {
 		return b.ref
+	}
+
+	if parent == nil {
+		return nil
 	}
 
 	b.ref = goFltk.NewButton(b.X, b.Y, b.Width, b.Height)
 	b.ref.SetLabel(b.Title)
 	b.ref.SetCallback(b.OnClick)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(b.ref)
+	}
+
 	return b.ref
 }

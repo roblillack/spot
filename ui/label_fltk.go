@@ -9,7 +9,7 @@ import (
 
 type nativeTypeLabel = *goFltk.TextDisplay
 
-func (w *Label) Update(nextComponent spot.Component) bool {
+func (w *Label) Update(nextComponent spot.HostComponent) bool {
 	next, ok := nextComponent.(*Label)
 	if !ok {
 		return false
@@ -39,7 +39,7 @@ func (w *Label) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (w *Label) Mount() any {
+func (w *Label) Mount(parent spot.HostComponent) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -50,5 +50,17 @@ func (w *Label) Mount() any {
 	w.ref.SetBuffer(buf)
 	w.ref.SetTextSize(w.FontSize)
 	w.ref.HideCursor()
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(w.ref)
+	}
+
 	return w.ref
+}
+
+func (w *Label) Unmount() {
+	if w.ref != nil {
+		w.ref.Destroy()
+		w.ref = nil
+	}
 }

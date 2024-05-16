@@ -6,40 +6,79 @@ import (
 )
 
 type RenderContext struct {
-	root    Component
-	render  func(ctx *RenderContext) Component
-	changed bool
-	values  map[int]any
-	count   int
+	root     Element
+	rendered Node
+	// render   func(ctx *RenderContext) Component
+	// changed  bool
+	values map[int]any
+	count  int
 }
 
-func (ctx *RenderContext) Make(render func(*RenderContext) Component) Component {
+// RenderElement recursively renders an element and its children into a tree
+// of HostComponents.
+func (ctx *RenderContext) RenderElement(el Element) Node {
+	if el == nil {
+		return Node{}
+	}
+
+	if l, ok := el.([]Element); ok {
+		list := []Node{}
+		for _, e := range l {
+			childNode := ctx.RenderElement(e)
+			if childNode.HostComponent == nil {
+				if len(childNode.Children) == 0 {
+					continue
+				} else {
+					list = append(list, childNode.Children...)
+					continue
+				}
+			}
+			list = append(list, childNode)
+		}
+		return Node{Children: list}
+	}
+
+	if container, ok := el.(ToNode); ok {
+		return container.ToNode(ctx)
+	}
+
+	if c, ok := el.(HostComponent); ok {
+		return Node{HostComponent: c}
+	}
+
+	if r, ok := el.(Component); ok {
+		return ctx.RenderElement(r.Render(ctx))
+	}
+
+	panic(fmt.Sprintf("Unknown element type: %T", el))
+}
+
+func (ctx *RenderContext) Make(render func(*RenderContext) Element) Element {
 	subContext, _ := UseState(ctx, &RenderContext{
-		render: render,
+		root:   makeRenderable(render),
 		values: make(map[int]any),
 	})
 	subContext.count = 0
-	root := render(subContext)
-	subContext.root = root
+	root := ctx.RenderElement(subContext.root)
+	subContext.rendered = root
 	return root
 }
 
-func printComponentTree(c Component, indent int) {
-	w, ok := c.(Container)
-	if !ok {
-		fmt.Printf("%s<%T/>\n", strings.Repeat("  ", indent), c)
+func printNodes(node Node, indent int) {
+	if len(node.Children) == 0 {
+		fmt.Printf("%s<%T/>\n", strings.Repeat("  ", indent), node.HostComponent)
 		return
 	}
 
-	fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), c)
-	for _, child := range w.GetChildren() {
-		printComponentTree(child, indent+1)
+	fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), node.HostComponent)
+	for _, child := range node.Children {
+		printNodes(child, indent+1)
 	}
-	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), c)
+	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), node.HostComponent)
 }
 
 func (ctx *RenderContext) TriggerUpdate() {
-	if ctx.root == nil {
+	if ctx.rendered.HostComponent == nil {
 		// fmt.Printf("[%v] Root is nil, returning.\n", ctx)
 		return
 	}
@@ -65,23 +104,24 @@ func (ctx *RenderContext) TriggerUpdate() {
 	RunOnMainLoop(func() {
 		// fmt.Printf("[%v] RENDER TRIGGERED!\n", ctx)
 		ctx.count = 0
-		oldTree := ctx.root
+		oldTree := ctx.rendered
 		fmt.Println("**** RENDER STARTING ****")
-		newTree := ctx.render(ctx)
+		// newTree := ctx.RenderElement(ctx.root)
+		newTree := ctx.RenderElement(ctx.root)
 		fmt.Println("**** RENDER DONE ****")
 
 		fmt.Printf("[%v] Old tree: %+v\n", ctx, oldTree)
-		printComponentTree(oldTree, 0)
+		printNodes(oldTree, 0)
 		fmt.Printf("[%v] New tree: %+v\n", ctx, newTree)
-		printComponentTree(newTree, 0)
+		printNodes(newTree, 0)
 
-		if !oldTree.Equals(newTree) {
-			// fmt.Printf("[%v] Updating tree!\n", ctx)
-			// fmt.Printf("[%v] On main thread here.\n", ctx)
-			oldTree.Update(newTree)
-			// fmt.Printf("[%v] Updating tree done.\n", ctx)
-		}
+		// if !oldTree.Equals(newTree) {
+		// fmt.Printf("[%v] Updating tree!\n", ctx)
+		// fmt.Printf("[%v] On main thread here.\n", ctx)
+		oldTree.Update(newTree, nil)
+		// fmt.Printf("[%v] Updating tree done.\n", ctx)
+		// }
 
-		ctx.changed = false
+		// ctx.changed = false
 	})
 }

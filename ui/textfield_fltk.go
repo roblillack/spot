@@ -17,7 +17,7 @@ type TextField struct {
 	ref      *goFltk.TextEditor
 }
 
-func (w *TextField) Equals(other spot.Component) bool {
+func (w *TextField) Equals(other spot.HostComponent) bool {
 	next, ok := other.(*TextField)
 	if !ok {
 		return false
@@ -30,7 +30,7 @@ func (w *TextField) Equals(other spot.Component) bool {
 	return next.Value == w.Value && w.FontSize == next.FontSize
 }
 
-func (w *TextField) Update(nextComponent spot.Component) bool {
+func (w *TextField) Update(nextComponent spot.HostComponent) bool {
 	next, ok := nextComponent.(*TextField)
 	if !ok {
 		return false
@@ -60,7 +60,7 @@ func (w *TextField) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (w *TextField) Mount() any {
+func (w *TextField) Mount(parent spot.HostComponent) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -71,7 +71,12 @@ func (w *TextField) Mount() any {
 	// w.ref.Deactivate()
 	w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
 	w.ref.SetTextSize(w.FontSize)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(w.ref)
+	}
+
 	return w.ref
 }
 
-var _ spot.Component = &TextField{}
+var _ spot.HostComponent = &TextField{}

@@ -14,9 +14,9 @@ type Label struct {
 	ref      nativeTypeLabel
 }
 
-var _ spot.Component = &Label{}
+var _ spot.HostComponent = &Label{}
 
-func (w *Label) Equals(other spot.Component) bool {
+func (w *Label) Equals(other spot.HostComponent) bool {
 	next, ok := other.(*Label)
 	if !ok {
 		return false

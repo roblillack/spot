@@ -1,72 +1,62 @@
 package spot
 
+import "fmt"
+
+type Element interface{}
+
 type Component interface {
-	Update(next Component) bool
-	Equals(other Component) bool
-	Mount() any
+	Render(ctx *RenderContext) Element
 }
 
-type Container interface {
-	GetChildren() []Component
+// type ComponentList  []Component
+// func (l ComponentList) Render(ctx *RenderContext) Element {
+// 	return l
+// }
+
+type Unmountable interface {
+	Unmount()
 }
 
-func Make(render func(ctx *RenderContext) Component) Component {
+type HostComponent interface {
+	// Component
+	Update(next HostComponent) bool
+	Equals(other HostComponent) bool
+	Mount(parent HostComponent) any
+	// Unmount()
+}
+
+type makeRenderable func(ctx *RenderContext) Element
+
+func (r makeRenderable) Render(ctx *RenderContext) Element {
+	return r(ctx)
+}
+
+var _ Component = makeRenderable(nil)
+
+// func Make(render func(ctx *RenderContext) Element) Component {
+// 	return Render(makeRenderable(render))
+// }
+
+func Build(el Element) {
+	Render(el).Mount(nil)
+}
+
+func BuildFn(fn func(ctx *RenderContext) Element) {
+	Render(Make(fn)).Mount(nil)
+}
+
+func Make(fn func(ctx *RenderContext) Element) Element {
+	return makeRenderable(fn)
+}
+
+func Render(el Element) Node {
 	ctx := &RenderContext{
-		render: render,
+		root:   el,
 		values: make(map[int]any),
 	}
-	root := render(ctx)
-	ctx.root = root
-	// root.Mount()
-	// root.Update(root)
-	return root
-}
-
-type ComponentList []Component
-
-var _ Component = ComponentList{}
-
-func (s ComponentList) Update(next Component) bool {
-	nexts, ok := next.(ComponentList)
-	if !ok {
-		return false
-	}
-
-	if len(s) != len(nexts) {
-		return false
-	}
-
-	for i, c := range s {
-		if !c.Update(nexts[i]) {
-			return false
-		}
-	}
-
-	return true
-}
-
-func (s ComponentList) Equals(other Component) bool {
-	nexts, ok := other.(ComponentList)
-	if !ok {
-		return false
-	}
-
-	if len(s) != len(nexts) {
-		return false
-	}
-
-	for i, c := range s {
-		if !c.Equals(nexts[i]) {
-			return false
-		}
-	}
-
-	return true
-}
-
-func (s ComponentList) Mount() any {
-	for _, c := range s {
-		c.Mount()
-	}
-	return nil
+	rendered := ctx.RenderElement(el)
+	ctx.rendered = rendered
+	fmt.Println("Rendered component tree:")
+	printNodes(rendered, 0)
+	return rendered
 }
