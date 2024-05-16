@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/roblillack/spot"
 	"github.com/roblillack/spot/ui"
@@ -11,14 +10,8 @@ import (
 func main() {
 	ui.Init()
 
-	root := spot.Render(spot.Make(func(ctx *spot.RenderContext) spot.Component {
+	spot.MountFn(func(ctx *spot.RenderContext) spot.Component {
 		counter, setCounter := spot.UseState[int](ctx, 0)
-		spot.UseEffect(ctx, func() {
-			go func() {
-				time.Sleep(3 * time.Second)
-				setCounter(99)
-			}()
-		}, []any{})
 
 		buttonTitle := "Click me!"
 		if counter > 0 {
@@ -39,8 +32,7 @@ func main() {
 				},
 			},
 		}
-	}))
-	root.Mount(nil)
+	})
 
 	ui.Run()
 }

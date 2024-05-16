@@ -66,7 +66,7 @@ func (r *StructComponent) Render(ctx *spot.RenderContext) spot.Component {
 func main() {
 	ui.Init()
 
-	root := spot.Render(spot.Make(func(ctx *spot.RenderContext) spot.Component {
+	root := spot.Build(spot.Make(func(ctx *spot.RenderContext) spot.Component {
 		return &ui.Window{
 			Title:  "Custom components in Spot",
 			Width:  250,
@@ -82,10 +82,7 @@ func main() {
 			},
 		}
 	}))
-
-	fmt.Println("Attempting to mount.")
-
-	root.Mount(nil)
+	root.Mount()
 
 	ui.Run()
 }

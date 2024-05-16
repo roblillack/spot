@@ -5,12 +5,16 @@ type Node struct {
 	Children []Node
 }
 
-func (n Node) Mount(parent Control) {
+func (n Node) Mount() {
+	n.mount(nil)
+}
+
+func (n Node) mount(parent Control) {
 	if n.Content != nil {
 		n.Content.Mount(parent)
 	}
 	for _, child := range n.Children {
-		child.Mount(n.Content)
+		child.mount(n.Content)
 	}
 }
 

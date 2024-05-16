@@ -16,7 +16,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/roblillack/spot"
 	"github.com/roblillack/spot/ui"
@@ -25,7 +24,7 @@ import (
 func main() {
 	ui.Init()
 
-	root := spot.Make(func(ctx *spot.RenderContext) spot.Component {
+	spot.MountFn(func(ctx *spot.RenderContext) spot.Component {
 		counter, setCounter := spot.UseState[int](ctx, 0)
 
 		buttonTitle := "Click me!"
@@ -49,7 +48,6 @@ func main() {
 		}
 	})
 
-	root.Mount()
 	ui.Run()
 }
 ```
@@ -106,8 +104,15 @@ etc. Convention here is to prefix the function with `Use…`.
 
 #### How do I write custom components?
 
-There are many ways to separate your UI into components in Spot.
-For some ideas, check out the `custom-components` example.
+There are a few different ways to separate your UI into components in Spot;
+for some ideas, check out the `custom-components` example. The main way to
+write custom components is to create a struct that implements the
+`spot.Component` interface. This interface has a single method,
+`Render(ctx *spot.RenderContext) spot.Component`, which is called to render
+the component. Components created like this can be used in the same way as
+the built-in ones.
+
+Look at the `BlinkingButton` component in the example to see how this is done.
 
 #### Can I use Spot with a completely different widget library than the provided one?
 

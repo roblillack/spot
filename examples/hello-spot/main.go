@@ -107,7 +107,7 @@ func main() {
 	ui.Init()
 
 	startTime := time.Now()
-	spot.Render(spot.Make(func(ctx *spot.RenderContext) spot.Component {
+	spot.MountFn(func(ctx *spot.RenderContext) spot.Component {
 		counter, setCounter := spot.UseState[int](ctx, 0)
 		duration, setDuration := spot.UseState[time.Duration](ctx, 0.0)
 		spot.UseEffect(ctx, func() {
@@ -216,7 +216,7 @@ func main() {
 				},
 			},
 		}
-	})).Mount(nil)
+	})
 
 	ui.Run()
 }

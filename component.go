@@ -32,7 +32,9 @@ type Container interface {
 	BuildNode(ctx *RenderContext) Node // BuildNode renders the control and its children into tree of nodes.
 }
 
-type makeRenderable func(ctx *RenderContext) Component
+type RenderFn = func(ctx *RenderContext) Component
+
+type makeRenderable RenderFn
 
 func (r makeRenderable) Render(ctx *RenderContext) Component {
 	return r(ctx)
@@ -40,30 +42,40 @@ func (r makeRenderable) Render(ctx *RenderContext) Component {
 
 var _ Component = makeRenderable(nil)
 
-// func Make(render func(ctx *RenderContext) Element) Component {
-// 	return Render(makeRenderable(render))
-// }
-
-func Build(el Component) {
-	Render(el).Mount(nil)
-}
-
-func BuildFn(fn func(ctx *RenderContext) Component) {
-	Render(Make(fn)).Mount(nil)
-}
-
-func Make(fn func(ctx *RenderContext) Component) Component {
+// Make creates a component from a render function.
+func Make(fn RenderFn) Component {
 	return makeRenderable(fn)
 }
 
-func Render(el Component) Node {
+// Build renders a component into a tree of controls. This tree can be mounted
+// to display the UI.
+func Build(el Component) Node {
 	ctx := &RenderContext{
 		root:   el,
 		values: make(map[int]any),
 	}
 	rendered := ctx.RenderElement(el)
 	ctx.rendered = rendered
-	fmt.Println("Rendered component tree:")
+	fmt.Println("Rendered control tree:")
 	printNodes(rendered, 0)
 	return rendered
+}
+
+// BuildFn renders a render function into a tree of controls. It is a shortcut
+// for `Build(Make(fn))`.
+func BuildFn(fn RenderFn) Node {
+	return Build(Make(fn))
+}
+
+// Mount renders a component into a tree of controls and mounts it into the UI.
+// This is a shortcut for `Build(el).Mount()`.
+func Mount(el Component) {
+	Build(el).Mount()
+}
+
+// MountFn creates a component from a render function, builds it into a tree of
+// controls, and mounts it into the UI. This is a shortcut for
+// `Build(Make(fn)).Mount()`.
+func MountFn(fn func(ctx *RenderContext) Component) {
+	Build(Make(fn)).Mount()
 }
