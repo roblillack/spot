@@ -76,17 +76,6 @@ func printNodes(node Node, indent int) {
 }
 
 func (ctx *RenderContext) TriggerUpdate() {
-	if ctx.root.Content == nil {
-		// fmt.Printf("[%v] Root is nil, returning.\n", ctx)
-		return
-	}
-
-	// fmt.Println("STATE VALUES ******")
-	// for i := 0; i < ctx.count; i++ {
-	// 	fmt.Printf("%02d -> %v\n", i, ctx.values[i])
-	// }
-	// fmt.Println("*******************")
-
 	// We need to make sure we're running on the main loop
 	// for two reasons:
 	//
@@ -100,6 +89,17 @@ func (ctx *RenderContext) TriggerUpdate() {
 	// a simpler solution, as we need to be on the main loop
 	// anyway.
 	RunOnMainLoop(func() {
+		if ctx.root.Content == nil {
+			// fmt.Printf("[%v] Root is nil, returning.\n", ctx)
+			return
+		}
+
+		// fmt.Println("STATE VALUES ******")
+		// for i := 0; i < ctx.count; i++ {
+		// 	fmt.Printf("%02d -> %v\n", i, ctx.values[i])
+		// }
+		// fmt.Println("*******************")
+
 		// fmt.Printf("[%v] RENDER TRIGGERED!\n", ctx)
 		ctx.count = 0
 		oldTree := ctx.root

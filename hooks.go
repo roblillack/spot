@@ -6,7 +6,6 @@ func UseState[T any](ctx *RenderContext, initial T) (T, func(next T)) {
 
 	setterFn := func(next T) {
 		ctx.values[n] = next
-		// ctx.changed = true
 		ctx.TriggerUpdate()
 	}
 	if v, ok := ctx.values[n]; ok {
