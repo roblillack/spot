@@ -25,7 +25,7 @@ func (ctx *RenderContext) RenderElement(el Component) Node {
 		list := []Node{}
 		for _, e := range l {
 			childNode := ctx.RenderElement(e)
-			if childNode.HostComponent == nil {
+			if childNode.Content == nil {
 				if len(childNode.Children) == 0 {
 					continue
 				} else {
@@ -42,8 +42,8 @@ func (ctx *RenderContext) RenderElement(el Component) Node {
 		return container.ToNode(ctx)
 	}
 
-	if c, ok := el.(HostComponent); ok {
-		return Node{HostComponent: c}
+	if c, ok := el.(Control); ok {
+		return Node{Content: c}
 	}
 
 	if r, ok := el.(Component); ok {
@@ -66,19 +66,19 @@ func (ctx *RenderContext) Make(render func(*RenderContext) Component) Node {
 
 func printNodes(node Node, indent int) {
 	if len(node.Children) == 0 {
-		fmt.Printf("%s<%T/>\n", strings.Repeat("  ", indent), node.HostComponent)
+		fmt.Printf("%s<%T/>\n", strings.Repeat("  ", indent), node.Content)
 		return
 	}
 
-	fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), node.HostComponent)
+	fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), node.Content)
 	for _, child := range node.Children {
 		printNodes(child, indent+1)
 	}
-	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), node.HostComponent)
+	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), node.Content)
 }
 
 func (ctx *RenderContext) TriggerUpdate() {
-	if ctx.rendered.HostComponent == nil {
+	if ctx.rendered.Content == nil {
 		// fmt.Printf("[%v] Root is nil, returning.\n", ctx)
 		return
 	}

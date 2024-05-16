@@ -14,13 +14,13 @@ type Label struct {
 	ref      nativeTypeLabel
 }
 
-var _ spot.HostComponent = &Label{}
+var _ spot.Control = &Label{}
 
 func (c *Label) Render(ctx *spot.RenderContext) spot.Component {
 	return c
 }
 
-func (w *Label) Equals(other spot.HostComponent) bool {
+func (w *Label) Equals(other spot.Control) bool {
 	next, ok := other.(*Label)
 	if !ok {
 		return false

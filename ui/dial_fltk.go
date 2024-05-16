@@ -19,7 +19,7 @@ type Dial struct {
 	ref            *goFltk.Slider
 }
 
-func (b *Dial) Equals(other spot.HostComponent) bool {
+func (b *Dial) Equals(other spot.Control) bool {
 	next, ok := other.(*Dial)
 	if !ok {
 		return false
@@ -33,7 +33,7 @@ func (b *Dial) Equals(other spot.HostComponent) bool {
 		next.Value == b.Value
 }
 
-func (b *Dial) Update(nextComponent spot.HostComponent) bool {
+func (b *Dial) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Dial)
 	if !ok {
 		return false
@@ -61,7 +61,7 @@ func (b *Dial) Update(nextComponent spot.HostComponent) bool {
 	return true
 }
 
-func (b *Dial) Mount(parent spot.HostComponent) any {
+func (b *Dial) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -85,4 +85,4 @@ func (b *Dial) Mount(parent spot.HostComponent) any {
 	return b.ref
 }
 
-var _ spot.HostComponent = &Dial{}
+var _ spot.Control = &Dial{}

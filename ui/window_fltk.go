@@ -16,7 +16,7 @@ type Window struct {
 	ref       *goFltk.Window
 }
 
-var _ spot.HostComponent = &Window{}
+var _ spot.Control = &Window{}
 
 // var _ spot.ComponentContainer = &Window{}
 
@@ -30,7 +30,7 @@ func (w *Window) ToNode(ctx *spot.RenderContext) spot.Node {
 	kids := []spot.Node{}
 	for _, child := range w.Children {
 		kid := ctx.RenderElement(child)
-		if kid.HostComponent == nil {
+		if kid.Content == nil {
 			if len(kid.Children) > 0 {
 				kids = append(kids, kid.Children...)
 			}
@@ -40,12 +40,12 @@ func (w *Window) ToNode(ctx *spot.RenderContext) spot.Node {
 	}
 
 	return spot.Node{
-		HostComponent: w,
-		Children:      kids,
+		Content:  w,
+		Children: kids,
 	}
 }
 
-func (w *Window) Equals(other spot.HostComponent) bool {
+func (w *Window) Equals(other spot.Control) bool {
 	return false
 	// next, ok := other.(*Window)
 	// if !ok {
@@ -93,7 +93,7 @@ func (w *Window) Equals(other spot.HostComponent) bool {
 // 	panic("Unknown component type")
 // }
 
-func (w *Window) Update(nextComponent spot.HostComponent) bool {
+func (w *Window) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Window)
 	if !ok {
 		return false
@@ -143,7 +143,7 @@ func (w *Window) Update(nextComponent spot.HostComponent) bool {
 	return true
 }
 
-func (w *Window) Mount(parent spot.HostComponent) any {
+func (w *Window) Mount(parent spot.Control) any {
 	w.ref = goFltk.NewWindow(w.Width, w.Height, w.Title)
 	// for _, child := range w.children {
 	// 	w.mountChild(child)

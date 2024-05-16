@@ -16,9 +16,9 @@ type TextView struct {
 	ref    *goFltk.TextDisplay
 }
 
-var _ spot.HostComponent = &TextView{}
+var _ spot.Control = &TextView{}
 
-func (w *TextView) Equals(other spot.HostComponent) bool {
+func (w *TextView) Equals(other spot.Control) bool {
 	next, ok := other.(*TextView)
 	if !ok {
 		return false
@@ -27,7 +27,7 @@ func (w *TextView) Equals(other spot.HostComponent) bool {
 	return next.Text == w.Text
 }
 
-func (w *TextView) Update(nextComponent spot.HostComponent) bool {
+func (w *TextView) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextView)
 	if !ok {
 		return false
@@ -42,7 +42,7 @@ func (w *TextView) Update(nextComponent spot.HostComponent) bool {
 	return true
 }
 
-func (w *TextView) Mount(parent spot.HostComponent) any {
+func (w *TextView) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}

@@ -1,25 +1,25 @@
 package spot
 
 type Node struct {
-	HostComponent HostComponent
-	Children      []Node
+	Content  Control
+	Children []Node
 }
 
 type ToNode interface {
 	ToNode(ctx *RenderContext) Node
 }
 
-func (n Node) Mount(parent HostComponent) {
-	if n.HostComponent != nil {
-		n.HostComponent.Mount(parent)
+func (n Node) Mount(parent Control) {
+	if n.Content != nil {
+		n.Content.Mount(parent)
 	}
 	for _, child := range n.Children {
-		child.Mount(n.HostComponent)
+		child.Mount(n.Content)
 	}
 }
 
-func (n Node) updateChild(idx int, new HostComponent) {
-	old := n.Children[idx].HostComponent
+func (n Node) updateChild(idx int, new Control) {
+	old := n.Children[idx].Content
 	if old == nil && new == nil {
 		return
 	}
@@ -28,13 +28,13 @@ func (n Node) updateChild(idx int, new HostComponent) {
 		if unmountable, ok := old.(Unmountable); ok {
 			unmountable.Unmount()
 		}
-		n.Children[idx].HostComponent = nil
+		n.Children[idx].Content = nil
 		return
 	}
 
 	if old == nil && new != nil {
-		n.Children[idx].HostComponent = new
-		new.Mount(n.HostComponent)
+		n.Children[idx].Content = new
+		new.Mount(n.Content)
 		return
 	}
 
@@ -43,28 +43,28 @@ func (n Node) updateChild(idx int, new HostComponent) {
 		if unmountable, ok := old.(Unmountable); ok {
 			unmountable.Unmount()
 		}
-		n.Children[idx].HostComponent = new
-		new.Mount(n.HostComponent)
+		n.Children[idx].Content = new
+		new.Mount(n.Content)
 	}
 }
 
-func (n Node) Update(other Node, parent HostComponent) {
-	if n.HostComponent != nil && other.HostComponent == nil {
-		if unmountable, ok := n.HostComponent.(Unmountable); ok {
+func (n Node) Update(other Node, parent Control) {
+	if n.Content != nil && other.Content == nil {
+		if unmountable, ok := n.Content.(Unmountable); ok {
 			unmountable.Unmount()
 		}
-		n.HostComponent = nil
-	} else if n.HostComponent == nil && other.HostComponent != nil {
-		n.HostComponent = other.HostComponent
-		n.HostComponent.Mount(parent)
-	} else if n.HostComponent != nil && other.HostComponent != nil {
-		ok := n.HostComponent.Update(other.HostComponent)
+		n.Content = nil
+	} else if n.Content == nil && other.Content != nil {
+		n.Content = other.Content
+		n.Content.Mount(parent)
+	} else if n.Content != nil && other.Content != nil {
+		ok := n.Content.Update(other.Content)
 		if !ok {
-			if unmountable, ok := n.HostComponent.(Unmountable); ok {
+			if unmountable, ok := n.Content.(Unmountable); ok {
 				unmountable.Unmount()
 			}
-			n.HostComponent = other.HostComponent
-			n.HostComponent.Mount(parent)
+			n.Content = other.Content
+			n.Content.Mount(parent)
 		}
 	}
 
@@ -74,12 +74,12 @@ func (n Node) Update(other Node, parent HostComponent) {
 		}
 		n.Children = make([]Node, len(other.Children))
 		for idx := range n.Children {
-			n.updateChild(idx, other.Children[idx].HostComponent)
+			n.updateChild(idx, other.Children[idx].Content)
 		}
 		return
 	}
 
 	for idx := range n.Children {
-		n.updateChild(idx, other.Children[idx].HostComponent)
+		n.updateChild(idx, other.Children[idx].Content)
 	}
 }

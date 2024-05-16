@@ -11,7 +11,7 @@ import (
 	"github.com/roblillack/spot/ui"
 )
 
-func BlinkingLabel(ctx *spot.RenderContext, x, y, width, height int, text string, size int) spot.HostComponent {
+func BlinkingLabel(ctx *spot.RenderContext, x, y, width, height int, text string, size int) spot.Component {
 	visible, setVisible := spot.UseState(ctx, true)
 	spot.UseEffect(ctx, func() {
 		go func() {

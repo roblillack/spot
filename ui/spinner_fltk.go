@@ -20,7 +20,7 @@ type Spinner struct {
 	ref            *goFltk.Spinner
 }
 
-func (b *Spinner) Update(nextComponent spot.HostComponent) bool {
+func (b *Spinner) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Spinner)
 	if !ok {
 		return false
@@ -53,7 +53,7 @@ func (b *Spinner) Update(nextComponent spot.HostComponent) bool {
 	return true
 }
 
-func (b *Spinner) Mount(parent spot.HostComponent) any {
+func (b *Spinner) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}

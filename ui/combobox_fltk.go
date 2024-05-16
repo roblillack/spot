@@ -21,9 +21,9 @@ type ComboBox struct {
 	ref                  *goFltk.Choice
 }
 
-var _ spot.HostComponent = &ComboBox{}
+var _ spot.Control = &ComboBox{}
 
-func (w *ComboBox) Mount(parent spot.HostComponent) any {
+func (w *ComboBox) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -49,7 +49,7 @@ func (w *ComboBox) Mount(parent spot.HostComponent) any {
 	return w.ref
 }
 
-func (w *ComboBox) Equals(other spot.HostComponent) bool {
+func (w *ComboBox) Equals(other spot.Control) bool {
 	next, ok := other.(*ComboBox)
 	if !ok {
 		return false
@@ -73,7 +73,7 @@ func (w *ComboBox) Equals(other spot.HostComponent) bool {
 	return next.SelectedIndex == w.SelectedIndex && next.Editable == w.Editable
 }
 
-func (w *ComboBox) Update(next spot.HostComponent) bool {
+func (w *ComboBox) Update(next spot.Control) bool {
 	nextComboBox, ok := next.(*ComboBox)
 	if !ok {
 		return false

@@ -13,13 +13,13 @@ type Button struct {
 	ref nativeTypeButton
 }
 
-var _ spot.HostComponent = &Button{}
+var _ spot.Control = &Button{}
 
 func (b *Button) Render(ctx *spot.RenderContext) spot.Component {
 	return b
 }
 
-func (b *Button) Equals(other spot.HostComponent) bool {
+func (b *Button) Equals(other spot.Control) bool {
 	next, ok := other.(*Button)
 	if !ok {
 		return false

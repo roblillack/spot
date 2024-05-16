@@ -20,7 +20,7 @@ type Slider struct {
 	ref            *goFltk.Slider
 }
 
-func (b *Slider) Equals(other spot.HostComponent) bool {
+func (b *Slider) Equals(other spot.Control) bool {
 	next, ok := other.(*Slider)
 	if !ok {
 		return false
@@ -35,7 +35,7 @@ func (b *Slider) Equals(other spot.HostComponent) bool {
 		next.Type == b.Type
 }
 
-func (b *Slider) Update(nextComponent spot.HostComponent) bool {
+func (b *Slider) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Slider)
 	if !ok {
 		return false
@@ -68,7 +68,7 @@ func (b *Slider) Update(nextComponent spot.HostComponent) bool {
 	return true
 }
 
-func (b *Slider) Mount(parent spot.HostComponent) any {
+func (b *Slider) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -94,4 +94,4 @@ func (b *Slider) Mount(parent spot.HostComponent) any {
 	return b.ref
 }
 
-var _ spot.HostComponent = &Slider{}
+var _ spot.Control = &Slider{}

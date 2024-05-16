@@ -2,13 +2,13 @@ package ui
 
 import "github.com/roblillack/spot"
 
-var _ spot.HostComponent = &Spinner{}
+var _ spot.Control = &Spinner{}
 
 func (c *Spinner) Render(ctx *spot.RenderContext) spot.Component {
 	return c
 }
 
-func (b *Spinner) Equals(other spot.HostComponent) bool {
+func (b *Spinner) Equals(other spot.Control) bool {
 	next, ok := other.(*Spinner)
 	if !ok {
 		return false

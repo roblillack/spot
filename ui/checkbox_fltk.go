@@ -24,7 +24,7 @@ func (w *Checkbox) callback() {
 	}
 }
 
-func (b *Checkbox) Update(nextComponent spot.HostComponent) bool {
+func (b *Checkbox) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Checkbox)
 	if !ok {
 		return false
@@ -53,7 +53,7 @@ func (b *Checkbox) Update(nextComponent spot.HostComponent) bool {
 	return true
 }
 
-func (b *Checkbox) Mount(parent spot.HostComponent) any {
+func (b *Checkbox) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}

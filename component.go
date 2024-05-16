@@ -16,11 +16,11 @@ type Unmountable interface {
 	Unmount()
 }
 
-type HostComponent interface {
+// Control is a component that can be mounted into the UI tree.
+type Control interface {
 	Component
-	Update(next HostComponent) bool
-	Equals(other HostComponent) bool
-	Mount(parent HostComponent) any
+	Mount(parent Control) any
+	Update(next Control) bool
 	// Unmount()
 }
 

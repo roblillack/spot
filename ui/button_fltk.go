@@ -9,7 +9,7 @@ import (
 
 type nativeTypeButton = *goFltk.Button
 
-func (b *Button) Update(nextComponent spot.HostComponent) bool {
+func (b *Button) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Button)
 	if !ok {
 		return false
@@ -29,7 +29,7 @@ func (b *Button) Update(nextComponent spot.HostComponent) bool {
 	return true
 }
 
-func (b *Button) Mount(parent spot.HostComponent) any {
+func (b *Button) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}

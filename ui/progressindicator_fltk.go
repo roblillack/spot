@@ -19,7 +19,7 @@ type ProgressIndicator struct {
 	ref            *goFltk.Progress
 }
 
-func (b *ProgressIndicator) Equals(other spot.HostComponent) bool {
+func (b *ProgressIndicator) Equals(other spot.Control) bool {
 	next, ok := other.(*ProgressIndicator)
 	if !ok {
 		return false
@@ -33,7 +33,7 @@ func (b *ProgressIndicator) Equals(other spot.HostComponent) bool {
 		next.Value == b.Value
 }
 
-func (b *ProgressIndicator) Update(nextComponent spot.HostComponent) bool {
+func (b *ProgressIndicator) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*ProgressIndicator)
 	if !ok {
 		return false
@@ -61,7 +61,7 @@ func (b *ProgressIndicator) Update(nextComponent spot.HostComponent) bool {
 	return true
 }
 
-func (b *ProgressIndicator) Mount(parent spot.HostComponent) any {
+func (b *ProgressIndicator) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -83,4 +83,4 @@ func (b *ProgressIndicator) Mount(parent spot.HostComponent) any {
 	return b.ref
 }
 
-var _ spot.HostComponent = &ProgressIndicator{}
+var _ spot.Control = &ProgressIndicator{}
