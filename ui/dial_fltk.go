@@ -7,31 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Dial struct {
-	X              int
-	Y              int
-	Width          int
-	Height         int
-	Min            float64
-	Max            float64
-	Value          float64
-	OnValueChanged func(float64)
-	ref            *goFltk.Slider
-}
-
-func (b *Dial) Equals(other spot.Control) bool {
-	next, ok := other.(*Dial)
-	if !ok {
-		return false
-	}
-
-	if b == nil && next != nil || b != nil && next == nil {
-		return false
-	}
-
-	return next.Max == b.Max && next.Min == b.Min &&
-		next.Value == b.Value
-}
+type nativeTypeDial = *goFltk.Slider
 
 func (b *Dial) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Dial)

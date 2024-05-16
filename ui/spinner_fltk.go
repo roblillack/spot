@@ -7,18 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Spinner struct {
-	X              int
-	Y              int
-	Width          int
-	Height         int
-	Min            float64
-	Max            float64
-	Step           float64
-	Value          float64
-	OnValueChanged func(float64)
-	ref            *goFltk.Spinner
-}
+type nativeTypeSpinner = *goFltk.Spinner
 
 func (b *Spinner) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Spinner)

@@ -7,27 +7,9 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type TextView struct {
-	X      int
-	Y      int
-	Width  int
-	Height int
-	Text   string
-	ref    *gocoa.TextView
-}
+type nativeTypeTextView = *gocoa.TextView
 
-var _ spot.Component = &Label{}
-
-func (w *TextView) Equals(other spot.Component) bool {
-	next, ok := other.(*Label)
-	if !ok {
-		return false
-	}
-
-	return next.Value == w.Text
-}
-
-func (w *TextView) Update(nextComponent spot.Component) bool {
+func (w *TextView) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextView)
 	if !ok {
 		return false
@@ -41,12 +23,17 @@ func (w *TextView) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (w *TextView) Mount() any {
+func (w *TextView) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
 
 	w.ref = gocoa.NewTextView(w.X, w.Y, w.Width, w.Height)
 	w.ref.SetText(w.Text)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.AddTextView(w.ref)
+	}
+
 	return w.ref
 }

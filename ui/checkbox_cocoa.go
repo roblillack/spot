@@ -7,16 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Checkbox struct {
-	X        int
-	Y        int
-	Width    int
-	Height   int
-	Label    string
-	Checked  bool
-	OnChange func(checked bool)
-	ref      *gocoa.Button
-}
+type nativeTypeCheckbox = *gocoa.Button
 
 func (w *Checkbox) onClick() {
 	w.Checked = !w.Checked
@@ -28,7 +19,7 @@ func (w *Checkbox) onClick() {
 	w.OnChange(w.Checked)
 }
 
-func (w *Checkbox) Update(nextComponent spot.Component) bool {
+func (w *Checkbox) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Checkbox)
 	if !ok {
 		return false
@@ -62,7 +53,7 @@ func (w *Checkbox) Update(nextComponent spot.Component) bool {
 	return true
 }
 
-func (w *Checkbox) Mount() any {
+func (w *Checkbox) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -79,6 +70,10 @@ func (w *Checkbox) Mount() any {
 		w.ref.OnClick(nil)
 	} else {
 		w.ref.OnClick(w.onClick)
+	}
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.AddButton(w.ref)
 	}
 
 	return w.ref

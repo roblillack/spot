@@ -7,28 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type TextField struct {
-	X        int
-	Y        int
-	Width    int
-	Height   int
-	Value    string
-	FontSize int
-	ref      *goFltk.TextEditor
-}
-
-func (w *TextField) Equals(other spot.Control) bool {
-	next, ok := other.(*TextField)
-	if !ok {
-		return false
-	}
-
-	if w == nil && next != nil || w != nil && next == nil {
-		return false
-	}
-
-	return next.Value == w.Value && w.FontSize == next.FontSize
-}
+type nativeTypeTextField = *goFltk.TextEditor
 
 func (w *TextField) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextField)

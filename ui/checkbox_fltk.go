@@ -7,16 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Checkbox struct {
-	X        int
-	Y        int
-	Width    int
-	Height   int
-	Label    string
-	Checked  bool
-	OnChange func(checked bool)
-	ref      *goFltk.CheckButton
-}
+type nativeTypeCheckbox = *goFltk.CheckButton
 
 func (w *Checkbox) callback() {
 	if w.OnChange != nil {

@@ -7,25 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type TextView struct {
-	X      int
-	Y      int
-	Width  int
-	Height int
-	Text   string
-	ref    *goFltk.TextDisplay
-}
-
-var _ spot.Control = &TextView{}
-
-func (w *TextView) Equals(other spot.Control) bool {
-	next, ok := other.(*TextView)
-	if !ok {
-		return false
-	}
-
-	return next.Text == w.Text
-}
+type nativeTypeTextView = *goFltk.TextDisplay
 
 func (w *TextView) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextView)

@@ -7,33 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Slider struct {
-	X              int
-	Y              int
-	Width          int
-	Height         int
-	Min            float64
-	Max            float64
-	Value          float64
-	Type           goFltk.SliderType
-	OnValueChanged func(float64)
-	ref            *goFltk.Slider
-}
-
-func (b *Slider) Equals(other spot.Control) bool {
-	next, ok := other.(*Slider)
-	if !ok {
-		return false
-	}
-
-	if b == nil && next != nil || b != nil && next == nil {
-		return false
-	}
-
-	return next.Max == b.Max && next.Min == b.Min &&
-		next.Value == b.Value &&
-		next.Type == b.Type
-}
+type nativeTypeSlider = *goFltk.Slider
 
 func (b *Slider) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Slider)

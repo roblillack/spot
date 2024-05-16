@@ -9,19 +9,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type ComboBox struct {
-	X                    int
-	Y                    int
-	Width                int
-	Height               int
-	Items                []string
-	SelectedIndex        int
-	Editable             bool
-	OnSelectionDidChange func(index int)
-	ref                  *goFltk.Choice
-}
-
-var _ spot.Control = &ComboBox{}
+type nativeTypeComboBox = *goFltk.Choice
 
 func (w *ComboBox) Mount(parent spot.Control) any {
 	if w.ref != nil {
@@ -47,30 +35,6 @@ func (w *ComboBox) Mount(parent spot.Control) any {
 	}
 
 	return w.ref
-}
-
-func (w *ComboBox) Equals(other spot.Control) bool {
-	next, ok := other.(*ComboBox)
-	if !ok {
-		return false
-	}
-
-	if w == nil && next != nil || w != nil && next == nil {
-		return false
-	}
-
-	if len(w.Items) != len(next.Items) {
-		return false
-	}
-
-	for i, item := range w.Items {
-		if item != next.Items[i] {
-			return false
-		}
-	}
-	w.OnSelectionDidChange = next.OnSelectionDidChange
-
-	return next.SelectedIndex == w.SelectedIndex && next.Editable == w.Editable
 }
 
 func (w *ComboBox) Update(next spot.Control) bool {
