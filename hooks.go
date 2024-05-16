@@ -1,11 +1,16 @@
 package spot
 
 func UseState[T any](ctx *RenderContext, initial T) (T, func(next T)) {
+	ctx.mutex.Lock()
+	defer ctx.mutex.Unlock()
+
 	n := ctx.count
 	ctx.count++
 
 	setterFn := func(next T) {
+		ctx.mutex.Lock()
 		ctx.values[n] = next
+		ctx.mutex.Unlock()
 		ctx.TriggerUpdate()
 	}
 	if v, ok := ctx.values[n]; ok {

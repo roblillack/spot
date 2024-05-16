@@ -3,6 +3,7 @@ package spot
 import (
 	"fmt"
 	"strings"
+	"sync"
 )
 
 type RenderContext struct {
@@ -10,6 +11,7 @@ type RenderContext struct {
 	root    Node
 	values  map[int]any
 	count   int
+	mutex   sync.Mutex
 }
 
 // BuildNode recursively renders a component and its children into a tree
@@ -57,7 +59,7 @@ func (ctx *RenderContext) Make(render func(*RenderContext) Component) Node {
 		values:  make(map[int]any),
 	})
 	subContext.count = 0
-	root := ctx.BuildNode(subContext.content)
+	root := subContext.BuildNode(subContext.content)
 	subContext.root = root
 	return root
 }
