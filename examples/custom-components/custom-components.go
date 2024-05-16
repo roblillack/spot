@@ -50,7 +50,6 @@ type StructComponent struct {
 }
 
 func (r *StructComponent) Render(ctx *spot.RenderContext) spot.Component {
-	fmt.Println("Rendering StructComponent")
 	counter, setCounter := spot.UseState[int](ctx, 0)
 
 	title := r.Title

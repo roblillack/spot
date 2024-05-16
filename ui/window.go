@@ -22,7 +22,7 @@ func (c *Window) Render(ctx *spot.RenderContext) spot.Component {
 func (w *Window) BuildNode(ctx *spot.RenderContext) spot.Node {
 	kids := []spot.Node{}
 	for _, child := range w.Children {
-		kid := ctx.RenderElement(child)
+		kid := ctx.BuildNode(child)
 		if kid.Content == nil {
 			if len(kid.Children) > 0 {
 				kids = append(kids, kid.Children...)

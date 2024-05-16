@@ -1,7 +1,5 @@
 package spot
 
-import "fmt"
-
 type Component interface {
 	Render(ctx *RenderContext) Component
 }
@@ -51,13 +49,13 @@ func Make(fn RenderFn) Component {
 // to display the UI.
 func Build(el Component) Node {
 	ctx := &RenderContext{
-		root:   el,
-		values: make(map[int]any),
+		content: el,
+		values:  make(map[int]any),
 	}
-	rendered := ctx.RenderElement(el)
-	ctx.rendered = rendered
-	fmt.Println("Rendered control tree:")
-	printNodes(rendered, 0)
+	rendered := ctx.BuildNode(el)
+	ctx.root = rendered
+	// fmt.Println("Rendered control tree:")
+	// printNodes(rendered, 0)
 	return rendered
 }
 
