@@ -12,16 +12,24 @@ func (l Fragment) Render(ctx *RenderContext) Component {
 	return l
 }
 
-type Unmountable interface {
-	Unmount()
-}
-
 // Control is a component that can be mounted into the UI tree.
 type Control interface {
 	Component
 	Mount(parent Control) any
 	Update(next Control) bool
 	// Unmount()
+}
+
+// Unmountable is a control component that can be unmounted from the UI tree again.
+type Unmountable interface {
+	Control
+	Unmount()
+}
+
+// Container is a control component that owns other controls.
+type Container interface {
+	Control
+	BuildNode(ctx *RenderContext) Node // BuildNode renders the control and its children into tree of nodes.
 }
 
 type makeRenderable func(ctx *RenderContext) Component

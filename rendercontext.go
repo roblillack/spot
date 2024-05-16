@@ -38,8 +38,8 @@ func (ctx *RenderContext) RenderElement(el Component) Node {
 		return Node{Children: list}
 	}
 
-	if container, ok := el.(ToNode); ok {
-		return container.ToNode(ctx)
+	if container, ok := el.(Container); ok {
+		return container.BuildNode(ctx)
 	}
 
 	if c, ok := el.(Control); ok {

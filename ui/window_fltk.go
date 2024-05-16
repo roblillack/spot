@@ -24,9 +24,9 @@ var _ spot.Control = &Window{}
 // 	return w.children
 // }
 
-var _ spot.ToNode = &Window{}
+var _ spot.Container = &Window{}
 
-func (w *Window) ToNode(ctx *spot.RenderContext) spot.Node {
+func (w *Window) BuildNode(ctx *spot.RenderContext) spot.Node {
 	kids := []spot.Node{}
 	for _, child := range w.Children {
 		kid := ctx.RenderElement(child)

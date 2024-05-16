@@ -5,10 +5,6 @@ type Node struct {
 	Children []Node
 }
 
-type ToNode interface {
-	ToNode(ctx *RenderContext) Node
-}
-
 func (n Node) Mount(parent Control) {
 	if n.Content != nil {
 		n.Content.Mount(parent)
