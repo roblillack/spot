@@ -135,33 +135,30 @@ func main() {
 					FontSize: 60,
 					// Editable: false, Selectable: false, Bezeled: false, NoBackground: false,
 				},
-				(func() (r spot.Fragment) {
-					for i := 0; i < 10; i++ {
-						max := float64(1 + i)
-						val := (duration % (time.Duration(1+i) * time.Second)).Seconds()
-						y := 100 + i*30
+				spot.Range(ctx, 0, 10, func(ctx *spot.RenderContext, i int) spot.Component {
+					max := float64(1 + i)
+					val := (duration % (time.Duration(1+i) * time.Second)).Seconds()
+					y := 100 + i*30
 
-						r = append(r, spot.Fragment{
-							&ui.ProgressIndicator{
-								X: 10, Y: y, Width: 90, Height: 25,
-								Min: 0, Max: max, Value: val,
+					return spot.Fragment{
+						&ui.ProgressIndicator{
+							X: 10, Y: y, Width: 90, Height: 25,
+							Min: 0, Max: max, Value: val,
+						},
+						&ui.Dial{
+							X: 110, Y: y, Width: 25, Height: 25,
+							Min: 0, Max: max, Value: val,
+							OnValueChanged: func(value float64) {
+								setCounter(int(value))
 							},
-							&ui.Dial{
-								X: 110, Y: y, Width: 25, Height: 25,
-								Min: 0, Max: max, Value: val,
-								OnValueChanged: func(value float64) {
-									setCounter(int(value))
-								},
-							},
-							&ui.TextField{
-								X: 140, Y: y, Width: 50, Height: 25,
-								// Editable: true, Selectable: true, Bezeled: true,
-								Value: fmt.Sprintf("%.0f%%", val/max*100),
-							},
-						})
+						},
+						&ui.TextField{
+							X: 140, Y: y, Width: 50, Height: 25,
+							// Editable: true, Selectable: true, Bezeled: true,
+							Value: fmt.Sprintf("%.0f%%", val/max*100),
+						},
 					}
-					return
-				})(),
+				}),
 				&ui.ComboBox{
 					X: 210, Y: 220, Width: 180, Height: 25,
 					Items:         []string{"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"},
