@@ -31,7 +31,7 @@ func (w *TextField) Update(nextComponent spot.Control) bool {
 
 	if next.FontSize != w.FontSize {
 		w.FontSize = next.FontSize
-		if w.ref != nil {
+		if w.ref != nil && w.FontSize > 0 {
 			w.ref.SetTextSize(w.FontSize)
 		}
 	}
@@ -49,7 +49,9 @@ func (w *TextField) Mount(parent spot.Control) any {
 	w.ref.Buffer().SetText(w.Value)
 	// w.ref.Deactivate()
 	w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
-	w.ref.SetTextSize(w.FontSize)
+	if w.FontSize > 0 {
+		w.ref.SetTextSize(w.FontSize)
+	}
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
 		window.ref.Add(w.ref)

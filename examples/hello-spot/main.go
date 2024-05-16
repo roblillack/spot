@@ -121,7 +121,7 @@ func main() {
 		if counter > 0 {
 			buttonTitle = fmt.Sprintf("Clicked %d times!", counter)
 		}
-		randText := RandStringBytesMaskImprSrcSB(300)
+		randText := RandStringBytesMaskImprSrcSB(400)
 		if duration-duration.Truncate(time.Second) < time.Millisecond*200 {
 			randText = strings.Repeat(" ", 20) + "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\n" +
 				strings.Repeat(" ", 20) + "██░▄▄▄░█▀▄▄▀█▀▄▄▀█▄░▄█░██\n" +
@@ -211,7 +211,8 @@ func main() {
 				spot.Make(QuitButton),
 				&ui.TextField{
 					X: 10, Y: 10, Width: 380, Height: 80,
-					Value: randText,
+					Value:    randText,
+					FontSize: 11,
 					// Editable: false, Selectable: false, Bezeled: false, NoBackground: false,
 				},
 			},

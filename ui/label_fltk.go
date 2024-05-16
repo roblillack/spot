@@ -48,7 +48,9 @@ func (w *Label) Mount(parent spot.Control) any {
 	buf := goFltk.NewTextBuffer()
 	buf.SetText(w.Value)
 	w.ref.SetBuffer(buf)
-	w.ref.SetTextSize(w.FontSize)
+	if w.FontSize > 0 {
+		w.ref.SetTextSize(w.FontSize)
+	}
 	w.ref.HideCursor()
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
