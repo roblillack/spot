@@ -4,7 +4,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type Listbox struct {
+type ListBox struct {
 	X           int
 	Y           int
 	Width       int
@@ -13,12 +13,12 @@ type Listbox struct {
 	Multiselect bool
 	Selection   []int
 	OnSelect    func([]int)
-	ref         nativeTypeListbox
+	ref         nativeTypeListBox
 }
 
-var _ spot.Component = &Listbox{}
-var _ spot.Control = &Listbox{}
+var _ spot.Component = &ListBox{}
+var _ spot.Control = &ListBox{}
 
-func (c *Listbox) Render(ctx *spot.RenderContext) spot.Component {
+func (c *ListBox) Render(ctx *spot.RenderContext) spot.Component {
 	return c
 }

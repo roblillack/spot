@@ -10,9 +10,9 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type nativeTypeListbox = *goFltk.Browser
+type nativeTypeListBox = *goFltk.Browser
 
-func (c *Listbox) getSelection() []int {
+func (c *ListBox) getSelection() []int {
 	if c.ref == nil {
 		return nil
 	}
@@ -35,7 +35,7 @@ func (c *Listbox) getSelection() []int {
 	return selection
 }
 
-func (c *Listbox) setValues(values []string) {
+func (c *ListBox) setValues(values []string) {
 	c.Values = values
 
 	if c.ref == nil {
@@ -48,7 +48,7 @@ func (c *Listbox) setValues(values []string) {
 	}
 }
 
-func (c *Listbox) setSelection(selection []int) {
+func (c *ListBox) setSelection(selection []int) {
 	c.Selection = selection
 
 	if c.ref == nil {
@@ -64,7 +64,7 @@ func (c *Listbox) setSelection(selection []int) {
 	}
 }
 
-func (c *Listbox) callback() {
+func (c *ListBox) callback() {
 	if c.ref == nil {
 		return
 	}
@@ -83,9 +83,9 @@ func (c *Listbox) callback() {
 	}
 }
 
-func (c *Listbox) Update(nextComponent spot.Control) bool {
+func (c *ListBox) Update(nextComponent spot.Control) bool {
 	fmt.Printf("LISTBOX[%p] Update\n", c)
-	next, ok := nextComponent.(*Listbox)
+	next, ok := nextComponent.(*ListBox)
 	if !ok {
 		return false
 	}
@@ -118,7 +118,7 @@ func (c *Listbox) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (c *Listbox) Mount(parent spot.Control) any {
+func (c *ListBox) Mount(parent spot.Control) any {
 	if c.ref != nil {
 		return c.ref
 	}
