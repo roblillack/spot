@@ -4,7 +4,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type ComboBox struct {
+type Dropdown struct {
 	X                    int
 	Y                    int
 	Width                int
@@ -13,12 +13,12 @@ type ComboBox struct {
 	SelectedIndex        int
 	Editable             bool
 	OnSelectionDidChange func(index int)
-	ref                  nativeTypeComboBox
+	ref                  nativeTypeDropdown
 }
 
-var _ spot.Component = &ComboBox{}
-var _ spot.Control = &ComboBox{}
+var _ spot.Component = &Dropdown{}
+var _ spot.Control = &Dropdown{}
 
-func (c *ComboBox) Render(ctx *spot.RenderContext) spot.Component {
+func (c *Dropdown) Render(ctx *spot.RenderContext) spot.Component {
 	return c
 }

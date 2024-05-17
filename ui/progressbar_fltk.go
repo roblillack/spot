@@ -7,10 +7,10 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type nativeTypeProgressIndicator = *goFltk.Progress
+type nativeTypeProgressBar = *goFltk.Progress
 
-func (b *ProgressIndicator) Update(nextComponent spot.Control) bool {
-	next, ok := nextComponent.(*ProgressIndicator)
+func (b *ProgressBar) Update(nextComponent spot.Control) bool {
+	next, ok := nextComponent.(*ProgressBar)
 	if !ok {
 		return false
 	}
@@ -37,7 +37,7 @@ func (b *ProgressIndicator) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (b *ProgressIndicator) Mount(parent spot.Control) any {
+func (b *ProgressBar) Mount(parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -59,4 +59,4 @@ func (b *ProgressIndicator) Mount(parent spot.Control) any {
 	return b.ref
 }
 
-var _ spot.Control = &ProgressIndicator{}
+var _ spot.Control = &ProgressBar{}

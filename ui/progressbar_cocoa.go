@@ -3,23 +3,18 @@
 package ui
 
 import (
-	"fmt"
-	"time"
-
 	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
 )
 
-type nativeTypeProgressIndicator = *gocoa.ProgressIndicator
+type nativeTypeProgressBar = *gocoa.ProgressIndicator
 
-func (w *ProgressIndicator) Mount(parent spot.Control) any {
+func (w *ProgressBar) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
 
-	startTime := time.Now()
 	w.ref = gocoa.NewProgressIndicator(w.X, w.Y, w.Width, w.Height)
-	fmt.Printf("ProgressIndicator: %s\n", time.Since(startTime))
 	w.ref.SetLimits(w.Min, w.Max)
 	w.ref.SetValue(w.Value)
 	w.ref.SetIsIndeterminate(w.Indeterminate)
@@ -32,8 +27,8 @@ func (w *ProgressIndicator) Mount(parent spot.Control) any {
 	return w.ref
 }
 
-func (w *ProgressIndicator) Update(nextComponent spot.Control) bool {
-	next, ok := nextComponent.(*ProgressIndicator)
+func (w *ProgressBar) Update(nextComponent spot.Control) bool {
+	next, ok := nextComponent.(*ProgressBar)
 	if !ok {
 		return false
 	}

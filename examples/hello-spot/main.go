@@ -147,7 +147,7 @@ func main() {
 					y := 100 + i*30
 
 					return spot.Fragment{
-						&ui.ProgressIndicator{
+						&ui.ProgressBar{
 							X: 10, Y: y, Width: 90, Height: 25,
 							Min: 0, Max: max, Value: val,
 						},
@@ -165,7 +165,7 @@ func main() {
 						},
 					}
 				}),
-				&ui.ComboBox{
+				&ui.Dropdown{
 					X: 210, Y: 220, Width: 180, Height: 25,
 					Items:         []string{"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"},
 					SelectedIndex: counter % 10,
