@@ -50,3 +50,11 @@ func (w *Window) Mount(parent spot.Control) any {
 	w.ref.Show()
 	return w.ref
 }
+
+func (w *Window) Unmount() {
+	if w.ref != nil {
+		w.ref.Hide()
+		w.ref.Destroy()
+		w.ref = nil
+	}
+}

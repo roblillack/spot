@@ -1,6 +1,10 @@
 package ui
 
-import "github.com/roblillack/spot"
+import (
+	"fmt"
+
+	"github.com/roblillack/spot"
+)
 
 type Window struct {
 	Title     string
@@ -20,6 +24,7 @@ func (c *Window) Render(ctx *spot.RenderContext) spot.Component {
 }
 
 func (w *Window) BuildNode(ctx *spot.RenderContext) spot.Node {
+	fmt.Printf("Building %T[%p] for ctx %p\n", w, w, ctx)
 	kids := []spot.Node{}
 	for _, child := range w.Children {
 		kid := ctx.BuildNode(child)
