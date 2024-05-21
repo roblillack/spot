@@ -1,4 +1,4 @@
-//go:build !cocoa && (fltk || !darwin)
+//go:build !cocoa && (fltk || (!darwin && !windows))
 
 package ui
 

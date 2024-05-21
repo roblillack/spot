@@ -7,4 +7,6 @@ require (
 	github.com/roblillack/gocoa v0.0.0-20240514094225-79029b8f9f7f
 )
 
+require github.com/rodrigocfd/windigo v0.0.0-20230809154420-8faa606d9f5f // indirect
+
 // replace github.com/roblillack/gocoa => ./libs/gocoa
