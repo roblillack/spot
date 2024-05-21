@@ -16,6 +16,12 @@ func assertNeq[T comparable](t *testing.T, expected T, actual T) {
 	}
 }
 
+func init() {
+	RunOnMainLoop = func(fn func()) {
+		fn()
+	}
+}
+
 func TestUseState(t *testing.T) {
 	ctx := &RenderContext{
 		values: make(map[int]any),
