@@ -2,3 +2,5 @@ github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed h1:7/j/4x3KAwuJB9sW
 github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed/go.mod h1:uMK5daOr9p+ba2BPs5QadbfaqqrHR5TGj13yWGsAsmw=
 github.com/roblillack/gocoa v0.0.0-20240514094225-79029b8f9f7f h1:Rgio8nqLhyfyswHoxppubbgu13L7b03CMXecKjM70tA=
 github.com/roblillack/gocoa v0.0.0-20240514094225-79029b8f9f7f/go.mod h1:zySUFzLK/KSb3KDT903dTRJ2WPmMBbF3a2u8/39UzMg=
+github.com/rodrigocfd/windigo v0.0.0-20230809154420-8faa606d9f5f h1:jIXpgDE/hOglaKyTP5ZRqe6rhcJx2dtCan2ncR66qhU=
+github.com/rodrigocfd/windigo v0.0.0-20230809154420-8faa606d9f5f/go.mod h1:Vw0QLpSedVsbAFWYIVE/Zb1pa6XPIgwIMTUQQoUG8Wo=
