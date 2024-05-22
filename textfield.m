@@ -1,4 +1,5 @@
 #import "textfield.h"
+#import "textfielddelegate.h"
 #include "_cgo_export.h"
 
 @implementation TextFieldHandler
@@ -7,6 +8,10 @@
 TextFieldPtr TextField_New(int goTextFieldId, int x, int y, int w, int h) {
 	/* create the NSTextField and add it to the window */
 	id nsTextField = [[[NSTextField alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
+
+    id d = [[TextFieldDelegate alloc] init];
+    [d setGoTextFieldId:goTextFieldId];
+    [nsTextField setDelegate:d];
 
 	return (TextFieldPtr)nsTextField;
 }
