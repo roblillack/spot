@@ -142,3 +142,8 @@ func (btn *Button) State() ButtonState {
 func (btn *Button) OnClick(fn func()) {
 	btn.callback = fn
 }
+
+// Remove - removes a button from the parent view
+func (btn *Button) Remove() {
+	C.Button_Remove(btn.buttonPtr)
+}

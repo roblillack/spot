@@ -61,3 +61,8 @@ func (slider *Slider) SetSliderType(sliderType SliderType) {
 func (slider *Slider) OnSliderValueChanged(fn func()) {
 	slider.callback = fn
 }
+
+// Remove removes a Slider from the parent view again.
+func (slider *Slider) Remove() {
+	C.Slider_Remove(slider.sliderPtr)
+}

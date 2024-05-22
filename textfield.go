@@ -41,6 +41,11 @@ func (textField *TextField) SetStringValue(text string) {
 	C.TextField_SetStringValue(textField.textFieldPtr, cText)
 }
 
+// Remove - removes a Text Field from the parent view
+func (textField *TextField) Remove() {
+	C.TextField_Remove(textField.textFieldPtr)
+}
+
 func (textField *TextField) Enabled() bool {
 	return C.TextField_Enabled(textField.textFieldPtr) == 1
 }

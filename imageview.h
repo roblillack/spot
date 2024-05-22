@@ -11,3 +11,4 @@ void ImageView_SetEditable(ImageViewPtr imageViewPtr, int editable);
 void ImageView_SetFrameStyle(ImageViewPtr imageViewPtr, int frameStyle);
 void ImageView_SetImageAlignment(ImageViewPtr imageViewPtr, int imageAlignment);
 void ImageView_SetImageScaling(ImageViewPtr imageViewPtr, int imageScaling);
+void ImageView_Remove(ImageViewPtr imageViewPtr);

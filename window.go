@@ -4,7 +4,9 @@ package gocoa
 // #cgo LDFLAGS: -framework Cocoa
 // #include "window.h"
 import "C"
-import "unsafe"
+import (
+	"unsafe"
+)
 
 // WindowEvent - different window delegate Events
 type WindowEvent int
@@ -95,14 +97,14 @@ func (wnd *Window) AddDatePicker(datePicker *DatePicker) {
 	C.Window_AddDatePicker(wnd.winPtr, datePicker.datePickerPtr)
 }
 
-// AddTextView - adds a Button to the window.
+// AddTextView - adds a Text View to the window.
 func (wnd *Window) AddTextView(tv *TextView) {
 	C.Window_AddTextView(wnd.winPtr, tv.textViewPtr)
 }
 
-// AddTextField - adds a Button to the window.
-func (wnd *Window) AddTextField(tv *TextField) {
-	C.Window_AddTextField(wnd.winPtr, tv.textFieldPtr)
+// AddTextField - adds a Text Field to the window.
+func (wnd *Window) AddTextField(tf *TextField) {
+	C.Window_AddTextField(wnd.winPtr, tf.textFieldPtr)
 }
 
 // AddTextField - adds a Button to the window.

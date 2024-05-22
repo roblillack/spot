@@ -39,3 +39,8 @@ void ImageView_SetEditable(ImageViewPtr imageViewPtr, int editable) {
     NSImageView* nsImageView = (NSImageView*)imageViewPtr;
     [nsImageView setEditable:editable];
 }
+
+void ImageView_Remove(ImageViewPtr imageViewPtr) {
+    NSImageView* nsImageView = (NSImageView*)imageViewPtr;
+    [nsImageView removeFromSuperview];
+}

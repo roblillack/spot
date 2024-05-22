@@ -18,27 +18,45 @@ func main() {
 	gocoa.OnApplicationDidFinishLaunching(func() {
 		fmt.Println("App running!")
 	})
-	wnd = gocoa.NewCenteredWindow(windowTitle, 300, 200)
-	fmt.Printf("created window: %v\n", wnd)
-	fmt.Printf("screen size %v\n", wnd.GetScreen())
+	wnd = gocoa.NewCenteredWindow(windowTitle, 320, 240)
 	wnd.OnDidMove(func(uwnd *gocoa.Window) {
 		fmt.Printf("old: %v\nnew: %v\n", wnd, uwnd)
 	})
+
 	// TextField
-	titleTextField := gocoa.NewTextField(85, 160, 90, 25)
+	titleTextField := gocoa.NewTextField(85, 195, 90, 20)
 	titleTextField.SetStringValue(windowTitle)
 
 	wnd.AddTextField(titleTextField)
-	setTitleButton := gocoa.NewButton(175, 145, 50, 50)
-	setTitleButton.SetTitle("Set")
+	setTitleButton := gocoa.NewButton(175, 180, 60, 50)
+	setTitleButton.SetTitle("SET")
 	setTitleButton.OnClick(func() {
 		wnd.SetTitle(titleTextField.StringValue())
 	})
 	wnd.AddButton(setTitleButton)
 
+	// TextView
+	textView := gocoa.NewTextView(85, 165, 90, 20)
+	textView.SetText("lorem ipsum")
+	remTextButton := gocoa.NewButton(175, 150, 60, 50)
+	remTextButton.SetTitle("ADD")
+	visible := false
+	remTextButton.OnClick(func() {
+		if visible {
+			remTextButton.SetTitle("ADD")
+			textView.Remove()
+			visible = false
+		} else {
+			remTextButton.SetTitle("DEL")
+			wnd.AddTextView(textView)
+			visible = true
+		}
+	})
+	wnd.AddButton(remTextButton)
+
 	// Change me button
 	currentTitle, nextTitle := "Change me!", "Change me again!"
-	changeButton := gocoa.NewButton(75, 120, 150, 25)
+	changeButton := gocoa.NewButton(75, 120, 160, 25)
 	changeButton.SetTitle(currentTitle)
 	changeButton.OnClick(func() {
 		changeButton.SetTitle(nextTitle)
@@ -47,7 +65,7 @@ func main() {
 	wnd.AddButton(changeButton)
 
 	// Download button
-	loadButton := gocoa.NewButton(75, 75, 150, 25)
+	loadButton := gocoa.NewButton(75, 95, 160, 25)
 	loadButton.SetTitle("download")
 
 	loadButton.OnClick(func() {
@@ -59,7 +77,7 @@ func main() {
 	wnd.AddButton(loadButton)
 
 	// ProgressIndicator
-	indicator = gocoa.NewProgressIndicator(75, 55, 150, 25)
+	indicator = gocoa.NewProgressIndicator(75, 75, 160, 25)
 	indicator.Hide()
 
 	indicator.SetLimits(0.00, maxValue)
@@ -68,15 +86,18 @@ func main() {
 	wnd.AddProgressIndicator(indicator)
 
 	// Quit button
-	quitButton := gocoa.NewButton(75, 25, 150, 25)
+	quitButton := gocoa.NewButton(75, 45, 160, 25)
 	quitButton.SetTitle("Quit")
 	quitButton.OnClick(func() {
 		gocoa.TerminateApplication()
 	})
 	wnd.AddButton(quitButton)
 
-	wnd.MakeKeyAndOrderFront()
+	infoView := gocoa.NewTextView(80, 15, 150, 5)
+	infoView.SetText(fmt.Sprintf("screen size %v\n", wnd.GetScreen()))
+	wnd.AddTextView(infoView)
 
+	wnd.MakeKeyAndOrderFront()
 	gocoa.RunApplication()
 
 }

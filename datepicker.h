@@ -17,3 +17,4 @@ void DatePicker_SetDate(DatePickerPtr datePickerPtr, const char* date, const cha
 void DatePicker_SetMinimumDate(DatePickerPtr datePickerPtr, const char* date, const char* dateFormat);
 void DatePicker_SetMaximumDate(DatePickerPtr datePickerPtr, const char* date, const char* dateFormat);
 const char* DatePicker_Date(DatePickerPtr datePickerPtr, const char* dateFormat);
+void DatePicker_Remove(DatePickerPtr datePickerPtr);

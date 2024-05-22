@@ -59,3 +59,8 @@ const char* ComboBox_StringValue(ComboBoxPtr comboBoxPtr) {
     NSComboBox* comboBox = (NSComboBox*)comboBoxPtr;
     return [[comboBox stringValue] cStringUsingEncoding:NSISOLatin1StringEncoding];
 }
+
+void ComboBox_Remove(ComboBoxPtr comboBoxPtr) {
+    NSComboBox* comboBox = (NSComboBox*)comboBoxPtr;
+    [comboBox removeFromSuperview];
+}

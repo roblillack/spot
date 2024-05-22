@@ -17,3 +17,4 @@ void Slider_SetMinimumValue(SliderPtr sliderPtr, double val);
 void Slider_SetValue(SliderPtr sliderPtr, double val);
 void Slider_SetSliderType(SliderPtr sliderPtr, int sliderType);
 double Slider_Value(SliderPtr sliderPtr);
+void Slider_Remove(SliderPtr sliderPtr);

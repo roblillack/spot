@@ -72,3 +72,8 @@ func onSelectionDidChange(id C.int) {
 func (comboBox *ComboBox) OnSelectionDidChange(fn func()) {
 	comboBox.callback = fn
 }
+
+// Remove removes a ComboBox from the parent view again.
+func (comboBox *ComboBox) Remove() {
+	C.ComboBox_Remove(comboBox.comboBoxPtr)
+}

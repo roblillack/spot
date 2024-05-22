@@ -44,3 +44,8 @@ void Slider_SetSliderType(SliderPtr sliderPtr, int sliderType) {
     NSSlider* slider = (NSSlider*)sliderPtr;
     [slider setSliderType:sliderType];
 }
+
+void Slider_Remove(SliderPtr sliderPtr) {
+    NSSlider* slider = (NSSlider*)sliderPtr;
+    [slider removeFromSuperview];
+}

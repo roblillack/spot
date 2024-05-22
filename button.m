@@ -27,6 +27,11 @@ void Button_SetTitle(ButtonPtr btnPtr, const char* title) {
     [button setTitle:[NSString stringWithUTF8String:title]];
 }
 
+void Button_Remove(ButtonPtr btnPtr) {
+    NSButton* button = (NSButton*)btnPtr;
+    [button removeFromSuperview];
+}
+
 const char* Button_Title(ButtonPtr btnPtr) {
     NSButton* button = (NSButton*)btnPtr;
     return [[button title] cStringUsingEncoding:NSASCIIStringEncoding];

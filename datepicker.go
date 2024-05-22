@@ -66,3 +66,8 @@ func (datePicker *DatePicker) SetDateFormat(dateFormat string) {
 func (datePicker *DatePicker) Date() string {
 	return C.GoString(C.DatePicker_Date(datePicker.datePickerPtr, C.CString(datePickerFormats[datePicker.datePickerID])))
 }
+
+// Remove removes a DatePicker from the parent view again.
+func (datePicker *DatePicker) Remove() {
+	C.DatePicker_Remove(datePicker.datePickerPtr)
+}

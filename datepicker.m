@@ -56,3 +56,8 @@ const char* DatePicker_Date(DatePickerPtr datePickerPtr, const char* dateFormat)
     NSString *stringFromDate = [dateFormatter stringFromDate:selectedDate];
     return [stringFromDate cStringUsingEncoding:NSASCIIStringEncoding];
 }
+
+void DatePicker_Remove(DatePickerPtr datePickerPtr) {
+    NSDatePicker* datePicker = (NSDatePicker*)datePickerPtr;
+    [datePicker removeFromSuperview];
+}

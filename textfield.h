@@ -14,6 +14,7 @@ TextFieldPtr TextField_New(int goTextFieldId, int x, int y, int w, int h);
 
 const char* TextField_StringValue(TextFieldPtr textFieldPtr);
 void TextField_SetStringValue(TextFieldPtr textFieldPtr, const char* text);
+void TextField_Remove(TextFieldPtr textFieldPtr);
 const int TextField_Enabled(TextFieldPtr textFieldPtr);
 void TextField_SetEnabled(TextFieldPtr textFieldPtr, int enabled);
 const int TextField_Editable(TextFieldPtr textFieldPtr);

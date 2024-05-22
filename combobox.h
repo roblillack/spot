@@ -20,3 +20,5 @@ void ComboBox_SetStringValue(ComboBoxPtr comboBoxPtr, const char* stringValue);
 int ComboBox_SelectedIndex(ComboBoxPtr comboBoxPtr);
 const char* ComboBox_SelectedText(ComboBoxPtr comboBoxPtr);
 const char* ComboBox_StringValue(ComboBoxPtr comboBoxPtr);
+void ComboBox_Remove(ComboBoxPtr comboBoxPtr);
+

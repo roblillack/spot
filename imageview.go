@@ -89,3 +89,8 @@ func (imageView *ImageView) SetContentTintColor(hexRGBA string) {
 	fmt.Sscanf(hexRGBA, "#%02x%02x%02x%02x", &r, &g, &b, &a)
 	C.ImageView_SetContentTintColor(imageView.imageViewPtr, C.int(r), C.int(g), C.int(b), C.int(a))
 }
+
+// Remove removes an ImageView from the parent view again.
+func (imageView *ImageView) Remove() {
+	C.ImageView_Remove(imageView.imageViewPtr)
+}
