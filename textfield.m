@@ -102,3 +102,19 @@ void TextField_SetSelectable(TextFieldPtr textFieldPtr, const int selectable) {
 	NSTextField* textField = (NSTextField*)textFieldPtr;
 	[textField setSelectable:selectable];
 }
+
+void TextField_SetAlignmentCenter(TextFieldPtr textFieldPtr) {
+	NSTextField* textField = (NSTextField*)textFieldPtr;
+	[textField setAlignment:NSTextAlignmentCenter];
+}
+
+void TextField_SetAlignmentLeft(TextFieldPtr textFieldPtr) {
+	NSTextField* textField = (NSTextField*)textFieldPtr;
+	[textField setAlignment:NSTextAlignmentLeft];
+}
+
+void TextField_SetAlignmentRight(TextFieldPtr textFieldPtr) {
+	NSTextField* textField = (NSTextField*)textFieldPtr;
+	[textField setAlignment:NSTextAlignmentRight];
+}
+

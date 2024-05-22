@@ -127,6 +127,18 @@ func (textField *TextField) SetSelectable(selectable bool) {
 	}
 }
 
+func (textField *TextField) SetAlignmentCenter() {
+	C.TextField_SetAlignmentCenter(textField.textFieldPtr)
+}
+
+func (textField *TextField) SetAlignmentLeft() {
+	C.TextField_SetAlignmentLeft(textField.textFieldPtr)
+}
+
+func (textField *TextField) SetAlignmentRight() {
+	C.TextField_SetAlignmentRight(textField.textFieldPtr)
+}
+
 func (textField *TextField) OnChange(fn func(value string)) {
 	textField.callback = fn
 }

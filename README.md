@@ -6,6 +6,7 @@
 >
 > #### Changes to original
 >
+> - 2024-05-22 [#4](https://github.com/roblillack/gocoa/pull/4): Add text alignment options to textfields
 > - 2024-05-22 [#3](https://github.com/roblillack/gocoa/pull/3): Add support for `OnChange` callbacks for textfields
 > - 2024-05-22 [#1](https://github.com/roblillack/gocoa/pull/1): Add support for removing controls (based on work by @phaus)
 > - 2024-05-22 [#2](https://github.com/roblillack/gocoa/pull/2): Update deprecated NSButton enums (by @dim13)

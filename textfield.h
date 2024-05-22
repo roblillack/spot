@@ -28,3 +28,6 @@ void TextField_SetBorderWidth(TextFieldPtr textFieldPtr, const int borderWidth);
 void TextField_SetBezeled(TextFieldPtr textFieldPtr, const int bezeled);
 void TextField_SetDrawsBackground(TextFieldPtr textFieldPtr, const int drawsBackground);
 void TextField_SetSelectable(TextFieldPtr textFieldPtr, const int selectable);
+void TextField_SetAlignmentCenter(TextFieldPtr textFieldPtr);
+void TextField_SetAlignmentLeft(TextFieldPtr textFieldPtr);
+void TextField_SetAlignmentRight(TextFieldPtr textFieldPtr);
