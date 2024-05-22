@@ -6,7 +6,7 @@
 >
 > #### Changes to original
 >
-> - 2024-05-22 #2: Update deprecated NSButton enums (by @dim13)
+> - 2024-05-22 [#2](https://github.com/roblillack/gocoa/pulls/2): Update deprecated NSButton enums (by @dim13)
 > - 2024-05-14 [e85e4be](https://github.com/roblillack/gocoa/commit/e85e4be) progressindicator: Don't hide by default as this would increase time to create widgets in the first place
 > - 2024-05-14 [724ee73](https://github.com/roblillack/gocoa/commit/724ee73) textview: Add hacky SetFontSize functionality.
 > - 2024-05-14 [57058d9](https://github.com/roblillack/gocoa/commit/57058d9) window: Flip all views by default
