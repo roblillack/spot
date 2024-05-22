@@ -139,6 +139,7 @@ func main() {
 					Value: fmt.Sprintf("%02d:%02d.%03d", int(duration.Minutes())%60,
 						int(duration.Seconds())%60, duration.Milliseconds()%1000),
 					FontSize: 60,
+					Align:    ui.LabelAlignmentCenter,
 					// Editable: false, Selectable: false, Bezeled: false, NoBackground: false,
 				},
 				spot.Range(ctx, 0, 10, func(ctx *spot.RenderContext, i int) spot.Component {

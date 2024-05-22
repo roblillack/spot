@@ -4,6 +4,14 @@ import (
 	"github.com/roblillack/spot"
 )
 
+type LabelAlignment int
+
+const (
+	LabelAlignmentLeft LabelAlignment = iota
+	LabelAlignmentCenter
+	LabelAlignmentRight
+)
+
 type Label struct {
 	X        int
 	Y        int
@@ -11,6 +19,7 @@ type Label struct {
 	Height   int
 	Value    string
 	FontSize int
+	Align    LabelAlignment
 	ref      nativeTypeLabel
 }
 

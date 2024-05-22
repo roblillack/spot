@@ -7,7 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type nativeTypeLabel = *gocoa.TextView
+type nativeTypeLabel = *gocoa.TextField
 
 func (w *Label) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Label)
@@ -21,7 +21,7 @@ func (w *Label) Update(nextComponent spot.Control) bool {
 
 	if next.Value != w.Value {
 		w.Value = next.Value
-		w.ref.SetText(w.Value)
+		w.ref.SetStringValue(w.Value)
 	}
 
 	if next.FontSize != w.FontSize {
@@ -31,7 +31,27 @@ func (w *Label) Update(nextComponent spot.Control) bool {
 		}
 	}
 
+	if next.Align != w.Align {
+		w.setAlign(next.Align)
+	}
+
 	return true
+}
+
+func (w *Label) setAlign(a LabelAlignment) {
+	w.Align = a
+	if w.ref == nil {
+		return
+	}
+
+	switch a {
+	case LabelAlignmentLeft:
+		w.ref.SetAlignmentLeft()
+	case LabelAlignmentCenter:
+		w.ref.SetAlignmentCenter()
+	case LabelAlignmentRight:
+		w.ref.SetAlignmentRight()
+	}
 }
 
 func (w *Label) Mount(parent spot.Control) any {
@@ -39,14 +59,19 @@ func (w *Label) Mount(parent spot.Control) any {
 		return w.ref
 	}
 
-	w.ref = gocoa.NewTextView(w.X, w.Y, w.Width, w.Height)
-	w.ref.SetText(w.Value)
+	w.ref = gocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
+	w.ref.SetBezeled(false)
+	w.ref.SetDrawsBackground(false)
+	w.ref.SetEditable(false)
+	w.ref.SetSelectable(false)
+	w.ref.SetStringValue(w.Value)
+	w.setAlign(w.Align)
 	if w.FontSize > 0 {
 		w.ref.SetFontSize(w.FontSize)
 	}
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddTextView(w.ref)
+		window.ref.AddTextField(w.ref)
 	}
 
 	return w.ref
