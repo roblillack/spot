@@ -125,6 +125,13 @@ void Window_AddSlider(void *wndPtr, SliderPtr sliderPtr)
     [[window contentView] addSubview:slider];
 }
 
+void Window_AddStepper(void *wndPtr, StepperPtr ptr)
+{
+    NSStepper* stepper = (NSStepper*)ptr;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:stepper];
+}
+
 void Window_AddComboBox(void *wndPtr, ComboBoxPtr comboBoxPtr)
 {
     NSComboBox* comboBox = (NSComboBox*)comboBoxPtr;

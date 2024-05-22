@@ -126,6 +126,10 @@ func (wnd *Window) AddSlider(slider *Slider) {
 	C.Window_AddSlider(wnd.winPtr, slider.sliderPtr)
 }
 
+func (wnd *Window) AddStepper(stepper *Stepper) {
+	C.Window_AddStepper(wnd.winPtr, stepper.ptr)
+}
+
 func (wnd *Window) AddComboBox(comboBox *ComboBox) {
 	C.Window_AddComboBox(wnd.winPtr, comboBox.comboBoxPtr)
 }

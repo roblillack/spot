@@ -8,6 +8,7 @@
 #include "textfield.h"
 #include "progressIndicator.h"
 #include "slider.h"
+#include "stepper.h"
 
 void* Window_New(int goWindowID, int x, int y, int width, int height, const char* title);
 void* Centered_Window_New(int goWindowID, int width, int height, const char* title);
@@ -23,6 +24,7 @@ void Window_AddTextField(void *wndPtr, TextFieldPtr tfPtr);
 void Window_AddProgressIndicator(void *wndPtr, ProgressIndicatorPtr progressIndicatorPtr);
 void Window_AddImageView(void *wndPtr, ImageViewPtr imageViewPtr);
 void Window_AddSlider(void *wndPtr, SliderPtr sliderPtr);
+void Window_AddStepper(void *wndPtr, StepperPtr ptr);
 void Window_AddComboBox(void *wndPtr, ComboBoxPtr comboBoxPtr);
 void Window_Update(void *wndPtr);
 void Window_SetTitle(void *wndPtr, const char* title);
