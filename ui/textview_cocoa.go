@@ -7,7 +7,7 @@ import (
 	"github.com/roblillack/spot"
 )
 
-type nativeTypeTextView = *gocoa.TextView
+type nativeTypeTextView = *gocoa.TextField
 
 func (w *TextView) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextView)
@@ -17,7 +17,12 @@ func (w *TextView) Update(nextComponent spot.Control) bool {
 
 	if next.Text != w.Text {
 		w.Text = next.Text
-		w.ref.SetText(w.Text)
+		w.ref.SetStringValue(w.Text)
+	}
+
+	if next.FontSize != w.FontSize && w.FontSize > 0 {
+		w.FontSize = next.FontSize
+		w.ref.SetFontSize(w.FontSize)
 	}
 
 	return true
@@ -28,11 +33,17 @@ func (w *TextView) Mount(parent spot.Control) any {
 		return w.ref
 	}
 
-	w.ref = gocoa.NewTextView(w.X, w.Y, w.Width, w.Height)
-	w.ref.SetText(w.Text)
+	w.ref = gocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
+	w.ref.SetStringValue(w.Text)
+	w.ref.SetFontFamily("Arial")
+	w.ref.SetEditable(false)
+	w.ref.SetSelectable(true)
+	if w.FontSize > 0 {
+		w.ref.SetFontSize(w.FontSize)
+	}
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddTextView(w.ref)
+		window.ref.AddTextField(w.ref)
 	}
 
 	return w.ref

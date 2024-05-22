@@ -210,10 +210,10 @@ func main() {
 				&ui.Label{X: 210, Y: 100, Width: 180, Height: 25, Value: "Current backend:"},
 				&BlinkingLabel{X: 210, Y: 120, Width: 180, Height: 30, Text: ui.BackendName, Size: 20},
 				spot.Make(QuitButton),
-				&ui.TextField{
+				&ui.TextView{
 					X: 10, Y: 10, Width: 380, Height: 80,
-					Value:    randText,
-					FontSize: 11,
+					Text: randText,
+					// FontSize: 11,
 					// Editable: false, Selectable: false, Bezeled: false, NoBackground: false,
 				},
 			},

@@ -32,7 +32,7 @@ func (w *TextView) Mount(parent spot.Control) any {
 	w.ref = goFltk.NewTextDisplay(w.X, w.Y, w.Width, w.Height)
 	w.ref.SetBuffer(goFltk.NewTextBuffer())
 	w.ref.Buffer().SetText(w.Text)
-	w.ref.Deactivate()
+	// w.ref.Deactivate()
 	w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {

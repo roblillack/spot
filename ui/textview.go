@@ -3,12 +3,13 @@ package ui
 import "github.com/roblillack/spot"
 
 type TextView struct {
-	X      int
-	Y      int
-	Width  int
-	Height int
-	Text   string
-	ref    nativeTypeTextView
+	X        int
+	Y        int
+	Width    int
+	Height   int
+	Text     string
+	FontSize int
+	ref      nativeTypeTextView
 }
 
 var _ spot.Component = &TextView{}
