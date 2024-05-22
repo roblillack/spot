@@ -5,12 +5,13 @@ import (
 )
 
 type TextField struct {
-	X        int
-	Y        int
-	Width    int
-	Height   int
-	Value    string
-	FontSize int
+	X      int
+	Y      int
+	Width  int
+	Height int
+	Value  string
+	// FontSize int
+	OnChange func(value string)
 	// Editable     bool
 	// Bezeled      bool
 	// Selectable   bool

@@ -43,12 +43,12 @@ func (w *TextField) Update(nextComponent spot.Control) bool {
 	// 	}
 	// }
 
-	if next.FontSize != w.FontSize {
-		w.FontSize = next.FontSize
-		if w.ref != nil {
-			w.ref.SetFontSize(w.FontSize)
-		}
-	}
+	// if next.FontSize != w.FontSize {
+	// 	w.FontSize = next.FontSize
+	// 	if w.ref != nil {
+	// 		w.ref.SetFontSize(w.FontSize)
+	// 	}
+	// }
 
 	// if next.NoBackground != w.NoBackground {
 	// 	w.NoBackground = next.NoBackground
@@ -56,6 +56,9 @@ func (w *TextField) Update(nextComponent spot.Control) bool {
 	// 		w.ref.SetDrawsBackground(!w.NoBackground)
 	// 	}
 	// }
+
+	w.OnChange = next.OnChange
+	w.ref.OnChange(w.OnChange)
 
 	return true
 }
@@ -71,7 +74,8 @@ func (w *TextField) Mount(parent spot.Control) any {
 	// w.ref.SetSelectable(w.Selectable)
 	w.ref.SetStringValue(w.Value)
 	w.ref.SetFontFamily("Arial")
-	w.ref.SetFontSize(w.FontSize)
+	w.ref.OnChange(w.OnChange)
+	// w.ref.SetFontSize(w.FontSize)
 	// w.ref.SetDrawsBackground(!w.NoBackground)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
