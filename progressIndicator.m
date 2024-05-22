@@ -40,7 +40,7 @@ void ProgressIndicator_SetValue(ProgressIndicatorPtr progressIndicatorPtr, doubl
     NSProgressIndicator* progressIndicator = (NSProgressIndicator*)progressIndicatorPtr;
     dispatch_async(dispatch_get_main_queue(), ^{
         [progressIndicator setDoubleValue:value];
-        NSLog(@"progressIndicator value is %.2f", value);
+        // NSLog(@"progressIndicator value is %.2f", value);
         [progressIndicator setNeedsDisplay:YES];
     });
 }
