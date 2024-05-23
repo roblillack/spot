@@ -195,7 +195,6 @@ func main() {
 					OnValueChanged: func(value float64) {
 						setCounter(int(value))
 					},
-					// Type: gocoa.SliderTypeLinear,
 				},
 				&ui.Button{
 					X:      210,
@@ -209,6 +208,16 @@ func main() {
 				},
 				&ui.Label{X: 210, Y: 100, Width: 180, Height: 25, Value: "Current backend:"},
 				&BlinkingLabel{X: 210, Y: 120, Width: 180, Height: 30, Text: ui.BackendName, Size: 20},
+				&ui.ListBox{
+					X: 210, Y: 285, Width: 180, Height: 75,
+					Values:    []string{"Null", "Eins", "Zwei", "Drei", "Vier", "Fünf", "Sechs", "Sieben", "Acht", "Neun"},
+					Selection: []int{counter % 10},
+					OnSelect: func(selection []int) {
+						if len(selection) > 0 {
+							setCounter(selection[0])
+						}
+					},
+				},
 				spot.Make(QuitButton),
 				&ui.TextView{
 					X: 10, Y: 10, Width: 380, Height: 80,
