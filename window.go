@@ -134,6 +134,10 @@ func (wnd *Window) AddComboBox(comboBox *ComboBox) {
 	C.Window_AddComboBox(wnd.winPtr, comboBox.comboBoxPtr)
 }
 
+func (wnd *Window) AddTableView(tableView *TableView) {
+	C.Window_AddTableView(wnd.winPtr, tableView.tableViewPtr)
+}
+
 // Update - forces the whole window to repaint
 func (wnd *Window) Update() {
 	C.Window_Update(wnd.winPtr)

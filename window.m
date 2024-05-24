@@ -139,6 +139,13 @@ void Window_AddComboBox(void *wndPtr, ComboBoxPtr comboBoxPtr)
     [[window contentView] addSubview:comboBox];
 }
 
+void Window_AddTableView(void *wndPtr, TableViewPtr tableViewPtr)
+{
+    NSScrollView* tableView = (NSScrollView*)tableViewPtr;
+    NSWindow* window = (NSWindow*)wndPtr;
+    [[window contentView] addSubview:tableView];
+}
+
 void Window_Update(void *wndPtr)
 {
     NSWindow* window = (NSWindow*)wndPtr;
