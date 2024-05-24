@@ -1,5 +1,7 @@
 package spot
 
+import "fmt"
+
 type Node struct {
 	Content  Control
 	Children []Node
@@ -11,20 +13,32 @@ func (n Node) Mount() {
 
 func (n Node) mount(parent Control) {
 	if n.Content != nil {
+		fmt.Printf("Mounting %T[%p]\n", n.Content, n.Content)
 		n.Content.Mount(parent)
 	}
 	for _, child := range n.Children {
+		fmt.Printf("Mounting child %T[%p] of %T[%p]\n", child.Content, child.Content, n.Content, n.Content)
 		child.mount(n.Content)
 	}
 }
 
-func (n Node) updateChild(idx int, new Control) {
+func (n Node) updateChild(idx int, other Node) {
+	n.Children[idx].Update(other, n.Content)
+	return
+	new := other.Content
+
 	old := n.Children[idx].Content
-	if old == nil && new == nil {
+	oldEmpty := isEmpty(old)
+	newEmpty := isEmpty(new)
+
+	fmt.Printf("Updating child #%d, %T[%p] <- %T[%p]\n", idx, old, old, new, new)
+	if oldEmpty && newEmpty {
+		fmt.Println("Both empty, nothing to do")
 		return
 	}
 
-	if old != nil && new == nil {
+	if !oldEmpty && newEmpty {
+		fmt.Println("Unmounting old child")
 		if unmountable, ok := old.(Unmountable); ok {
 			unmountable.Unmount()
 		}
@@ -32,19 +46,21 @@ func (n Node) updateChild(idx int, new Control) {
 		return
 	}
 
-	if old == nil && new != nil {
+	if oldEmpty && !newEmpty {
+		fmt.Println("Mounting new child")
 		n.Children[idx].Content = new
-		new.Mount(n.Content)
+		n.Children[idx].mount(n.Content)
 		return
 	}
 
+	fmt.Println("Updating child")
 	ok := old.Update(new)
 	if !ok {
 		if unmountable, ok := old.(Unmountable); ok {
 			unmountable.Unmount()
 		}
 		n.Children[idx].Content = new
-		new.Mount(n.Content)
+		n.Children[idx].mount(n.Content)
 	}
 }
 
@@ -55,31 +71,47 @@ func (n Node) Update(other Node, parent Control) {
 		}
 		n.Content = nil
 	} else if n.Content == nil && other.Content != nil {
+		fmt.Printf("Will replace %T[%p] with %T[%p]\n", n.Content, n.Content, other.Content, other.Content)
 		n.Content = other.Content
-		n.Content.Mount(parent)
+		fmt.Printf("Mounting new Node %T[%p] with parent %T[%p])\n", n.Content, n.Content, parent, parent)
+		n.mount(parent)
 	} else if n.Content != nil && other.Content != nil {
+		fmt.Printf("Will update %T[%p] with new data\n", n.Content, n.Content)
 		ok := n.Content.Update(other.Content)
+		fmt.Printf("Update returned %v\n", ok)
 		if !ok {
 			if unmountable, ok := n.Content.(Unmountable); ok {
 				unmountable.Unmount()
 			}
 			n.Content = other.Content
-			n.Content.Mount(parent)
+			n.mount(parent)
 		}
 	}
 
 	if len(n.Children) != len(other.Children) {
 		for idx := range n.Children {
-			n.updateChild(idx, nil)
+			n.updateChild(idx, Node{})
 		}
 		n.Children = make([]Node, len(other.Children))
 		for idx := range n.Children {
-			n.updateChild(idx, other.Children[idx].Content)
+			n.updateChild(idx, other.Children[idx])
 		}
 		return
 	}
 
 	for idx := range n.Children {
-		n.updateChild(idx, other.Children[idx].Content)
+		n.updateChild(idx, other.Children[idx])
+	}
+}
+
+func (n Node) Unmount() {
+	for _, child := range n.Children {
+		child.Unmount()
+	}
+
+	if n.Content != nil {
+		if unmountable, ok := n.Content.(Unmountable); ok {
+			unmountable.Unmount()
+		}
 	}
 }

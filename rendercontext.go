@@ -2,6 +2,7 @@ package spot
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 	"sync"
 )
@@ -14,10 +15,28 @@ type RenderContext struct {
 	mutex   sync.Mutex
 }
 
+// I love you, Go, but I hate you.
+func isEmpty(component Component) bool {
+	if component == nil {
+		return true
+	}
+
+	v := reflect.ValueOf(component)
+	k := v.Kind()
+	switch k {
+	case reflect.Chan, reflect.Func, reflect.Map, reflect.Pointer,
+		reflect.UnsafePointer, reflect.Interface, reflect.Slice:
+		return v.IsNil()
+	}
+
+	return false
+}
+
 // BuildNode recursively renders a component and its children into a tree
 // of UI controls.
 func (ctx *RenderContext) BuildNode(component Component) Node {
-	if component == nil {
+	fmt.Printf("[%p] Building node for component %T\n", ctx, component)
+	if isEmpty(component) {
 		return Node{}
 	}
 
@@ -38,7 +57,8 @@ func (ctx *RenderContext) BuildNode(component Component) Node {
 		return Node{Children: list}
 	}
 
-	if container, ok := component.(Container); ok {
+	if container, ok := component.(Container); ok && container != nil {
+		fmt.Println("It's a container!")
 		return container.BuildNode(ctx)
 	}
 
