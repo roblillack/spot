@@ -6,3 +6,5 @@ github.com/roblillack/gocoa v0.1.0 h1:JnwpvHBKo0tbu0mEawF7SKpwu/CV4iNneq70FegDwB
 github.com/roblillack/gocoa v0.1.0/go.mod h1:zySUFzLK/KSb3KDT903dTRJ2WPmMBbF3a2u8/39UzMg=
 github.com/roblillack/gocoa v0.2.0 h1:7NAjTPyKGd9mcqvZSish1b5qSU3zx6ISBHrTU4Ieph4=
 github.com/roblillack/gocoa v0.2.0/go.mod h1:zySUFzLK/KSb3KDT903dTRJ2WPmMBbF3a2u8/39UzMg=
+github.com/roblillack/gocoa v0.3.0 h1:ZvEulTbrJHgmeweJJrHZhoGvUzgD/Q54Pmc+cJ5sJyo=
+github.com/roblillack/gocoa v0.3.0/go.mod h1:zySUFzLK/KSb3KDT903dTRJ2WPmMBbF3a2u8/39UzMg=
