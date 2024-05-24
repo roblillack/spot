@@ -3,7 +3,6 @@
 package ui
 
 import (
-	"fmt"
 	"slices"
 
 	goFltk "github.com/pwiecz/go-fltk"
@@ -72,7 +71,7 @@ func (c *ListBox) callback() {
 	oldSelection := c.Selection
 
 	c.Selection = c.getSelection()
-	fmt.Printf("LISTBOX[%p] callback, multi: %v, selection: %v\n", c, c.Multiselect, c.Selection)
+	// fmt.Printf("LISTBOX[%p] callback, multi: %v, selection: %v\n", c, c.Multiselect, c.Selection)
 
 	if !c.Multiselect {
 		c.setSelection(c.Selection)
@@ -84,7 +83,7 @@ func (c *ListBox) callback() {
 }
 
 func (c *ListBox) Update(nextComponent spot.Control) bool {
-	fmt.Printf("LISTBOX[%p] Update\n", c)
+	// fmt.Printf("LISTBOX[%p] Update\n", c)
 	next, ok := nextComponent.(*ListBox)
 	if !ok {
 		return false
