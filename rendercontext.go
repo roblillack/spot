@@ -21,36 +21,28 @@ func (ctx *RenderContext) BuildNode(component Component) Node {
 		return Node{}
 	}
 
-	if l, ok := component.(Fragment); ok {
+	switch c := component.(type) {
+	case Fragment:
 		list := []Node{}
-		for _, e := range l {
+		for _, e := range c {
 			childNode := ctx.BuildNode(e)
 			if childNode.Content == nil {
-				if len(childNode.Children) == 0 {
-					continue
-				} else {
+				if len(childNode.Children) != 0 {
 					list = append(list, childNode.Children...)
-					continue
 				}
+				continue
 			}
 			list = append(list, childNode)
 		}
 		return Node{Children: list}
-	}
 
-	if container, ok := component.(Container); ok {
-		return container.BuildNode(ctx)
-	}
-
-	if c, ok := component.(Control); ok {
+	case Container:
+		return c.BuildNode(ctx)
+	case Control:
 		return Node{Content: c}
+	default:
+		return ctx.BuildNode(component.Render(ctx))
 	}
-
-	if r, ok := component.(Component); ok {
-		return ctx.BuildNode(r.Render(ctx))
-	}
-
-	panic(fmt.Sprintf("Unknown component type: %T", component))
 }
 
 func (ctx *RenderContext) Make(render func(*RenderContext) Component) Node {
