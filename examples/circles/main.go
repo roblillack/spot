@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"image/draw"
 	"log"
+	"slices"
 
 	"github.com/roblillack/spot"
 	"github.com/roblillack/spot/ui"
@@ -13,27 +14,54 @@ import (
 
 type Circle struct {
 	X, Y int
+	Size int
 }
 
-const Radius = 20
-
-type State struct {
-	Circles []Circle
-	Active  *Circle
-}
+const DefaultRadius = 20
 
 type History[T any] struct {
 	Data    []T
 	Current int
 }
 
+func NewHistory[T any](value T) History[T] {
+	return History[T]{
+		Data:    []T{value},
+		Current: 0,
+	}
+}
+
+func (h History[T]) CanUndo() bool {
+	return h.Current > 0
+}
+
+func (h History[T]) CanRedo() bool {
+	return h.Current < len(h.Data)-1
+}
+
+func (h History[T]) Get() T {
+	return h.Data[h.Current]
+}
+
+func (h History[T]) Put(value T) History[T] {
+	return History[T]{
+		Data:    append(h.Data[0:h.Current+1], value),
+		Current: h.Current + 1,
+	}
+}
+
+type State struct {
+	Circles []Circle
+	Active  *Circle
+}
+
 func (s State) OnClick(x, y int, secondary bool) State {
 	log.Printf("Clicked %d, %d\n", x, y)
 
 	for _, i := range s.Circles {
-		for cy := -Radius; cy <= Radius; cy++ {
-			for cx := -Radius; cx <= Radius; cx++ {
-				if cx*cx+cy*cy <= Radius*Radius {
+		for cy := -i.Size; cy <= i.Size; cy++ {
+			for cx := -i.Size; cx <= i.Size; cx++ {
+				if cx*cx+cy*cy <= i.Size*i.Size {
 					if i.X+cx == x && i.Y+cy == y {
 						return State{
 							Circles: s.Circles,
@@ -47,9 +75,33 @@ func (s State) OnClick(x, y int, secondary bool) State {
 
 	return State{
 		Circles: append(s.Circles, Circle{
-			X: x, Y: y,
+			X: x, Y: y, Size: DefaultRadius,
 		}),
 		Active: nil,
+	}
+}
+
+func (s State) Resize(newSize int) State {
+	if s.Active == nil {
+		return s
+	}
+
+	idx := slices.Index(s.Circles, *s.Active)
+	if idx == -1 {
+		return s
+	}
+
+	newCircles := slices.Clone(s.Circles)
+	resized := Circle{
+		X:    s.Active.X,
+		Y:    s.Active.Y,
+		Size: newSize,
+	}
+	newCircles[idx] = resized
+
+	return State{
+		Circles: newCircles,
+		Active:  &resized,
 	}
 }
 
@@ -69,11 +121,11 @@ func renderImg(w, h int, state State) image.Image {
 		image.Point{}, draw.Src)
 
 	for _, i := range state.Circles {
-		drawCircle(img, i.X, i.Y, 20, color.Black)
+		drawCircle(img, i.X, i.Y, i.Size, color.Black)
 		if state.Active != nil && state.Active.X == i.X && state.Active.Y == i.Y {
-			drawCircle(img, i.X, i.Y, 18, color.RGBA{0xff, 0x00, 0x00, 0xff})
+			drawCircle(img, i.X, i.Y, i.Size-2, color.RGBA{0xff, 0x00, 0x00, 0xff})
 		} else {
-			drawCircle(img, i.X, i.Y, 18, color.White)
+			drawCircle(img, i.X, i.Y, i.Size-2, color.White)
 		}
 	}
 
@@ -84,10 +136,28 @@ func main() {
 	ui.Init()
 
 	spot.MountFn(func(ctx *spot.RenderContext) spot.Component {
-		history, setHistory := spot.UseState(ctx, History[State]{Data: []State{State{}}, Current: 0})
-		state := history.Data[history.Current]
+		history, setHistory := spot.UseState(ctx, NewHistory(State{}))
+		state := history.Get()
 
 		img := renderImg(780, 550, state)
+
+		var sizeSlider spot.Fragment
+		if state.Active != nil {
+			sizeSlider = spot.Fragment{
+				&ui.Label{
+					X: 400, Y: 10, Width: 80, Height: 25,
+					Value: "Size:",
+				},
+				&ui.Slider{
+					X: 480, Y: 10, Width: 200, Height: 25,
+					Min: 10, Max: 100,
+					Value: float64(state.Active.Size),
+					OnValueChanged: func(value float64) {
+						setHistory(history.Put(state.Resize(int(value))))
+					},
+				},
+			}
+		}
 
 		return &ui.Window{
 			Title:  "Spot Draw",
@@ -116,15 +186,12 @@ func main() {
 					X: 190, Y: 10, Width: 200, Height: 25,
 					Value: fmt.Sprintf("History: %d/%d", history.Current+1, len(history.Data)),
 				},
+				sizeSlider,
 				&ui.Image{
 					X: 10, Y: 40, Width: 780, Height: 550,
 					Image: img,
 					OnClick: func(x, y int, secondary bool) {
-						newState := state.OnClick(x, y, secondary)
-						setHistory(History[State]{
-							Data:    append(history.Data[0:history.Current+1], newState),
-							Current: history.Current + 1,
-						})
+						setHistory(history.Put(state.OnClick(x, y, secondary)))
 					},
 				},
 			},
