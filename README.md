@@ -6,6 +6,11 @@
 >
 > #### Changes to original
 >
+> - 2024-05-27 [270a541](https://github.com/roblillack/gocoa/commit/270a541) Fix releasing control handlers/delegates
+> - 2024-05-27 [101ca94](https://github.com/roblillack/gocoa/commit/101ca94) imageview: Allow adding `image.Image`s
+> - 2024-05-27 [0fbdd13](https://github.com/roblillack/gocoa/commit/0fbdd13) Add CustomButton which does not handle mouse clicks for you
+> - 2024-05-27 [0512f30](https://github.com/roblillack/gocoa/commit/0512f30) button: Add SetImage
+> - 2024-05-27 [0aa6fa8](https://github.com/roblillack/gocoa/commit/0aa6fa8) slider: Fix setting callback handler
 > - 2024-05-24 [#6](https://github.com/roblillack/gocoa/pull/6): Add TableView
 > - 2024-05-22 [#5](https://github.com/roblillack/gocoa/pull/5): Add Stepper
 > - 2024-05-22 [#4](https://github.com/roblillack/gocoa/pull/4): Add text alignment options to textfields
