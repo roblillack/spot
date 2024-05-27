@@ -34,10 +34,7 @@ func (b *Slider) Update(nextComponent spot.Control) bool {
 		b.ref.SetValue(b.Value)
 	}
 
-	// if next.Type != b.Type {
-	// 	b.Type = next.Type
-	// 	b.ref.SetSliderType(b.Type)
-	// }
+	b.OnValueChanged = next.OnValueChanged
 
 	return true
 }
@@ -51,16 +48,30 @@ func (b *Slider) Mount(parent spot.Control) any {
 	b.ref.SetMaximumValue(b.Max)
 	b.ref.SetMinimumValue(b.Min)
 	b.ref.SetValue(b.Value)
-	// b.ref.SetSliderType(b.Type)
-	b.ref.OnSliderValueChanged(func() {
-		if b.OnValueChanged != nil {
-			b.OnValueChanged(b.ref.Value())
-		}
-	})
+	b.ref.OnSliderValueChanged(b.callback)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
 		window.ref.AddSlider(b.ref)
 	}
 
 	return b.ref
+}
+
+func (c *Slider) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}
+
+func (c *Slider) callback() {
+	if c.ref == nil {
+		return
+	}
+
+	if c.OnValueChanged != nil {
+		c.OnValueChanged(c.ref.Value())
+	}
 }

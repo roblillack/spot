@@ -3,17 +3,16 @@ package ui
 import "github.com/roblillack/spot"
 
 type Slider struct {
-	X      int
-	Y      int
-	Width  int
-	Height int
-	Min    float64
-	Max    float64
-	Value  float64
-	// Type           goFltk.SliderType
-	// Type           gocoa.SliderType
+	X              int
+	Y              int
+	Width          int
+	Height         int
+	Min            float64
+	Max            float64
+	Value          float64
 	OnValueChanged func(float64)
-	ref            nativeTypeSlider
+
+	ref nativeTypeSlider
 }
 
 var _ spot.Component = &Slider{}
