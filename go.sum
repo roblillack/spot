@@ -2,9 +2,11 @@ github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 h1:DACJavvAHhabrF0
 github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0/go.mod h1:E/TSTwGwJL78qG/PmXZO1EjYhfJinVAhrmmHX6Z8B9k=
 github.com/llgcode/draw2d v0.0.0-20240322162412-ee6987bd01dc h1:lorg2FaIDdlahOHekjnQjItP2oCtkVlYc0QNekubCLk=
 github.com/llgcode/draw2d v0.0.0-20240322162412-ee6987bd01dc/go.mod h1:muweRyJCZ1mZSMiCgYbAicfnwZFoeHpNr6A6QBu+rBg=
+github.com/llgcode/ps v0.0.0-20210114104736-f4b0c5d1e02e h1:ZAvbj5hI/G/EbAYAcj4yCXUNiFKefEhH0qfImDDD0/8=
+github.com/llgcode/ps v0.0.0-20210114104736-f4b0c5d1e02e/go.mod h1:1l8ky+Ew27CMX29uG+a2hNOKpeNYEQjjtiALiBlFQbY=
 github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed h1:7/j/4x3KAwuJB9sWdfhi+1UFbv42TyJ4LyUI/GHS+p8=
 github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed/go.mod h1:uMK5daOr9p+ba2BPs5QadbfaqqrHR5TGj13yWGsAsmw=
-github.com/roblillack/gocoa v0.3.0 h1:ZvEulTbrJHgmeweJJrHZhoGvUzgD/Q54Pmc+cJ5sJyo=
-github.com/roblillack/gocoa v0.3.0/go.mod h1:zySUFzLK/KSb3KDT903dTRJ2WPmMBbF3a2u8/39UzMg=
+github.com/roblillack/gocoa v0.4.0 h1:vgQSlpVkJDQRT44PdM/R4qqvtvP9sjCP4cRg2zINiQs=
+github.com/roblillack/gocoa v0.4.0/go.mod h1:zySUFzLK/KSb3KDT903dTRJ2WPmMBbF3a2u8/39UzMg=
 golang.org/x/image v0.14.0 h1:tNgSxAFe3jC4uYqvZdTr84SZoM1KfwdC9SKIFrLjFn4=
 golang.org/x/image v0.14.0/go.mod h1:HUYqC05R2ZcZ3ejNQsIHQDQiwWM4JBqmm6MKANTp4LE=
