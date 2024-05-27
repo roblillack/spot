@@ -3,9 +3,12 @@ package gocoa
 // #cgo CFLAGS: -x objective-c
 // #cgo LDFLAGS: -framework Cocoa
 // #import "button.h"
+// #import "image.h"
+// #include <stdlib.h>
 import "C"
 import (
 	"fmt"
+	"image"
 	"unsafe"
 )
 
@@ -146,4 +149,11 @@ func (btn *Button) OnClick(fn func()) {
 // Remove - removes a button from the parent view
 func (btn *Button) Remove() {
 	C.Button_Remove(btn.buttonPtr)
+}
+
+func (btn *Button) SetImage(img *image.RGBA) {
+	bytes := C.CBytes(img.Pix)
+	nsImage := C.Image_NewWithRGBA(C.int(img.Bounds().Dx()), C.int(img.Bounds().Dy()), (*C.uchar)(bytes))
+	C.Button_SetImage(btn.buttonPtr, nsImage)
+	C.free(bytes)
 }

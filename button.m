@@ -108,3 +108,9 @@ int Button_State(ButtonPtr btnPtr) {
         return 3;
     }
 }
+
+void Button_SetImage(ButtonPtr ptr, ImagePtr imagePtr) {
+  NSImage *theImage = (NSImage *)imagePtr;
+  NSButton *control = (NSButton *)ptr;
+  [control setImage:theImage];
+}

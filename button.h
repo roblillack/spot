@@ -1,3 +1,4 @@
+#import "image.h"
 #import <Cocoa/Cocoa.h>
 
 // typedef void (*callback)(void);
@@ -25,3 +26,4 @@ void Button_SetBorderColor(ButtonPtr btnPtr, int r, int g, int b, int a);
 void Button_SetBorderWidth(ButtonPtr btnPtr, int borderWidth);
 void Button_SetState(ButtonPtr btnPtr, int state);
 int Button_State(ButtonPtr btnPtr);
+void Button_SetImage(ButtonPtr btnPtr, ImagePtr imagePtr);
