@@ -3,8 +3,12 @@ package gocoa
 // #cgo CFLAGS: -x objective-c
 // #cgo LDFLAGS: -framework Cocoa
 // #import "imageview.h"
+// #include <stdlib.h>
 import "C"
-import "fmt"
+import (
+	"fmt"
+	"image"
+)
 
 // Represents an ImageView control that can display images.
 type ImageView struct {
@@ -45,15 +49,40 @@ const (
 
 var imageViews []*ImageView
 
-func NewImageView(x int, y int, width int, height int, url string) *ImageView {
+func NewImageViewWithContentsOfURL(x int, y int, width int, height int, url string) *ImageView {
 	imageViewID := len(imageViews)
-	imageViewPtr := C.ImageView_New(C.int(imageViewID), C.int(x), C.int(y), C.int(width), C.int(height), C.CString(url))
+	imageViewPtr := C.ImageView_NewWithContentsOfURL(C.int(imageViewID), C.int(x), C.int(y), C.int(width), C.int(height), C.CString(url))
 
 	img := &ImageView{
 		imageViewPtr: imageViewPtr,
 	}
 	imageViews = append(imageViews, img)
 	return img
+}
+
+func NewImageView(x int, y int, width int, height int) *ImageView {
+	imageViewID := len(imageViews)
+	imageViewPtr := C.ImageView_New(C.int(imageViewID), C.int(x), C.int(y), C.int(width), C.int(height))
+
+	img := &ImageView{
+		imageViewPtr: imageViewPtr,
+	}
+	imageViews = append(imageViews, img)
+
+	return img
+}
+
+func NewImageViewWithImage(x int, y int, width int, height int, image *image.RGBA) *ImageView {
+	img := NewImageView(x, y, width, height)
+	img.SetImage(image)
+	return img
+}
+
+func (imageView *ImageView) SetImage(img *image.RGBA) {
+	bytes := C.CBytes(img.Pix)
+	nsImage := C.Image_NewWithRGBA(C.int(img.Bounds().Dx()), C.int(img.Bounds().Dy()), (*C.uchar)(bytes))
+	C.ImageView_SetImage(imageView.imageViewPtr, nsImage)
+	C.free(bytes)
 }
 
 func (imageView *ImageView) SetEditable(editable bool) {
