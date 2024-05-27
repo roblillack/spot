@@ -3,18 +3,18 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeDropdown = *gocoa.ComboBox
+type nativeTypeDropdown = *cocoa.ComboBox
 
 func (c *Dropdown) Mount(parent spot.Control) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	c.ref = gocoa.NewComboBox(c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewComboBox(c.X, c.Y, c.Width, c.Height)
 	for _, item := range c.Items {
 		c.ref.AddItem(item)
 	}

@@ -3,18 +3,18 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeProgressBar = *gocoa.ProgressIndicator
+type nativeTypeProgressBar = *cocoa.ProgressIndicator
 
 func (w *ProgressBar) Mount(parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
 
-	w.ref = gocoa.NewProgressIndicator(w.X, w.Y, w.Width, w.Height)
+	w.ref = cocoa.NewProgressIndicator(w.X, w.Y, w.Width, w.Height)
 	w.ref.SetLimits(w.Min, w.Max)
 	w.ref.SetValue(w.Value)
 	w.ref.SetIsIndeterminate(w.Indeterminate)

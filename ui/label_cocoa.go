@@ -3,11 +3,11 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeLabel = *gocoa.TextField
+type nativeTypeLabel = *cocoa.TextField
 
 func (w *Label) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Label)
@@ -59,7 +59,7 @@ func (w *Label) Mount(parent spot.Control) any {
 		return w.ref
 	}
 
-	w.ref = gocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
+	w.ref = cocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
 	w.ref.SetBezeled(false)
 	w.ref.SetDrawsBackground(false)
 	w.ref.SetEditable(false)

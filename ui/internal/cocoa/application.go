@@ -1,4 +1,4 @@
-package gocoa
+package cocoa
 
 // #cgo CFLAGS: -x objective-c
 // #cgo LDFLAGS: -framework Cocoa
@@ -9,7 +9,7 @@ import "runtime/cgo"
 var appDidFinishLaunchingFunc func()
 
 // InitApplication initializes the global application instance. Call this before using
-// the rest of the gocoa package.
+// the rest of the cocoa package.
 func InitApplication() {
 	C.InitSharedApplication()
 }

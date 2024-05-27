@@ -1,4 +1,4 @@
-package gocoa
+package cocoa
 
 import (
 	"fmt"

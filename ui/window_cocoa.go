@@ -3,11 +3,11 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeWindow = *gocoa.Window
+type nativeTypeWindow = *cocoa.Window
 
 func (w *Window) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Window)
@@ -38,7 +38,7 @@ func (w *Window) Update(nextComponent spot.Control) bool {
 }
 
 func (w *Window) Mount(parent spot.Control) any {
-	w.ref = gocoa.NewCenteredWindow(w.Title, w.Width, w.Height)
+	w.ref = cocoa.NewCenteredWindow(w.Title, w.Width, w.Height)
 	w.ref.SetAllowsResizing(w.Resizable)
 
 	w.ref.MakeKeyAndOrderFront()

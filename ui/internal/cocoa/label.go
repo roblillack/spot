@@ -1,4 +1,4 @@
-package gocoa
+package cocoa
 
 // NewLabel - This func is not thread safe.
 // Label is only for convenience. Under the hood it's still a textfield with some preconfiguration in place
