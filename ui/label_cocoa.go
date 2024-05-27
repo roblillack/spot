@@ -76,3 +76,12 @@ func (w *Label) Mount(parent spot.Control) any {
 
 	return w.ref
 }
+
+func (c *Label) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}

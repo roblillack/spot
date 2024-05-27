@@ -64,3 +64,12 @@ func (b *Slider) Mount(parent spot.Control) any {
 
 	return b.ref
 }
+
+func (c *Slider) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}
