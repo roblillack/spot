@@ -58,14 +58,15 @@ type State struct {
 func (s State) OnClick(x, y int, secondary bool) State {
 	log.Printf("Clicked %d, %d\n", x, y)
 
-	for _, i := range s.Circles {
-		for cy := -i.Size; cy <= i.Size; cy++ {
-			for cx := -i.Size; cx <= i.Size; cx++ {
-				if cx*cx+cy*cy <= i.Size*i.Size {
-					if i.X+cx == x && i.Y+cy == y {
+	for idx := len(s.Circles) - 1; idx >= 0; idx-- {
+		c := s.Circles[idx]
+		for dy := -c.Size; dy <= c.Size; dy++ {
+			for dx := -c.Size; dx <= c.Size; dx++ {
+				if dx*dx+dy*dy <= c.Size*c.Size {
+					if c.X+dx == x && c.Y+dy == y {
 						return State{
 							Circles: s.Circles,
-							Active:  &i,
+							Active:  &c,
 						}
 					}
 				}
