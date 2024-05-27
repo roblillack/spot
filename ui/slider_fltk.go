@@ -69,7 +69,6 @@ func (c *Slider) Mount(parent spot.Control) any {
 
 func (c *Slider) Unmount() {
 	if c.ref != nil {
-		// c.ref.Parent().Remove(c.ref)
 		c.ref.Destroy()
 		c.ref = nil
 	}
