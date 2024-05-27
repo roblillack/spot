@@ -13,9 +13,9 @@ SliderPtr Slider_New(int goSliderID, int x, int y, int w, int h) {
 
     SliderHandler* handler = [[SliderHandler alloc] init];
     [handler setGoSliderID:goSliderID];
-    [handler autorelease];
     [nsSlider setTarget:handler];
     [nsSlider setAction:@selector(sliderValueChanged:)];
+    // [handler autorelease];
 
 	return (SliderPtr)nsSlider;
 }
