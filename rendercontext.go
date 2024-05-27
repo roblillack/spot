@@ -56,7 +56,7 @@ func (ctx *RenderContext) Make(render func(*RenderContext) Component) Node {
 	return root
 }
 
-func printNodes(node Node, indent int) {
+func printNodes(node *Node, indent int) {
 	if len(node.Children) == 0 {
 		fmt.Printf("%s<%T/>\n", strings.Repeat("  ", indent), node.Content)
 		return
@@ -64,7 +64,7 @@ func printNodes(node Node, indent int) {
 
 	fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), node.Content)
 	for _, child := range node.Children {
-		printNodes(child, indent+1)
+		printNodes(&child, indent+1)
 	}
 	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), node.Content)
 }
@@ -96,16 +96,15 @@ func (ctx *RenderContext) TriggerUpdate() {
 
 		// fmt.Printf("[%v] RENDER TRIGGERED!\n", ctx)
 		ctx.count = 0
-		oldTree := ctx.root
 		// fmt.Println("**** RENDER STARTING ****")
 		newTree := ctx.BuildNode(ctx.content)
 		// fmt.Println("**** RENDER DONE ****")
 
-		// fmt.Printf("[%v] Old tree: %+v\n", ctx, oldTree)
-		// printNodes(oldTree, 0)
+		// fmt.Printf("[%v] Old tree: %+v\n", ctx, ctx.root)
+		// printNodes(&ctx.root, 0)
 		// fmt.Printf("[%v] New tree: %+v\n", ctx, newTree)
-		// printNodes(newTree, 0)
+		// printNodes(&newTree, 0)
 
-		oldTree.Update(newTree, nil)
+		ctx.root.Update(newTree, nil)
 	})
 }

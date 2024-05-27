@@ -18,7 +18,7 @@ func (n Node) mount(parent Control) {
 	}
 }
 
-func (n Node) updateChild(idx int, new Control) {
+func (n *Node) updateChild(idx int, new Control) {
 	old := n.Children[idx].Content
 	if old == nil && new == nil {
 		return
@@ -48,7 +48,7 @@ func (n Node) updateChild(idx int, new Control) {
 	}
 }
 
-func (n Node) Update(other Node, parent Control) {
+func (n *Node) Update(other Node, parent Control) {
 	if n.Content != nil && other.Content == nil {
 		if unmountable, ok := n.Content.(Unmountable); ok {
 			unmountable.Unmount()

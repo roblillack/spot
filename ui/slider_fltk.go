@@ -9,63 +9,68 @@ import (
 
 type nativeTypeSlider = *goFltk.Slider
 
-func (b *Slider) Update(nextComponent spot.Control) bool {
+func (c *Slider) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Slider)
 	if !ok {
 		return false
 	}
 
-	if b.ref == nil {
+	if c.ref == nil {
 		return false
 	}
 
-	if next.Min != b.Min {
-		b.Min = next.Min
-		b.ref.SetMinimum(b.Min)
+	if next.Min != c.Min {
+		c.Min = next.Min
+		c.ref.SetMinimum(c.Min)
 	}
 
-	if next.Max != b.Max {
-		b.Max = next.Max
-		b.ref.SetMaximum(b.Max)
+	if next.Max != c.Max {
+		c.Max = next.Max
+		c.ref.SetMaximum(c.Max)
 	}
 
-	if next.Value != b.Value {
-		b.Value = next.Value
-		b.ref.SetValue(b.Value)
+	if next.Value != c.Value {
+		c.Value = next.Value
+		c.ref.SetValue(c.Value)
 	}
 
-	// if next.Type != b.Type {
-	// 	b.Type = next.Type
-	// 	b.ref.SetType(b.Type)
-	// }
+	c.OnValueChanged = next.OnValueChanged
 
 	return true
 }
 
-func (b *Slider) Mount(parent spot.Control) any {
-	if b.ref != nil {
-		return b.ref
+func (c *Slider) callback() {
+	if c.OnValueChanged != nil {
+		c.OnValueChanged(c.ref.Value())
 	}
-
-	b.ref = goFltk.NewSlider(b.X, b.Y, b.Width, b.Height)
-	b.ref.SetMaximum(b.Max)
-	b.ref.SetMinimum(b.Min)
-	b.ref.SetValue(b.Value)
-	// b.ref.SetType(b.Type)
-	// b.ref.SetType(goFltk.HOR_SLIDER)
-	b.ref.SetType(goFltk.HOR_NICE_SLIDER)
-	b.ref.SetBox(goFltk.FLAT_BOX)
-	b.ref.SetCallback(func() {
-		if b.OnValueChanged != nil {
-			b.OnValueChanged(b.ref.Value())
-		}
-	})
-
-	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.Add(b.ref)
-	}
-
-	return b.ref
 }
 
-var _ spot.Control = &Slider{}
+func (c *Slider) Mount(parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
+	}
+
+	c.ref = goFltk.NewSlider(c.X, c.Y, c.Width, c.Height)
+	c.ref.SetMaximum(c.Max)
+	c.ref.SetMinimum(c.Min)
+	c.ref.SetValue(c.Value)
+	// b.ref.SetType(b.Type)
+	// b.ref.SetType(goFltk.HOR_SLIDER)
+	c.ref.SetType(goFltk.HOR_NICE_SLIDER)
+	c.ref.SetBox(goFltk.FLAT_BOX)
+	c.ref.SetCallback(c.callback)
+
+	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
+		window.ref.Add(c.ref)
+	}
+
+	return c.ref
+}
+
+func (c *Slider) Unmount() {
+	if c.ref != nil {
+		// c.ref.Parent().Remove(c.ref)
+		c.ref.Destroy()
+		c.ref = nil
+	}
+}
