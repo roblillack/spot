@@ -12,7 +12,6 @@ ButtonPtr Button_New(int goButtonID, int x, int y, int w, int h) {
     id nsButton = [[[NSButton alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
     ButtonHandler* handler = [[ButtonHandler alloc] init];
     [handler setGoButtonID:goButtonID];
-    [handler autorelease];
     [nsButton setTarget:handler];
     [nsButton setAction:@selector(buttonClicked:)];
 
@@ -30,6 +29,7 @@ void Button_SetTitle(ButtonPtr btnPtr, const char* title) {
 void Button_Remove(ButtonPtr btnPtr) {
     NSButton* button = (NSButton*)btnPtr;
     [button removeFromSuperview];
+    [[button target] release];
 }
 
 const char* Button_Title(ButtonPtr btnPtr) {

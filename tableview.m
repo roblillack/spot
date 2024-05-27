@@ -67,6 +67,7 @@ TableViewPtr TableView_New(int goTableViewId, int x, int y, int w, int h) {
 void TableView_Remove(TableViewPtr tableViewPtr) {
   NSScrollView *x = (NSScrollView *)tableViewPtr;
   [x removeFromSuperview];
+  [[x delegate] release];
 }
 
 const int TableView_IsEnabled(TableViewPtr tableViewPtr) {

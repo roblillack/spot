@@ -15,7 +15,6 @@ SliderPtr Slider_New(int goSliderID, int x, int y, int w, int h) {
     [handler setGoSliderID:goSliderID];
     [nsSlider setTarget:handler];
     [nsSlider setAction:@selector(sliderValueChanged:)];
-    // [handler autorelease];
 
 	return (SliderPtr)nsSlider;
 }
@@ -48,4 +47,5 @@ void Slider_SetSliderType(SliderPtr sliderPtr, int sliderType) {
 void Slider_Remove(SliderPtr sliderPtr) {
     NSSlider* slider = (NSSlider*)sliderPtr;
     [slider removeFromSuperview];
+    [[slider target] release];
 }

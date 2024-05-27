@@ -13,7 +13,6 @@ StepperPtr Stepper_New(int goStepperId, int x, int y, int w, int h) {
 
   StepperHandler *handler = [[StepperHandler alloc] init];
   [handler setGoStepperId:goStepperId];
-  [handler autorelease];
   [nsStepper setTarget:handler];
   [nsStepper setAction:@selector(stepperValueChanged:)];
 
@@ -58,4 +57,5 @@ double Stepper_Value(StepperPtr StepperPtr) {
 void Stepper_Remove(StepperPtr StepperPtr) {
   NSStepper *stepper = (NSStepper *)StepperPtr;
   [stepper removeFromSuperview];
+  [[stepper target] release];
 }

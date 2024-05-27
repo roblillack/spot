@@ -13,7 +13,6 @@ ComboBoxPtr ComboBox_New(int goComboBoxID, int x, int y, int w, int h) {
     id nsComboBox = [[[NSComboBox alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
     ComboBoxHandler* handler = [[ComboBoxHandler alloc] init];
     [handler setGoComboBoxID:goComboBoxID];
-    [handler autorelease];
     [nsComboBox setDelegate:handler];
     [nsComboBox setTarget:handler];
     [nsComboBox setAction:@selector(comboBoxSelectionDidChange:)];
@@ -63,4 +62,5 @@ const char* ComboBox_StringValue(ComboBoxPtr comboBoxPtr) {
 void ComboBox_Remove(ComboBoxPtr comboBoxPtr) {
     NSComboBox* comboBox = (NSComboBox*)comboBoxPtr;
     [comboBox removeFromSuperview];
+    [[comboBox target] release];
 }

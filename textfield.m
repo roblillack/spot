@@ -29,6 +29,7 @@ void TextField_SetStringValue(TextFieldPtr textFieldPtr, const char* text) {
 void TextField_Remove(TextFieldPtr textFieldPtr) {
 	NSTextField* tf = (NSTextField*)textFieldPtr;
 	[tf removeFromSuperview];
+	[[tf delegate] release];
 }
 
 const int TextField_Enabled(TextFieldPtr textFieldPtr) {
