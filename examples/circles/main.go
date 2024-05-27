@@ -5,7 +5,6 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
-	"log"
 	"slices"
 
 	"github.com/roblillack/spot"
@@ -35,8 +34,24 @@ func (h History[T]) CanUndo() bool {
 	return h.Current > 0
 }
 
+func (h History[T]) Undo() History[T] {
+	if h.Current > 0 {
+		return History[T]{Data: h.Data, Current: h.Current - 1}
+	}
+
+	return h
+}
+
 func (h History[T]) CanRedo() bool {
 	return h.Current < len(h.Data)-1
+}
+
+func (h History[T]) Redo() History[T] {
+	if h.Current < len(h.Data)-1 {
+		return History[T]{Data: h.Data, Current: h.Current + 1}
+	}
+
+	return h
 }
 
 func (h History[T]) Get() T {
@@ -56,8 +71,6 @@ type State struct {
 }
 
 func (s State) OnClick(x, y int, secondary bool) State {
-	log.Printf("Clicked %d, %d\n", x, y)
-
 	for idx := len(s.Circles) - 1; idx >= 0; idx-- {
 		c := s.Circles[idx]
 		for dy := -c.Size; dy <= c.Size; dy++ {
@@ -167,21 +180,13 @@ func main() {
 			Children: []spot.Component{
 				&ui.Button{
 					X: 10, Y: 10, Width: 80, Height: 25,
-					Title: "Undo",
-					OnClick: func() {
-						if history.Current > 0 {
-							setHistory(History[State]{Data: history.Data, Current: history.Current - 1})
-						}
-					},
+					Title:   "Undo",
+					OnClick: func() { setHistory(history.Undo()) },
 				},
 				&ui.Button{
 					X: 100, Y: 10, Width: 80, Height: 25,
-					Title: "Redo",
-					OnClick: func() {
-						if history.Current < len(history.Data)-1 {
-							setHistory(History[State]{Data: history.Data, Current: history.Current + 1})
-						}
-					},
+					Title:   "Redo",
+					OnClick: func() { setHistory(history.Redo()) },
 				},
 				&ui.Label{
 					X: 190, Y: 10, Width: 200, Height: 25,
