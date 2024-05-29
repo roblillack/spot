@@ -3,11 +3,11 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeButton = *gocoa.Button
+type nativeTypeButton = *cocoa.Button
 
 func (b *Button) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Button)
@@ -34,7 +34,7 @@ func (b *Button) Mount(parent spot.Control) any {
 		return b.ref
 	}
 
-	b.ref = gocoa.NewButton(b.X, b.Y, b.Width, b.Height)
+	b.ref = cocoa.NewButton(b.X, b.Y, b.Width, b.Height)
 	b.ref.SetTitle(b.Title)
 	b.ref.OnClick(b.OnClick)
 

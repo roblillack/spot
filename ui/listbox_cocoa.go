@@ -5,11 +5,11 @@ package ui
 import (
 	"slices"
 
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeListBox = *gocoa.TableView
+type nativeTypeListBox = *cocoa.TableView
 
 func (c *ListBox) getSelection() []int {
 	if c.ref == nil {
@@ -98,7 +98,7 @@ func (c *ListBox) Mount(parent spot.Control) any {
 		return c.ref
 	}
 
-	c.ref = gocoa.NewTableView(c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewTableView(c.X, c.Y, c.Width, c.Height)
 	c.ref.SetAllowsMultipleSelection(c.Multiselect)
 
 	c.setValues(c.Values)

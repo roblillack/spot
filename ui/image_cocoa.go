@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"image"
 
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeImage = *gocoa.CustomButton
+type nativeTypeImage = *cocoa.CustomButton
 
 func (c *Image) Update(nextControl spot.Control) bool {
 	next, ok := nextControl.(*Image)
@@ -38,7 +38,7 @@ func (c *Image) Mount(parent spot.Control) any {
 		return nil
 	}
 
-	c.ref = gocoa.NewCustomButton(c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewCustomButton(c.X, c.Y, c.Width, c.Height)
 	c.ref.OnClick(c.handleClick)
 	c.draw()
 

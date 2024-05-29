@@ -3,11 +3,11 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeDial = *gocoa.Slider
+type nativeTypeDial = *cocoa.Slider
 
 func (b *Dial) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Dial)
@@ -42,11 +42,11 @@ func (b *Dial) Mount(parent spot.Control) any {
 		return b.ref
 	}
 
-	b.ref = gocoa.NewSlider(b.X, b.Y, b.Width, b.Height)
+	b.ref = cocoa.NewSlider(b.X, b.Y, b.Width, b.Height)
 	b.ref.SetMaximumValue(b.Max)
 	b.ref.SetMinimumValue(b.Min)
 	b.ref.SetValue(b.Value)
-	b.ref.SetSliderType(gocoa.SliderTypeCircular)
+	b.ref.SetSliderType(cocoa.SliderTypeCircular)
 	b.ref.OnSliderValueChanged(func() {
 		if b.OnValueChanged != nil {
 			b.OnValueChanged(b.ref.Value())

@@ -5,8 +5,8 @@ package ui
 import (
 	"runtime"
 
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
 // BackendName is the name of the backend. It can be used to check which backend
@@ -16,13 +16,13 @@ const BackendName = "cocoa"
 // Init initializes the UI library for the Cocoa backend. It locks the OS thread
 // and sets up Spot to be able to intercept the main loop.
 func Init() {
-	spot.RunOnMainLoop = gocoa.RunOnMainLoop
+	spot.RunOnMainLoop = cocoa.RunOnMainLoop
 
 	runtime.LockOSThread()
-	gocoa.InitApplication()
+	cocoa.InitApplication()
 }
 
 // Run starts the main loop for the Cocoa backend.
 func Run() {
-	gocoa.RunApplication()
+	cocoa.RunApplication()
 }
