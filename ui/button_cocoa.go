@@ -46,5 +46,10 @@ func (b *Button) Mount(parent spot.Control) any {
 }
 
 func (b *Button) Unmount() {
-	panic("not implemented")
+	if b.ref == nil {
+		return
+	}
+
+	b.ref.Remove()
+	b.ref = nil
 }

@@ -1,2 +1,4 @@
 github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed h1:7/j/4x3KAwuJB9sWdfhi+1UFbv42TyJ4LyUI/GHS+p8=
 github.com/pwiecz/go-fltk v0.0.0-20240511142305-990b442ae1ed/go.mod h1:uMK5daOr9p+ba2BPs5QadbfaqqrHR5TGj13yWGsAsmw=
+golang.org/x/image v0.16.0 h1:9kloLAKhUufZhA12l5fwnx2NZW39/we1UhBesW433jw=
+golang.org/x/image v0.16.0/go.mod h1:ugSZItdV4nOxyqp56HmXwH0Ry0nBCpjnZdpDaIHdoPs=
