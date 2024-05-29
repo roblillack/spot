@@ -27,6 +27,8 @@ type Unmountable interface {
 // Container is a control component that owns other controls.
 type Container interface {
 	Control
+	ContentWidth() int
+	ContentHeight() int
 	BuildNode(ctx *RenderContext) Node // BuildNode renders the control and its children into tree of nodes.
 }
 

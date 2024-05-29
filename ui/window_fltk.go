@@ -50,3 +50,11 @@ func (w *Window) Mount(parent spot.Control) any {
 	w.ref.Show()
 	return w.ref
 }
+
+func (w *Window) ContentWidth() int {
+	return w.ref.W()
+}
+
+func (w *Window) ContentHeight() int {
+	return w.ref.H()
+}

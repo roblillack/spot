@@ -3,6 +3,8 @@
 package ui
 
 import (
+	"log"
+
 	"github.com/roblillack/spot"
 	"github.com/roblillack/spot/ui/internal/cocoa"
 )
@@ -43,5 +45,20 @@ func (w *Window) Mount(parent spot.Control) any {
 
 	w.ref.MakeKeyAndOrderFront()
 	w.ref.AddDefaultQuitMenu()
+	w.ref.OnDidResize(w.onResize)
 	return w.ref
+}
+
+func (w *Window) onResize(wnd *cocoa.Window) {
+	log.Printf("Window resized to %dx%d", w.ContentWidth(), w.ContentHeight())
+}
+
+func (w *Window) ContentWidth() int {
+	width, _ := w.ref.Size()
+	return width
+}
+
+func (w *Window) ContentHeight() int {
+	_, height := w.ref.Size()
+	return height
 }

@@ -38,7 +38,9 @@ func (b *Button) Mount(parent spot.Control) any {
 		return nil
 	}
 
-	b.ref = goFltk.NewButton(b.X, b.Y, b.Width, b.Height)
+	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+
+	b.ref = goFltk.NewButton(x, y, w, h)
 	b.ref.SetLabel(b.Title)
 	b.ref.SetCallback(b.OnClick)
 

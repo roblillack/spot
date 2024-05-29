@@ -201,18 +201,24 @@ func (wnd *Window) OnDidMove(fn EventHandler) {
 	wnd.callbacks[didMove] = fn
 }
 
+func (wnd *Window) Size() (int, int) {
+	return wnd.w, wnd.h
+}
+
+func (wnd *Window) Position() (int, int) {
+	return wnd.x, wnd.y
+}
+
 //export onWindowEvent
 func onWindowEvent(id C.int, eventID C.int, x C.int, y C.int, w C.int, h C.int) {
 	windowID := int(id)
 	event := WindowEvent(eventID)
 	if windowID < len(windows) && windows[windowID].callbacks[event] != nil {
 		wnd := windows[windowID]
-		windows[windowID].callbacks[event](&Window{
-			title:  wnd.title,
-			x:      int(x),
-			y:      int(y),
-			w:      int(w),
-			h:      int(h),
-			winPtr: wnd.winPtr})
+		wnd.x = int(x)
+		wnd.y = int(y)
+		wnd.w = int(w)
+		wnd.h = int(h)
+		windows[windowID].callbacks[event](wnd)
 	}
 }

@@ -34,7 +34,8 @@ func (b *Button) Mount(parent spot.Control) any {
 		return b.ref
 	}
 
-	b.ref = cocoa.NewButton(b.X, b.Y, b.Width, b.Height)
+	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	b.ref = cocoa.NewButton(x, y, w, h)
 	b.ref.SetTitle(b.Title)
 	b.ref.OnClick(b.OnClick)
 
