@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
 type spinner struct {
-	stepper   *gocoa.Stepper
-	textfield *gocoa.TextField
+	stepper   *cocoa.Stepper
+	textfield *cocoa.TextField
 }
 
 type nativeTypeSpinner = *spinner
@@ -83,7 +83,7 @@ func (w *Spinner) Mount(parent spot.Control) any {
 	spinner := &spinner{}
 	stepperWidth := 16
 	stepperPadding := 0
-	spinner.stepper = gocoa.NewStepper(w.X+w.Width-stepperWidth, w.Y, stepperWidth, w.Height)
+	spinner.stepper = cocoa.NewStepper(w.X+w.Width-stepperWidth, w.Y, stepperWidth, w.Height)
 	spinner.stepper.SetValue(w.Value)
 	spinner.stepper.SetMinValue(w.Min)
 	spinner.stepper.SetMaxValue(w.Max)
@@ -91,7 +91,7 @@ func (w *Spinner) Mount(parent spot.Control) any {
 	spinner.stepper.SetValueWraps(true)
 	spinner.stepper.OnStepperValueChanged(w.stepperCallback)
 
-	spinner.textfield = gocoa.NewTextField(w.X, w.Y, w.Width-stepperWidth-stepperPadding, w.Height)
+	spinner.textfield = cocoa.NewTextField(w.X, w.Y, w.Width-stepperWidth-stepperPadding, w.Height)
 	spinner.textfield.SetStringValue(fmt.Sprintf("%.0f", w.Value))
 	spinner.textfield.OnChange(w.textFieldCallback)
 

@@ -3,18 +3,18 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeCheckbox = *gocoa.Button
+type nativeTypeCheckbox = *cocoa.Button
 
 func (w *Checkbox) onClick() {
 	w.Checked = !w.Checked
 	if w.Checked {
-		w.ref.SetState(gocoa.ButtonStateValueOn)
+		w.ref.SetState(cocoa.ButtonStateValueOn)
 	} else {
-		w.ref.SetState(gocoa.ButtonStateValueOff)
+		w.ref.SetState(cocoa.ButtonStateValueOff)
 	}
 	w.OnChange(w.Checked)
 }
@@ -32,9 +32,9 @@ func (w *Checkbox) Update(nextComponent spot.Control) bool {
 	if next.Checked != w.Checked {
 		w.Checked = next.Checked
 		if w.Checked {
-			w.ref.SetState(gocoa.ButtonStateValueOn)
+			w.ref.SetState(cocoa.ButtonStateValueOn)
 		} else {
-			w.ref.SetState(gocoa.ButtonStateValueOff)
+			w.ref.SetState(cocoa.ButtonStateValueOff)
 		}
 	}
 
@@ -58,13 +58,13 @@ func (w *Checkbox) Mount(parent spot.Control) any {
 		return w.ref
 	}
 
-	w.ref = gocoa.NewButton(w.X, w.Y, w.Width, w.Height)
+	w.ref = cocoa.NewButton(w.X, w.Y, w.Width, w.Height)
 	w.ref.SetTitle(w.Label)
-	w.ref.SetButtonType(gocoa.ButtonTypeSwitch)
+	w.ref.SetButtonType(cocoa.ButtonTypeSwitch)
 	if w.Checked {
-		w.ref.SetState(gocoa.ButtonStateValueOn)
+		w.ref.SetState(cocoa.ButtonStateValueOn)
 	} else {
-		w.ref.SetState(gocoa.ButtonStateValueOff)
+		w.ref.SetState(cocoa.ButtonStateValueOff)
 	}
 	if w.OnChange == nil {
 		w.ref.OnClick(nil)

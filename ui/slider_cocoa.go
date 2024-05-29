@@ -3,11 +3,11 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeSlider = *gocoa.Slider
+type nativeTypeSlider = *cocoa.Slider
 
 func (b *Slider) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Slider)
@@ -44,7 +44,7 @@ func (b *Slider) Mount(parent spot.Control) any {
 		return b.ref
 	}
 
-	b.ref = gocoa.NewSlider(b.X, b.Y, b.Width, b.Height)
+	b.ref = cocoa.NewSlider(b.X, b.Y, b.Width, b.Height)
 	b.ref.SetMaximumValue(b.Max)
 	b.ref.SetMinimumValue(b.Min)
 	b.ref.SetValue(b.Value)

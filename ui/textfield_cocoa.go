@@ -3,11 +3,11 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeTextField = *gocoa.TextField
+type nativeTypeTextField = *cocoa.TextField
 
 func (w *TextField) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextField)
@@ -68,7 +68,7 @@ func (w *TextField) Mount(parent spot.Control) any {
 		return w.ref
 	}
 
-	w.ref = gocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
+	w.ref = cocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
 	// w.ref.SetEditable(w.Editable)
 	// w.ref.SetBezeled(w.Bezeled)
 	// w.ref.SetSelectable(w.Selectable)
