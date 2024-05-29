@@ -3,19 +3,15 @@
 
 @implementation AppDelegate
 
-- (void)dealloc
-{
-    [super dealloc];
+- (void)dealloc {
+  [super dealloc];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    NSLog(@"applicationDidFinishLaunching");
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+  [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+  [NSApp activateIgnoringOtherApps:YES];
 
-    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-    [NSApp activateIgnoringOtherApps:YES];
-
-    callOnApplicationDidFinishLaunchingHandler();
+  callOnApplicationDidFinishLaunchingHandler();
 }
 
 @end

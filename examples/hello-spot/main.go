@@ -45,10 +45,8 @@ func (b *BlinkingLabel) Render(ctx *spot.RenderContext) spot.Component {
 func QuitButton(ctx *spot.RenderContext) spot.Component {
 	enabled, setEnabled := spot.UseState(ctx, false)
 	spot.UseEffect(ctx, func() {
-		fmt.Println("Setting up timer!")
 		go func() {
 			time.Sleep(5 * time.Second)
-			fmt.Println("Enabling button!")
 			setEnabled(true)
 		}()
 	}, []any{})
