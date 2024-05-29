@@ -10,7 +10,7 @@ import (
 	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeImage = *cocoa.CustomButton
+type nativeTypeImage = *cocoa.InteractiveView
 
 func (c *Image) Update(nextControl spot.Control) bool {
 	next, ok := nextControl.(*Image)
@@ -38,12 +38,12 @@ func (c *Image) Mount(parent spot.Control) any {
 		return nil
 	}
 
-	c.ref = cocoa.NewCustomButton(c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewInteractiveView(c.X, c.Y, c.Width, c.Height)
 	c.ref.OnClick(c.handleClick)
 	c.draw()
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddCustomButton(c.ref)
+		window.ref.AddInteractiveView(c.ref)
 	}
 
 	return c.ref

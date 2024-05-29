@@ -174,7 +174,7 @@ func main() {
 		}
 
 		return &ui.Window{
-			Title:  "Spot Draw",
+			Title:  "Spot Circles",
 			Width:  800,
 			Height: 600,
 			Children: []spot.Component{
