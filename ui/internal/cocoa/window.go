@@ -99,7 +99,7 @@ func (wnd *Window) AddDatePicker(datePicker *DatePicker) {
 
 // AddTextView - adds a Text View to the window.
 func (wnd *Window) AddTextView(tv *TextView) {
-	C.Window_AddTextView(wnd.winPtr, tv.textViewPtr)
+	C.Window_AddTextView(wnd.winPtr, tv.ptr)
 }
 
 // AddTextField - adds a Text Field to the window.

@@ -98,6 +98,7 @@ func (ctx *RenderContext) TriggerUpdate() {
 		ctx.count = 0
 		// fmt.Println("**** RENDER STARTING ****")
 		newTree := ctx.BuildNode(ctx.content)
+		// log.Printf("render time: %s\n", time.Now().Sub(now))
 		// fmt.Println("**** RENDER DONE ****")
 
 		// fmt.Printf("[%v] Old tree: %+v\n", ctx, ctx.root)
