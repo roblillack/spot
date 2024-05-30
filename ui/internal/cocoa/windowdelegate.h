@@ -2,8 +2,9 @@
 
 @interface WindowDelegate : NSObject <NSWindowDelegate>
 
-@property (assign) int goWindowID;
+@property(assign) int goWindowID;
 
 @end
 
-void triggerEvent(int goWindowID, NSWindow *movedWindow, NSString *eventTitle, const int eventId);
+void triggerEvent(int goWindowID, NSWindow *movedWindow, NSString *eventTitle,
+                  const int eventId);

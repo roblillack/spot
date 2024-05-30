@@ -4,12 +4,12 @@
 
 @interface SliderHandler : NSObject
 
-@property (assign) int goSliderID;
--(void) sliderValueChanged:(id) sender;
+@property(assign) int goSliderID;
+- (void)sliderValueChanged:(id)sender;
 
 @end
 
-typedef void* SliderPtr;
+typedef void *SliderPtr;
 
 SliderPtr Slider_New(int goSliderID, int x, int y, int w, int h);
 void Slider_SetMaximumValue(SliderPtr sliderPtr, double val);

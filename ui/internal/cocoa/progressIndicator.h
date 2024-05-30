@@ -2,25 +2,32 @@
 
 // typedef void (*callback)(void);
 
-typedef void* ProgressIndicatorPtr;
+typedef void *ProgressIndicatorPtr;
 
 ProgressIndicatorPtr ProgressIndicator_New(int x, int y, int width, int height);
 
-void ProgressIndicator_StartAnimation(ProgressIndicatorPtr progressIndicatorPtr);
+void ProgressIndicator_StartAnimation(
+    ProgressIndicatorPtr progressIndicatorPtr);
 
 void ProgressIndicator_StopAnimation(ProgressIndicatorPtr progressIndicatorPtr);
 
-void ProgressIndicator_SetLimits(ProgressIndicatorPtr progressIndicatorPtr, double minValue, double maxValue);
+void ProgressIndicator_SetLimits(ProgressIndicatorPtr progressIndicatorPtr,
+                                 double minValue, double maxValue);
 
-void ProgressIndicator_SetValue(ProgressIndicatorPtr progressIndicatorPtr, double value);
+void ProgressIndicator_SetValue(ProgressIndicatorPtr progressIndicatorPtr,
+                                double value);
 
-void ProgressIndicator_IncrementBy(ProgressIndicatorPtr progressIndicatorPtr, double value);
+void ProgressIndicator_IncrementBy(ProgressIndicatorPtr progressIndicatorPtr,
+                                   double value);
 
-void ProgressIndicator_SetIsIndeterminate(ProgressIndicatorPtr progressIndicatorPtr, int value);
+void ProgressIndicator_SetIsIndeterminate(
+    ProgressIndicatorPtr progressIndicatorPtr, int value);
 
-int ProgressIndicator_IsIndeterminate(ProgressIndicatorPtr progressIndicatorPtr);
+int ProgressIndicator_IsIndeterminate(
+    ProgressIndicatorPtr progressIndicatorPtr);
 
-void ProgressIndicator_SetDisplayedWhenStopped(ProgressIndicatorPtr progressIndicatorPtr, int value);
+void ProgressIndicator_SetDisplayedWhenStopped(
+    ProgressIndicatorPtr progressIndicatorPtr, int value);
 
 void ProgressIndicator_Show(ProgressIndicatorPtr progressIndicatorPtr);
 

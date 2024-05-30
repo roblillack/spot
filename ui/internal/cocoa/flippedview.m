@@ -2,9 +2,8 @@
 
 @implementation FlippedView
 
-- (BOOL) isFlipped
-{
-    return YES;
+- (BOOL)isFlipped {
+  return YES;
 }
 
 @end

@@ -1,5 +1,5 @@
-#include <stdint.h>
 #import <Cocoa/Cocoa.h>
+#include <stdint.h>
 
 void InitSharedApplication();
 void RunApplication();
