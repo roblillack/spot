@@ -3,11 +3,11 @@
 package ui
 
 import (
-	"github.com/roblillack/gocoa"
 	"github.com/roblillack/spot"
+	"github.com/roblillack/spot/ui/internal/cocoa"
 )
 
-type nativeTypeTextEditor = *gocoa.TextField
+type nativeTypeTextEditor = *cocoa.TextView
 
 func (w *TextEditor) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextEditor)
@@ -17,7 +17,7 @@ func (w *TextEditor) Update(nextComponent spot.Control) bool {
 
 	if next.Text != w.Text {
 		w.Text = next.Text
-		w.ref.SetStringValue(w.Text)
+		w.ref.SetText(w.Text)
 	}
 
 	if next.FontSize != w.FontSize && w.FontSize > 0 {
@@ -33,17 +33,17 @@ func (w *TextEditor) Mount(parent spot.Control) any {
 		return w.ref
 	}
 
-	w.ref = gocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
-	w.ref.SetStringValue(w.Text)
-	w.ref.SetFontFamily("Arial")
-	w.ref.SetEditable(false)
-	w.ref.SetSelectable(true)
+	w.ref = cocoa.NewTextView(w.X, w.Y, w.Width, w.Height)
+	w.ref.SetText(w.Text)
+	// w.ref.SetFontFamily("Arial")
+	w.ref.SetEditable(true)
+	// w.ref.SetSelectable(true)
 	if w.FontSize > 0 {
 		w.ref.SetFontSize(w.FontSize)
 	}
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddTextField(w.ref)
+		window.ref.AddTextView(w.ref)
 	}
 
 	return w.ref

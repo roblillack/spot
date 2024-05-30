@@ -8,8 +8,8 @@ import "unsafe"
 
 // TextView - represents a textView control that can trigger actions.
 type TextView struct {
-	textViewPtr C.TextViewPtr
-	callback    func()
+	ptr      C.TextViewPtr
+	callback func()
 }
 
 var textviews []*TextView
@@ -20,7 +20,7 @@ func NewTextView(x int, y int, width int, height int) *TextView {
 	textViewPtr := C.TextView_New(C.int(textViewID), C.int(x), C.int(y), C.int(width), C.int(height))
 
 	tv := &TextView{
-		textViewPtr: textViewPtr,
+		ptr: textViewPtr,
 	}
 	textviews = append(textviews, tv)
 	return tv
@@ -30,15 +30,23 @@ func NewTextView(x int, y int, width int, height int) *TextView {
 func (textview *TextView) SetText(text string) {
 	cText := C.CString(text)
 	defer C.free(unsafe.Pointer(cText))
-	C.TextView_SetText(textview.textViewPtr, cText)
+	C.TextView_SetText(textview.ptr, cText)
 }
 
 // Remove - removes a Text View from the parent view
 func (textview *TextView) Remove() {
-	C.TextView_Remove(textview.textViewPtr)
+	C.TextView_Remove(textview.ptr)
 }
 
 // SetText sets the text of the text view
 func (textview *TextView) SetFontSize(size int) {
-	C.TextView_SetFontSize(textview.textViewPtr, C.int(size))
+	C.TextView_SetFontSize(textview.ptr, C.int(size))
+}
+
+func (c *TextView) SetEditable(editable bool) {
+	if editable {
+		C.TextView_SetEditable(c.ptr, 1)
+	} else {
+		C.TextView_SetEditable(c.ptr, 0)
+	}
 }
