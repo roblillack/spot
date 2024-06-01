@@ -37,12 +37,13 @@ func (b *Dial) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (b *Dial) Mount(parent spot.Control) any {
+func (b *Dial) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
 
-	b.ref = goFltk.NewSlider(b.X, b.Y, b.Width, b.Height)
+	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	b.ref = goFltk.NewSlider(x, y, w, h)
 	b.ref.SetMaximum(b.Max)
 	b.ref.SetMinimum(b.Min)
 	b.ref.SetValue(b.Value)
@@ -61,4 +62,20 @@ func (b *Dial) Mount(parent spot.Control) any {
 	return b.ref
 }
 
-var _ spot.Control = &Dial{}
+func (b *Dial) Unmount() {
+	if b.ref == nil {
+		return
+	}
+
+	b.ref.Destroy()
+	b.ref = nil
+}
+
+func (b *Dial) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if b.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	b.ref.Resize(x, y, w, h)
+}

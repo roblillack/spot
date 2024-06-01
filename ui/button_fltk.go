@@ -29,7 +29,7 @@ func (b *Button) Update(nextControl spot.Control) bool {
 	return true
 }
 
-func (b *Button) Mount(parent spot.Control) any {
+func (b *Button) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -39,7 +39,6 @@ func (b *Button) Mount(parent spot.Control) any {
 	}
 
 	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
-
 	b.ref = goFltk.NewButton(x, y, w, h)
 	b.ref.SetLabel(b.Title)
 	b.ref.SetCallback(b.OnClick)
@@ -58,4 +57,13 @@ func (b *Button) Unmount() {
 
 	b.ref.Destroy()
 	b.ref = nil
+}
+
+func (b *Button) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if b.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	b.ref.Resize(x, y, w, h)
 }

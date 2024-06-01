@@ -3,6 +3,7 @@ package cocoa
 // #cgo CFLAGS: -x objective-c
 // #cgo LDFLAGS: -framework Cocoa
 // #import "imageview.h"
+// #import "view.h"
 // #include <stdlib.h>
 import "C"
 import (
@@ -12,8 +13,8 @@ import (
 
 // Represents an ImageView control that can display images.
 type ImageView struct {
-	imageViewPtr C.ImageViewPtr
-	callback     func()
+	ptr      C.ImageViewPtr
+	callback func()
 }
 
 type FrameStyle int32
@@ -54,7 +55,7 @@ func NewImageViewWithContentsOfURL(x int, y int, width int, height int, url stri
 	imageViewPtr := C.ImageView_NewWithContentsOfURL(C.int(imageViewID), C.int(x), C.int(y), C.int(width), C.int(height), C.CString(url))
 
 	img := &ImageView{
-		imageViewPtr: imageViewPtr,
+		ptr: imageViewPtr,
 	}
 	imageViews = append(imageViews, img)
 	return img
@@ -65,7 +66,7 @@ func NewImageView(x int, y int, width int, height int) *ImageView {
 	imageViewPtr := C.ImageView_New(C.int(imageViewID), C.int(x), C.int(y), C.int(width), C.int(height))
 
 	img := &ImageView{
-		imageViewPtr: imageViewPtr,
+		ptr: imageViewPtr,
 	}
 	imageViews = append(imageViews, img)
 
@@ -81,45 +82,63 @@ func NewImageViewWithImage(x int, y int, width int, height int, image *image.RGB
 func (imageView *ImageView) SetImage(img *image.RGBA) {
 	bytes := C.CBytes(img.Pix)
 	nsImage := C.Image_NewWithRGBA(C.int(img.Bounds().Dx()), C.int(img.Bounds().Dy()), (*C.uchar)(bytes))
-	C.ImageView_SetImage(imageView.imageViewPtr, nsImage)
+	C.ImageView_SetImage(imageView.ptr, nsImage)
 	C.free(bytes)
 }
 
 func (imageView *ImageView) SetEditable(editable bool) {
 	if editable {
-		C.ImageView_SetEditable(imageView.imageViewPtr, 1)
+		C.ImageView_SetEditable(imageView.ptr, 1)
 	} else {
-		C.ImageView_SetEditable(imageView.imageViewPtr, 0)
+		C.ImageView_SetEditable(imageView.ptr, 0)
 	}
 }
 
 func (imageView *ImageView) SetImageFrameStyle(frameStyle FrameStyle) {
-	C.ImageView_SetFrameStyle(imageView.imageViewPtr, C.int(frameStyle))
+	C.ImageView_SetFrameStyle(imageView.ptr, C.int(frameStyle))
 }
 
 func (imageView *ImageView) SetImageAlignment(imageAlignment ImageAlignment) {
-	C.ImageView_SetImageAlignment(imageView.imageViewPtr, C.int(imageAlignment))
+	C.ImageView_SetImageAlignment(imageView.ptr, C.int(imageAlignment))
 }
 
 func (imageView *ImageView) SetImageScaling(imageScaling ImageScaling) {
-	C.ImageView_SetImageScaling(imageView.imageViewPtr, C.int(imageScaling))
+	C.ImageView_SetImageScaling(imageView.ptr, C.int(imageScaling))
 }
 
 func (imageView *ImageView) SetAnimates(animates bool) {
 	if animates {
-		C.ImageView_SetAnimates(imageView.imageViewPtr, 1)
+		C.ImageView_SetAnimates(imageView.ptr, 1)
 	} else {
-		C.ImageView_SetAnimates(imageView.imageViewPtr, 0)
+		C.ImageView_SetAnimates(imageView.ptr, 0)
 	}
 }
 
 func (imageView *ImageView) SetContentTintColor(hexRGBA string) {
 	var r, g, b, a = 0, 0, 0, 0
 	fmt.Sscanf(hexRGBA, "#%02x%02x%02x%02x", &r, &g, &b, &a)
-	C.ImageView_SetContentTintColor(imageView.imageViewPtr, C.int(r), C.int(g), C.int(b), C.int(a))
+	C.ImageView_SetContentTintColor(imageView.ptr, C.int(r), C.int(g), C.int(b), C.int(a))
 }
 
 // Remove removes an ImageView from the parent view again.
 func (imageView *ImageView) Remove() {
-	C.ImageView_Remove(imageView.imageViewPtr)
+	C.ImageView_Remove(imageView.ptr)
+}
+
+func (c *ImageView) SetFrameOrigin(x, y int) {
+	C.View_SetFrameOrigin(C.ViewPtr(c.ptr), C.int(x), C.int(y))
+}
+
+func (c *ImageView) SetFrameSize(width, height int) {
+	C.View_SetFrameSize(C.ViewPtr(c.ptr), C.int(width), C.int(height))
+}
+
+func (c *ImageView) SetFrame(x, y, width, height int) {
+	C.View_SetFrame(C.ViewPtr(c.ptr), C.int(x), C.int(y), C.int(width), C.int(height))
+}
+
+func (c *ImageView) Frame() (x, y, width, height int) {
+	var x_, y_, width_, height_ C.int
+	C.View_Frame(C.ViewPtr(c.ptr), &x_, &y_, &width_, &height_)
+	return int(x_), int(y_), int(width_), int(height_)
 }

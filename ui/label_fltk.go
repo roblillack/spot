@@ -9,84 +9,90 @@ import (
 
 type nativeTypeLabel = *goFltk.Box
 
-func (w *Label) Update(nextComponent spot.Control) bool {
+func (c *Label) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Label)
 	if !ok {
 		return false
 	}
 
-	if w.ref == nil {
+	if c.ref == nil {
 		return false
 	}
 
-	if next.Value != w.Value {
-		w.Value = next.Value
-		if w.ref != nil {
+	if next.Value != c.Value {
+		c.Value = next.Value
+		if c.ref != nil {
 			// if w.ref.Buffer() == nil {
 			// 	w.ref.SetBuffer(goFltk.NewTextBuffer())
 			// }
 			// w.ref.Buffer().SetText(w.Value)
-			w.ref.SetLabel(w.Value)
+			c.ref.SetLabel(c.Value)
 		}
 	}
 
-	if next.FontSize != w.FontSize {
-		w.FontSize = next.FontSize
-		if w.ref != nil && w.FontSize > 0 {
-			w.ref.SetLabelSize(w.FontSize)
+	if next.FontSize != c.FontSize {
+		c.FontSize = next.FontSize
+		if c.ref != nil && c.FontSize > 0 {
+			c.ref.SetLabelSize(c.FontSize)
 		}
 	}
 
-	if next.Align != w.Align {
-		w.setAlign(next.Align)
+	if next.Align != c.Align {
+		c.setAlign(next.Align)
 	}
 
 	return true
 }
 
-func (w *Label) setAlign(a LabelAlignment) {
-	w.Align = a
-	if w.ref == nil {
+func (c *Label) setAlign(a LabelAlignment) {
+	c.Align = a
+	if c.ref == nil {
 		return
 	}
 	switch a {
 	case LabelAlignmentLeft:
-		w.ref.SetAlign(goFltk.ALIGN_INSIDE | goFltk.ALIGN_LEFT)
+		c.ref.SetAlign(goFltk.ALIGN_INSIDE | goFltk.ALIGN_LEFT)
 	case LabelAlignmentCenter:
-		w.ref.SetAlign(goFltk.ALIGN_INSIDE | goFltk.ALIGN_CENTER)
+		c.ref.SetAlign(goFltk.ALIGN_INSIDE | goFltk.ALIGN_CENTER)
 	case LabelAlignmentRight:
-		w.ref.SetAlign(goFltk.ALIGN_INSIDE | goFltk.ALIGN_RIGHT)
+		c.ref.SetAlign(goFltk.ALIGN_INSIDE | goFltk.ALIGN_RIGHT)
 	}
 }
 
-func (w *Label) Mount(parent spot.Control) any {
-	if w.ref != nil {
-		return w.ref
+func (c *Label) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
 	// w.ref = goFltk.NewTextDisplay(w.X, w.Y, w.Width, w.Height)
-	w.ref = goFltk.NewBox(goFltk.NO_BOX, w.X, w.Y, w.Width, w.Height)
-	w.ref.SetLabel(w.Value)
-	w.setAlign(w.Align)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = goFltk.NewBox(goFltk.NO_BOX, x, y, w, h)
+	c.ref.SetLabel(c.Value)
+	c.setAlign(c.Align)
 	// buf := goFltk.NewTextBuffer()
 	// buf.SetText(w.Value)
 	// w.ref.SetBuffer(buf)
-	if w.FontSize > 0 {
+	if c.FontSize > 0 {
 		// w.ref.SetTextSize(w.FontSize)
-		w.ref.SetLabelSize(w.FontSize)
+		c.ref.SetLabelSize(c.FontSize)
 	}
 	// w.ref.HideCursor()
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.Add(w.ref)
+		window.ref.Add(c.ref)
 	}
 
-	return w.ref
+	return c.ref
 }
 
-func (w *Label) Unmount() {
-	if w.ref != nil {
-		w.ref.Destroy()
-		w.ref = nil
+func (c *Label) Unmount() {
+	if c.ref != nil {
+		c.ref.Destroy()
+		c.ref = nil
 	}
+}
+
+func (c *Label) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
 }

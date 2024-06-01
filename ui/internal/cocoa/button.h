@@ -27,3 +27,7 @@ void Button_SetBorderWidth(ButtonPtr btnPtr, int borderWidth);
 void Button_SetState(ButtonPtr btnPtr, int state);
 int Button_State(ButtonPtr btnPtr);
 void Button_SetImage(ButtonPtr btnPtr, ImagePtr imagePtr);
+void Button_SetFrameOrigin(ButtonPtr ptr, int x, int y);
+void Button_SetFrameSize(ButtonPtr ptr, int w, int h);
+void Button_SetFrame(ButtonPtr ptr, int x, int y, int w, int h);
+void Button_Frame(ButtonPtr ptr, int *x, int *y, int *w, int *h);

@@ -13,7 +13,7 @@ func TestNewProgressIndicator(t *testing.T) {
 	wnd := NewWindow("Hello World!", 150, 150, 300, 200)
 
 	indicator := NewProgressIndicator(0, 0, 100, 50)
-	if indicator.progressIndicatorPtr == nil {
+	if indicator.ptr == nil {
 		t.Fatalf("pointer to C indicator is nil!")
 	}
 

@@ -42,25 +42,44 @@ func (b *Spinner) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (b *Spinner) Mount(parent spot.Control) any {
-	if b.ref != nil {
-		return b.ref
+func (c *Spinner) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	b.ref = goFltk.NewSpinner(b.X, b.Y, b.Width, b.Height)
-	b.ref.SetMaximum(b.Max)
-	b.ref.SetMinimum(b.Min)
-	b.ref.SetValue(b.Value)
-	b.ref.SetStep(b.Step)
-	b.ref.SetCallback(func() {
-		if b.OnValueChanged != nil {
-			b.OnValueChanged(b.ref.Value())
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = goFltk.NewSpinner(x, y, w, h)
+	c.ref.SetMaximum(c.Max)
+	c.ref.SetMinimum(c.Min)
+	c.ref.SetValue(c.Value)
+	c.ref.SetStep(c.Step)
+	c.ref.SetCallback(func() {
+		if c.OnValueChanged != nil {
+			c.OnValueChanged(c.ref.Value())
 		}
 	})
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.Add(b.ref)
+		window.ref.Add(c.ref)
 	}
 
-	return b.ref
+	return c.ref
+}
+
+func (c *Spinner) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Destroy()
+	c.ref = nil
+}
+
+func (c *Spinner) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if c.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
 }

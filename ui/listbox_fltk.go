@@ -109,7 +109,7 @@ func (c *ListBox) Update(nextComponent spot.Control) bool {
 			parent := c.ref.Parent()
 			c.ref.Destroy()
 			c.ref = nil
-			c.Mount(nil)
+			c.Mount(nil, nil)
 			parent.Add(c.ref)
 		}
 	}
@@ -117,17 +117,18 @@ func (c *ListBox) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (c *ListBox) Mount(parent spot.Control) any {
+func (c *ListBox) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	if c.Multiselect {
-		ref := goFltk.NewMultiBrowser(c.X, c.Y, c.Width, c.Height)
+		ref := goFltk.NewMultiBrowser(x, y, w, h)
 		browser := ref.Browser
 		c.ref = &browser
 	} else {
-		ref := goFltk.NewSelectBrowser(c.X, c.Y, c.Width, c.Height)
+		ref := goFltk.NewSelectBrowser(x, y, w, h)
 		browser := ref.Browser
 		c.ref = &browser
 	}
@@ -140,4 +141,22 @@ func (c *ListBox) Mount(parent spot.Control) any {
 	}
 
 	return c.ref
+}
+
+func (c *ListBox) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Destroy()
+	c.ref = nil
+}
+
+func (c *ListBox) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if c.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
 }

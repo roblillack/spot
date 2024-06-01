@@ -11,12 +11,13 @@ import (
 
 type nativeTypeDropdown = *goFltk.Choice
 
-func (c *Dropdown) Mount(parent spot.Control) any {
+func (c *Dropdown) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	c.ref = goFltk.NewChoice(c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = goFltk.NewChoice(x, y, w, h)
 	for idx, item := range c.Items {
 		idx := idx
 		item := item
@@ -60,4 +61,22 @@ func (c *Dropdown) Update(next spot.Control) bool {
 	}
 
 	return true
+}
+
+func (c *Dropdown) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Destroy()
+	c.ref = nil
+}
+
+func (c *Dropdown) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if c.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
 }

@@ -44,12 +44,13 @@ func (b *Checkbox) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (b *Checkbox) Mount(parent spot.Control) any {
+func (b *Checkbox) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
 
-	b.ref = goFltk.NewCheckButton(b.X, b.Y, b.Width, b.Height)
+	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	b.ref = goFltk.NewCheckButton(x, y, w, h)
 	b.ref.SetLabel(b.Label)
 	if b.OnChange == nil {
 		b.ref.SetCallback(nil)
@@ -63,4 +64,22 @@ func (b *Checkbox) Mount(parent spot.Control) any {
 	}
 
 	return b.ref
+}
+
+func (b *Checkbox) Unmount() {
+	if b.ref == nil {
+		return
+	}
+
+	b.ref.Destroy()
+	b.ref = nil
+}
+
+func (b *Checkbox) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if b.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	b.ref.Resize(x, y, w, h)
 }

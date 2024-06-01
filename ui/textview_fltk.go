@@ -9,35 +9,50 @@ import (
 
 type nativeTypeTextView = *goFltk.TextDisplay
 
-func (w *TextView) Update(nextComponent spot.Control) bool {
+func (c *TextView) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextView)
 	if !ok {
 		return false
 	}
 
-	if next.Text != w.Text {
-		w.Text = next.Text
-		w.ref.SetBuffer(goFltk.NewTextBuffer())
-		w.ref.Buffer().SetText(w.Text)
+	if next.Text != c.Text {
+		c.Text = next.Text
+		c.ref.SetBuffer(goFltk.NewTextBuffer())
+		c.ref.Buffer().SetText(c.Text)
 	}
 
 	return true
 }
 
-func (w *TextView) Mount(parent spot.Control) any {
-	if w.ref != nil {
-		return w.ref
+func (c *TextView) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	w.ref = goFltk.NewTextDisplay(w.X, w.Y, w.Width, w.Height)
-	w.ref.SetBuffer(goFltk.NewTextBuffer())
-	w.ref.Buffer().SetText(w.Text)
-	// w.ref.Deactivate()
-	w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = goFltk.NewTextDisplay(x, y, w, h)
+	c.ref.SetBuffer(goFltk.NewTextBuffer())
+	c.ref.Buffer().SetText(c.Text)
+	// c.ref.Deactivate()
+	c.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.Add(w.ref)
+		window.ref.Add(c.ref)
 	}
 
-	return w.ref
+	return c.ref
+}
+
+func (c *TextView) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Destroy()
+	c.ref = nil
+}
+
+func (c *TextView) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
 }

@@ -3,6 +3,7 @@ package cocoa
 // #cgo CFLAGS: -x objective-c
 // #cgo LDFLAGS: -framework Cocoa
 // #import "textview.h"
+// #import "view.h"
 import "C"
 import "unsafe"
 
@@ -49,4 +50,22 @@ func (c *TextView) SetEditable(editable bool) {
 	} else {
 		C.TextView_SetEditable(c.ptr, 0)
 	}
+}
+
+func (c *TextView) SetFrameOrigin(x, y int) {
+	C.View_SetFrameOrigin(C.ViewPtr(c.ptr), C.int(x), C.int(y))
+}
+
+func (c *TextView) SetFrameSize(width, height int) {
+	C.View_SetFrameSize(C.ViewPtr(c.ptr), C.int(width), C.int(height))
+}
+
+func (c *TextView) SetFrame(x, y, width, height int) {
+	C.View_SetFrame(C.ViewPtr(c.ptr), C.int(x), C.int(y), C.int(width), C.int(height))
+}
+
+func (c *TextView) Frame() (x, y, width, height int) {
+	var x_, y_, width_, height_ C.int
+	C.View_Frame(C.ViewPtr(c.ptr), &x_, &y_, &width_, &height_)
+	return int(x_), int(y_), int(width_), int(height_)
 }

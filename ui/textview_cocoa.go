@@ -9,42 +9,57 @@ import (
 
 type nativeTypeTextView = *cocoa.TextField
 
-func (w *TextView) Update(nextComponent spot.Control) bool {
+func (c *TextView) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextView)
 	if !ok {
 		return false
 	}
 
-	if next.Text != w.Text {
-		w.Text = next.Text
-		w.ref.SetStringValue(w.Text)
+	if next.Text != c.Text {
+		c.Text = next.Text
+		c.ref.SetStringValue(c.Text)
 	}
 
-	if next.FontSize != w.FontSize && w.FontSize > 0 {
-		w.FontSize = next.FontSize
-		w.ref.SetFontSize(w.FontSize)
+	if next.FontSize != c.FontSize && c.FontSize > 0 {
+		c.FontSize = next.FontSize
+		c.ref.SetFontSize(c.FontSize)
 	}
 
 	return true
 }
 
-func (w *TextView) Mount(parent spot.Control) any {
-	if w.ref != nil {
-		return w.ref
+func (c *TextView) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	w.ref = cocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
-	w.ref.SetStringValue(w.Text)
-	w.ref.SetFontFamily("Arial")
-	w.ref.SetEditable(false)
-	w.ref.SetSelectable(true)
-	if w.FontSize > 0 {
-		w.ref.SetFontSize(w.FontSize)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewTextField(x, y, w, h)
+	c.ref.SetStringValue(c.Text)
+	c.ref.SetFontFamily("Arial")
+	c.ref.SetEditable(false)
+	c.ref.SetSelectable(true)
+	if c.FontSize > 0 {
+		c.ref.SetFontSize(c.FontSize)
 	}
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddTextField(w.ref)
+		window.ref.AddTextField(c.ref)
 	}
 
-	return w.ref
+	return c.ref
+}
+
+func (c *TextView) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}
+
+func (c *TextView) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

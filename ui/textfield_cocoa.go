@@ -63,24 +63,39 @@ func (w *TextField) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (w *TextField) Mount(parent spot.Control) any {
-	if w.ref != nil {
-		return w.ref
+func (c *TextField) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	w.ref = cocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewTextField(x, y, w, h)
 	// w.ref.SetEditable(w.Editable)
 	// w.ref.SetBezeled(w.Bezeled)
 	// w.ref.SetSelectable(w.Selectable)
-	w.ref.SetStringValue(w.Value)
-	w.ref.SetFontFamily("Arial")
-	w.ref.OnChange(w.OnChange)
+	c.ref.SetStringValue(c.Value)
+	c.ref.SetFontFamily("Arial")
+	c.ref.OnChange(c.OnChange)
 	// w.ref.SetFontSize(w.FontSize)
 	// w.ref.SetDrawsBackground(!w.NoBackground)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddTextField(w.ref)
+		window.ref.AddTextField(c.ref)
 	}
 
-	return w.ref
+	return c.ref
+}
+
+func (c *TextField) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}
+
+func (c *TextField) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

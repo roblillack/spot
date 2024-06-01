@@ -41,7 +41,7 @@ const int DID_DEMINIATURIZE_EVENT = 3;
 void triggerEvent(int goWindowID, NSWindow *movedWindow, NSString *eventTitle,
                   const int eventId) {
   if ([movedWindow isKeyWindow]) {
-    NSRect rect = movedWindow.frame;
+    NSRect rect = [movedWindow contentRectForFrameRect:movedWindow.frame];
     int x = (int)(rect.origin.x);
     int y = (int)(rect.origin.y);
     int w = (int)(rect.size.width);

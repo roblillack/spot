@@ -37,15 +37,16 @@ func (b *ProgressBar) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (b *ProgressBar) Mount(parent spot.Control) any {
-	if b.ref != nil {
-		return b.ref
+func (c *ProgressBar) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	b.ref = goFltk.NewProgress(b.X, b.Y, b.Width, b.Height)
-	b.ref.SetMaximum(b.Max)
-	b.ref.SetMinimum(b.Min)
-	b.ref.SetValue(b.Value)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = goFltk.NewProgress(x, y, w, h)
+	c.ref.SetMaximum(c.Max)
+	c.ref.SetMinimum(c.Min)
+	c.ref.SetValue(c.Value)
 	// b.ref.SetCallback(func() {
 	// 	if b.OnValueChanged != nil {
 	// 		b.OnValueChanged(b.ref.Value())
@@ -53,10 +54,26 @@ func (b *ProgressBar) Mount(parent spot.Control) any {
 	// })
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.Add(b.ref)
+		window.ref.Add(c.ref)
 	}
 
-	return b.ref
+	return c.ref
 }
 
-var _ spot.Control = &ProgressBar{}
+func (c *ProgressBar) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Destroy()
+	c.ref = nil
+}
+
+func (c *ProgressBar) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if c.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
+}

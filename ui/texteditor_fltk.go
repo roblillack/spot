@@ -3,59 +3,70 @@
 package ui
 
 import (
-	"log"
-
 	goFltk "github.com/pwiecz/go-fltk"
 	"github.com/roblillack/spot"
 )
 
 type nativeTypeTextEditor = *goFltk.TextEditor
 
-func (w *TextEditor) Update(nextComponent spot.Control) bool {
+func (c *TextEditor) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextEditor)
 	if !ok {
 		return false
 	}
 
-	log.Println("Update check")
-	if next.Text != w.Text {
-		log.Println("Updating ...")
-		w.Text = next.Text
-		w.ref.SetBuffer(goFltk.NewTextBuffer())
-		w.ref.Buffer().SetText(w.Text)
+	if next.Text != c.Text {
+		c.Text = next.Text
+		c.ref.SetBuffer(goFltk.NewTextBuffer())
+		c.ref.Buffer().SetText(c.Text)
 	}
 
-	w.OnChange = next.OnChange
+	c.OnChange = next.OnChange
 
 	return true
 }
 
-func (w *TextEditor) Mount(parent spot.Control) any {
-	if w.ref != nil {
-		return w.ref
+func (c *TextEditor) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	w.ref = goFltk.NewTextEditor(w.X, w.Y, w.Width, w.Height)
-	w.ref.SetBuffer(goFltk.NewTextBuffer())
-	w.ref.Buffer().SetText(w.Text)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = goFltk.NewTextEditor(x, y, w, h)
+	c.ref.SetBuffer(goFltk.NewTextBuffer())
+	c.ref.Buffer().SetText(c.Text)
 	// w.ref.Deactivate()
-	w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
-	w.ref.SetCallback(w.callback)
-	w.ref.SetCallbackCondition(goFltk.WhenChanged)
+	c.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
+	c.ref.SetCallback(c.callback)
+	c.ref.SetCallbackCondition(goFltk.WhenChanged)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.Add(w.ref)
+		window.ref.Add(c.ref)
 	}
 
-	return w.ref
+	return c.ref
 }
 
-func (w *TextEditor) callback() {
-	if w.OnChange != nil {
-		val := w.ref.Buffer().Text()
-		if val != w.Text {
-			w.Text = val
-			w.OnChange(val)
+func (c *TextEditor) callback() {
+	if c.OnChange != nil {
+		val := c.ref.Buffer().Text()
+		if val != c.Text {
+			c.Text = val
+			c.OnChange(val)
 		}
 	}
+}
+
+func (c *TextEditor) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Destroy()
+	c.ref = nil
+}
+
+func (c *TextEditor) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
 }

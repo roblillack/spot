@@ -54,27 +54,28 @@ func (w *Label) setAlign(a LabelAlignment) {
 	}
 }
 
-func (w *Label) Mount(parent spot.Control) any {
-	if w.ref != nil {
-		return w.ref
+func (c *Label) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	w.ref = cocoa.NewTextField(w.X, w.Y, w.Width, w.Height)
-	w.ref.SetBezeled(false)
-	w.ref.SetDrawsBackground(false)
-	w.ref.SetEditable(false)
-	w.ref.SetSelectable(false)
-	w.ref.SetStringValue(w.Value)
-	w.setAlign(w.Align)
-	if w.FontSize > 0 {
-		w.ref.SetFontSize(w.FontSize)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewTextField(x, y, w, h)
+	c.ref.SetBezeled(false)
+	c.ref.SetDrawsBackground(true)
+	c.ref.SetEditable(false)
+	c.ref.SetSelectable(false)
+	c.ref.SetStringValue(c.Value)
+	c.setAlign(c.Align)
+	if c.FontSize > 0 {
+		c.ref.SetFontSize(c.FontSize)
 	}
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddTextField(w.ref)
+		window.ref.AddTextField(c.ref)
 	}
 
-	return w.ref
+	return c.ref
 }
 
 func (c *Label) Unmount() {
@@ -84,4 +85,9 @@ func (c *Label) Unmount() {
 
 	c.ref.Remove()
 	c.ref = nil
+}
+
+func (c *Label) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

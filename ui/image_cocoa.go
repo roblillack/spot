@@ -29,7 +29,7 @@ func (c *Image) Update(nextControl spot.Control) bool {
 	return true
 }
 
-func (c *Image) Mount(parent spot.Control) any {
+func (c *Image) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if c.ref != nil {
 		return c.ref
 	}
@@ -75,4 +75,9 @@ func (c *Image) handleClick(x, y int, secondary bool) {
 	if c.OnClick != nil {
 		c.OnClick(x, y, secondary)
 	}
+}
+
+func (c *Image) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

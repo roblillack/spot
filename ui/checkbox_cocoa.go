@@ -53,7 +53,7 @@ func (w *Checkbox) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (w *Checkbox) Mount(parent spot.Control) any {
+func (w *Checkbox) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if w.ref != nil {
 		return w.ref
 	}
@@ -77,4 +77,18 @@ func (w *Checkbox) Mount(parent spot.Control) any {
 	}
 
 	return w.ref
+}
+
+func (c *Checkbox) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}
+
+func (c *Checkbox) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

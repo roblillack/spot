@@ -4,6 +4,7 @@ package cocoa
 // #cgo LDFLAGS: -framework Cocoa
 // #import "window.h"
 // #import "interactiveview.h"
+// #import "view.h"
 // #include <stdlib.h>
 import "C"
 import (
@@ -49,4 +50,22 @@ func (c *InteractiveView) SetImage(img *image.RGBA) {
 
 func (w *Window) AddInteractiveView(c *InteractiveView) {
 	C.Window_AddInteractiveView(w.winPtr, c.ptr)
+}
+
+func (c *InteractiveView) SetFrameOrigin(x, y int) {
+	C.View_SetFrameOrigin(C.ViewPtr(c.ptr), C.int(x), C.int(y))
+}
+
+func (c *InteractiveView) SetFrameSize(width, height int) {
+	C.View_SetFrameSize(C.ViewPtr(c.ptr), C.int(width), C.int(height))
+}
+
+func (c *InteractiveView) SetFrame(x, y, width, height int) {
+	C.View_SetFrame(C.ViewPtr(c.ptr), C.int(x), C.int(y), C.int(width), C.int(height))
+}
+
+func (c *InteractiveView) Frame() (x, y, width, height int) {
+	var x_, y_, width_, height_ C.int
+	C.View_Frame(C.ViewPtr(c.ptr), &x_, &y_, &width_, &height_)
+	return int(x_), int(y_), int(width_), int(height_)
 }

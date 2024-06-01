@@ -89,12 +89,12 @@ func (wnd *Window) MakeKeyAndOrderFront() {
 
 // AddButton adds a Button to the window.
 func (wnd *Window) AddButton(btn *Button) {
-	C.Window_AddButton(wnd.winPtr, btn.buttonPtr)
+	C.Window_AddButton(wnd.winPtr, btn.ptr)
 }
 
 // AddDatePicker adds a DatePicker to the window.
 func (wnd *Window) AddDatePicker(datePicker *DatePicker) {
-	C.Window_AddDatePicker(wnd.winPtr, datePicker.datePickerPtr)
+	C.Window_AddDatePicker(wnd.winPtr, datePicker.ptr)
 }
 
 // AddTextView - adds a Text View to the window.
@@ -104,26 +104,26 @@ func (wnd *Window) AddTextView(tv *TextView) {
 
 // AddTextField - adds a Text Field to the window.
 func (wnd *Window) AddTextField(tf *TextField) {
-	C.Window_AddTextField(wnd.winPtr, tf.textFieldPtr)
+	C.Window_AddTextField(wnd.winPtr, tf.ptr)
 }
 
 // AddTextField - adds a Button to the window.
 func (wnd *Window) AddLabel(tv *TextField) {
-	C.Window_AddTextField(wnd.winPtr, tv.textFieldPtr)
+	C.Window_AddTextField(wnd.winPtr, tv.ptr)
 }
 
 // AddProgressIndicator adds a ProgressIndicator to the window.
 func (wnd *Window) AddProgressIndicator(indicator *ProgressIndicator) {
-	C.Window_AddProgressIndicator(wnd.winPtr, indicator.progressIndicatorPtr)
+	C.Window_AddProgressIndicator(wnd.winPtr, indicator.ptr)
 }
 
 // AddImageView adds an ImageView to the window.
 func (wnd *Window) AddImageView(imageView *ImageView) {
-	C.Window_AddImageView(wnd.winPtr, imageView.imageViewPtr)
+	C.Window_AddImageView(wnd.winPtr, imageView.ptr)
 }
 
 func (wnd *Window) AddSlider(slider *Slider) {
-	C.Window_AddSlider(wnd.winPtr, slider.sliderPtr)
+	C.Window_AddSlider(wnd.winPtr, slider.ptr)
 }
 
 func (wnd *Window) AddStepper(stepper *Stepper) {
@@ -131,11 +131,11 @@ func (wnd *Window) AddStepper(stepper *Stepper) {
 }
 
 func (wnd *Window) AddComboBox(comboBox *ComboBox) {
-	C.Window_AddComboBox(wnd.winPtr, comboBox.comboBoxPtr)
+	C.Window_AddComboBox(wnd.winPtr, comboBox.ptr)
 }
 
 func (wnd *Window) AddTableView(tableView *TableView) {
-	C.Window_AddTableView(wnd.winPtr, tableView.tableViewPtr)
+	C.Window_AddTableView(wnd.winPtr, tableView.ptr)
 }
 
 // Update - forces the whole window to repaint

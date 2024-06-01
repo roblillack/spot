@@ -93,12 +93,13 @@ func (c *ListBox) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (c *ListBox) Mount(parent spot.Control) any {
+func (c *ListBox) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	c.ref = cocoa.NewTableView(c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewTableView(x, y, w, h)
 	c.ref.SetAllowsMultipleSelection(c.Multiselect)
 
 	c.setValues(c.Values)
@@ -110,4 +111,22 @@ func (c *ListBox) Mount(parent spot.Control) any {
 	}
 
 	return c.ref
+}
+
+func (c *ListBox) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}
+
+func (c *ListBox) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if c.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

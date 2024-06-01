@@ -84,7 +84,7 @@ func (ctx *RenderContext) TriggerUpdate() {
 	// anyway.
 	RunOnMainLoop(func() {
 		if ctx.root.Content == nil {
-			// fmt.Printf("[%v] Root is nil, returning.\n", ctx)
+			fmt.Printf("[%v] Root is nil, returning.\n", ctx)
 			return
 		}
 
@@ -94,18 +94,26 @@ func (ctx *RenderContext) TriggerUpdate() {
 		// }
 		// fmt.Println("*******************")
 
-		// fmt.Printf("[%v] RENDER TRIGGERED!\n", ctx)
+		fmt.Printf("[%v] RENDER TRIGGERED!\n", ctx)
 		ctx.count = 0
-		// fmt.Println("**** RENDER STARTING ****")
+		fmt.Println("**** RENDER STARTING ****")
 		newTree := ctx.BuildNode(ctx.content)
 		// log.Printf("render time: %s\n", time.Now().Sub(now))
-		// fmt.Println("**** RENDER DONE ****")
+		fmt.Println("**** RENDER DONE ****")
 
 		// fmt.Printf("[%v] Old tree: %+v\n", ctx, ctx.root)
 		// printNodes(&ctx.root, 0)
 		// fmt.Printf("[%v] New tree: %+v\n", ctx, newTree)
 		// printNodes(&newTree, 0)
 
-		ctx.root.Update(newTree, nil)
+		ctx.root.Update(ctx, newTree, nil)
 	})
+}
+
+func (ctx *RenderContext) Mount() {
+	ctx.root.Mount(ctx)
+}
+
+func (ctx *RenderContext) Layout() {
+	ctx.root.Layout(ctx, nil)
 }

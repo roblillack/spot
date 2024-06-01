@@ -37,7 +37,7 @@ func (b *Dial) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (b *Dial) Mount(parent spot.Control) any {
+func (b *Dial) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}
@@ -58,4 +58,18 @@ func (b *Dial) Mount(parent spot.Control) any {
 	}
 
 	return b.ref
+}
+
+func (c *Dial) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}
+
+func (c *Dial) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

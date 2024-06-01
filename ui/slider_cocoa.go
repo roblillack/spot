@@ -39,22 +39,23 @@ func (b *Slider) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (b *Slider) Mount(parent spot.Control) any {
-	if b.ref != nil {
-		return b.ref
+func (c *Slider) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	b.ref = cocoa.NewSlider(b.X, b.Y, b.Width, b.Height)
-	b.ref.SetMaximumValue(b.Max)
-	b.ref.SetMinimumValue(b.Min)
-	b.ref.SetValue(b.Value)
-	b.ref.OnSliderValueChanged(b.callback)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewSlider(x, y, w, h)
+	c.ref.SetMaximumValue(c.Max)
+	c.ref.SetMinimumValue(c.Min)
+	c.ref.SetValue(c.Value)
+	c.ref.OnSliderValueChanged(c.callback)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddSlider(b.ref)
+		window.ref.AddSlider(c.ref)
 	}
 
-	return b.ref
+	return c.ref
 }
 
 func (c *Slider) Unmount() {
@@ -74,4 +75,9 @@ func (c *Slider) callback() {
 	if c.OnValueChanged != nil {
 		c.OnValueChanged(c.ref.Value())
 	}
+}
+
+func (c *Slider) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

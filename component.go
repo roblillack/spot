@@ -13,9 +13,14 @@ func (l Fragment) Render(ctx *RenderContext) Component {
 // Control is a component that can be mounted into the UI tree.
 type Control interface {
 	Component
-	Mount(parent Control) any
+	Mount(ctx *RenderContext, parent Control) any
 	Update(next Control) bool
+	Layout(ctx *RenderContext, parent Control)
 	// Unmount()
+}
+
+type Layoutable interface {
+	Control
 }
 
 // Unmountable is a control component that can be unmounted from the UI tree again.
@@ -49,7 +54,7 @@ func Make(fn RenderFn) Component {
 
 // Build renders a component into a tree of controls. This tree can be mounted
 // to display the UI.
-func Build(el Component) Node {
+func Build(el Component) *RenderContext {
 	ctx := &RenderContext{
 		content: el,
 		values:  make(map[int]any),
@@ -58,12 +63,12 @@ func Build(el Component) Node {
 	ctx.root = rendered
 	// fmt.Println("Rendered control tree:")
 	// printNodes(rendered, 0)
-	return rendered
+	return ctx
 }
 
 // BuildFn renders a render function into a tree of controls. It is a shortcut
 // for `Build(Make(fn))`.
-func BuildFn(fn RenderFn) Node {
+func BuildFn(fn RenderFn) *RenderContext {
 	return Build(Make(fn))
 }
 

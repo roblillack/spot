@@ -3,6 +3,7 @@ package cocoa
 // #cgo CFLAGS: -x objective-c
 // #cgo LDFLAGS: -framework Cocoa
 // #import "stepper.h"
+// #import "view.h"
 import "C"
 
 type Stepper struct {
@@ -70,8 +71,25 @@ func (stepper *Stepper) OnStepperValueChanged(fn func(value float64)) {
 	stepper.cb = fn
 }
 
-// Remove removes a Slider from the parent view again.
 func (stepper *Stepper) Remove() {
 	C.Stepper_Remove(stepper.ptr)
 	steppers[stepper.id] = nil
+}
+
+func (c *Stepper) SetFrameOrigin(x, y int) {
+	C.View_SetFrameOrigin(C.ViewPtr(c.ptr), C.int(x), C.int(y))
+}
+
+func (c *Stepper) SetFrameSize(width, height int) {
+	C.View_SetFrameSize(C.ViewPtr(c.ptr), C.int(width), C.int(height))
+}
+
+func (c *Stepper) SetFrame(x, y, width, height int) {
+	C.View_SetFrame(C.ViewPtr(c.ptr), C.int(x), C.int(y), C.int(width), C.int(height))
+}
+
+func (c *Stepper) Frame() (x, y, width, height int) {
+	var x_, y_, width_, height_ C.int
+	C.View_Frame(C.ViewPtr(c.ptr), &x_, &y_, &width_, &height_)
+	return int(x_), int(y_), int(width_), int(height_)
 }

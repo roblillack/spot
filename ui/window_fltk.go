@@ -3,6 +3,8 @@
 package ui
 
 import (
+	"log"
+
 	goFltk "github.com/pwiecz/go-fltk"
 	"github.com/roblillack/spot"
 )
@@ -30,14 +32,18 @@ func (w *Window) Update(nextComponent spot.Control) bool {
 	if next.Resizable != w.Resizable {
 		w.Resizable = next.Resizable
 		if w.ref != nil {
-			// w.ref.SetSizeRange(w.Resizable)
+			if w.Resizable {
+				w.ref.SetSizeRange(1, 1, 0, 0, 0, 0, false)
+			} else {
+				w.ref.SetSizeRange(w.Width, w.Width, w.Height, w.Height, 0, 0, false)
+			}
 		}
 	}
 
 	return true
 }
 
-func (w *Window) Mount(parent spot.Control) any {
+func (w *Window) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	w.ref = goFltk.NewWindow(w.Width, w.Height, w.Title)
 	// for _, child := range w.children {
 	// 	w.mountChild(child)
@@ -46,8 +52,20 @@ func (w *Window) Mount(parent spot.Control) any {
 
 	// w.ref.MakeKeyAndOrderFront()
 	// w.ref.AddDefaultQuitMenu()
+
+	if w.Resizable {
+		w.ref.SetSizeRange(1, 1, 0, 0, 0, 0, false)
+	} else {
+		w.ref.SetSizeRange(w.Width, w.Width, w.Height, w.Height, 0, 0, false)
+	}
 	w.ref.End()
 	w.ref.Show()
+	w.ref.SetResizeHandler(func() {
+		log.Printf("Window resized to %dx%d", w.ContentWidth(), w.ContentHeight())
+		w.Width = w.ContentWidth()
+		w.Height = w.ContentHeight()
+		ctx.Layout()
+	})
 	return w.ref
 }
 
@@ -57,4 +75,8 @@ func (w *Window) ContentWidth() int {
 
 func (w *Window) ContentHeight() int {
 	return w.ref.H()
+}
+
+func (w *Window) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	// no-op
 }

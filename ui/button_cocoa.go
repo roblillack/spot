@@ -26,10 +26,16 @@ func (b *Button) Update(nextComponent spot.Control) bool {
 
 	b.OnClick = next.OnClick
 	b.ref.OnClick(b.OnClick)
+
 	return true
 }
 
-func (b *Button) Mount(parent spot.Control) any {
+func (b *Button) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	b.ref.SetFrame(x, y, w, h)
+}
+
+func (b *Button) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if b.ref != nil {
 		return b.ref
 	}

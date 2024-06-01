@@ -9,12 +9,13 @@ import (
 
 type nativeTypeDropdown = *cocoa.ComboBox
 
-func (c *Dropdown) Mount(parent spot.Control) any {
+func (c *Dropdown) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	c.ref = cocoa.NewComboBox(c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = cocoa.NewComboBox(x, y, w, h)
 	for _, item := range c.Items {
 		c.ref.AddItem(item)
 	}
@@ -58,4 +59,18 @@ func (c *Dropdown) Update(next spot.Control) bool {
 	}
 
 	return true
+}
+
+func (c *Dropdown) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Remove()
+	c.ref = nil
+}
+
+func (c *Dropdown) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.SetFrame(x, y, w, h)
 }

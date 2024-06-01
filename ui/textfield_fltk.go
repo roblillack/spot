@@ -9,24 +9,24 @@ import (
 
 type nativeTypeTextField = *goFltk.Input
 
-func (w *TextField) Update(nextComponent spot.Control) bool {
+func (c *TextField) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*TextField)
 	if !ok {
 		return false
 	}
 
-	if w.ref == nil {
+	if c.ref == nil {
 		return false
 	}
 
-	if next.Value != w.Value {
-		w.Value = next.Value
-		if w.ref != nil {
+	if next.Value != c.Value {
+		c.Value = next.Value
+		if c.ref != nil {
 			// if w.ref.Buffer() == nil {
 			// 	w.ref.SetBuffer(goFltk.NewTextBuffer())
 			// }
 			// w.ref.Buffer().SetText(w.Value)
-			w.ref.SetValue(w.Value)
+			c.ref.SetValue(c.Value)
 		}
 	}
 
@@ -37,43 +37,56 @@ func (w *TextField) Update(nextComponent spot.Control) bool {
 	// 	}
 	// }
 
-	w.OnChange = next.OnChange
+	c.OnChange = next.OnChange
 
 	return true
 }
 
-func (w *TextField) Mount(parent spot.Control) any {
-	if w.ref != nil {
-		return w.ref
+func (c *TextField) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
-	w.ref = goFltk.NewInput(w.X, w.Y, w.Width, w.Height)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = goFltk.NewInput(x, y, w, h)
 	// w.ref.SetBuffer(goFltk.NewTextBuffer())
 	// w.ref.Buffer().SetText(w.Value)
-	w.ref.SetValue(w.Value)
+	c.ref.SetValue(c.Value)
 	// w.ref.Deactivate()
 	// w.ref.SetWrapMode(goFltk.WRAP_AT_BOUNDS, 0)
 	// if w.FontSize > 0 {
 	// 	w.ref.SetTextSize(w.FontSize)
 	// }
-	w.ref.SetCallback(w.callback)
-	w.ref.SetCallbackCondition(goFltk.WhenChanged)
+	c.ref.SetCallback(c.callback)
+	c.ref.SetCallbackCondition(goFltk.WhenChanged)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.Add(w.ref)
+		window.ref.Add(c.ref)
 	}
 
-	return w.ref
+	return c.ref
 }
 
-func (w *TextField) callback() {
-	if w.OnChange != nil {
-		val := w.ref.Value()
-		if val != w.Value {
-			w.Value = val
-			w.OnChange(val)
+func (c *TextField) callback() {
+	if c.OnChange != nil {
+		val := c.ref.Value()
+		if val != c.Value {
+			c.Value = val
+			c.OnChange(val)
 		}
 	}
 }
 
-var _ spot.Control = &TextField{}
+func (c *TextField) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.Destroy()
+	c.ref = nil
+}
+
+func (c *TextField) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
+}

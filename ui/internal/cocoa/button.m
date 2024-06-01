@@ -128,3 +128,33 @@ void Button_SetImage(ButtonPtr ptr, ImagePtr imagePtr) {
   NSButton *control = (NSButton *)ptr;
   [control setImage:theImage];
 }
+
+void Button_SetFrameOrigin(ButtonPtr ptr, int x, int y) {
+  NSButton *control = (NSButton *)ptr;
+  NSRect frame = control.frame;
+  frame.origin.x = x;
+  frame.origin.y = y;
+  control.frame = frame;
+}
+
+void Button_SetFrameSize(ButtonPtr ptr, int w, int h) {
+  NSButton *control = (NSButton *)ptr;
+  NSRect frame = control.frame;
+  frame.size.width = w;
+  frame.size.height = h;
+  control.frame = frame;
+}
+
+void Button_SetFrame(ButtonPtr ptr, int x, int y, int w, int h) {
+  NSButton *control = (NSButton *)ptr;
+  control.frame = NSMakeRect(x, y, w, h);
+}
+
+void Button_Frame(ButtonPtr ptr, int *x, int *y, int *w, int *h) {
+  NSButton *control = (NSButton *)ptr;
+  NSRect frame = control.frame;
+  *x = frame.origin.x;
+  *y = frame.origin.y;
+  *w = frame.size.width;
+  *h = frame.size.height;
+}

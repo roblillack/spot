@@ -17,6 +17,9 @@ type spinner struct {
 
 type nativeTypeSpinner = *spinner
 
+const stepperWidth = 16
+const stepperPadding = 0
+
 func (w *Spinner) Update(nextComponent spot.Control) bool {
 	next, ok := nextComponent.(*Spinner)
 	if !ok {
@@ -75,32 +78,51 @@ func (w *Spinner) stepperCallback(value float64) {
 	}
 }
 
-func (w *Spinner) Mount(parent spot.Control) any {
-	if w.ref != nil {
-		return w.ref
+func (c *Spinner) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+	if c.ref != nil {
+		return c.ref
 	}
 
 	spinner := &spinner{}
-	stepperWidth := 16
-	stepperPadding := 0
-	spinner.stepper = cocoa.NewStepper(w.X+w.Width-stepperWidth, w.Y, stepperWidth, w.Height)
-	spinner.stepper.SetValue(w.Value)
-	spinner.stepper.SetMinValue(w.Min)
-	spinner.stepper.SetMaxValue(w.Max)
-	spinner.stepper.SetIncrement(w.Step)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	spinner.stepper = cocoa.NewStepper(x+w-stepperWidth, y, stepperWidth, h)
+	spinner.stepper.SetValue(c.Value)
+	spinner.stepper.SetMinValue(c.Min)
+	spinner.stepper.SetMaxValue(c.Max)
+	spinner.stepper.SetIncrement(c.Step)
 	spinner.stepper.SetValueWraps(true)
-	spinner.stepper.OnStepperValueChanged(w.stepperCallback)
+	spinner.stepper.OnStepperValueChanged(c.stepperCallback)
 
-	spinner.textfield = cocoa.NewTextField(w.X, w.Y, w.Width-stepperWidth-stepperPadding, w.Height)
-	spinner.textfield.SetStringValue(fmt.Sprintf("%.0f", w.Value))
-	spinner.textfield.OnChange(w.textFieldCallback)
+	spinner.textfield = cocoa.NewTextField(x, y, w-stepperWidth-stepperPadding, h)
+	spinner.textfield.SetStringValue(fmt.Sprintf("%.0f", c.Value))
+	spinner.textfield.OnChange(c.textFieldCallback)
 
-	w.ref = spinner
+	c.ref = spinner
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
-		window.ref.AddStepper(w.ref.stepper)
-		window.ref.AddTextField(w.ref.textfield)
+		window.ref.AddStepper(c.ref.stepper)
+		window.ref.AddTextField(c.ref.textfield)
 	}
 
-	return w.ref
+	return c.ref
+}
+
+func (c *Spinner) Unmount() {
+	if c.ref == nil {
+		return
+	}
+
+	c.ref.stepper.Remove()
+	c.ref.textfield.Remove()
+	c.ref = nil
+}
+
+func (c *Spinner) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if c.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.stepper.SetFrame(x+w-stepperWidth, y, stepperWidth, h)
+	c.ref.textfield.SetFrame(x, y, w-stepperWidth-stepperPadding, h)
 }

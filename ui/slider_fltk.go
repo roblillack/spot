@@ -45,12 +45,13 @@ func (c *Slider) callback() {
 	}
 }
 
-func (c *Slider) Mount(parent spot.Control) any {
+func (c *Slider) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	c.ref = goFltk.NewSlider(c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref = goFltk.NewSlider(x, y, w, h)
 	c.ref.SetMaximum(c.Max)
 	c.ref.SetMinimum(c.Min)
 	c.ref.SetValue(c.Value)
@@ -72,4 +73,13 @@ func (c *Slider) Unmount() {
 		c.ref.Destroy()
 		c.ref = nil
 	}
+}
+
+func (c *Slider) Layout(ctx *spot.RenderContext, parent spot.Control) {
+	if c.ref == nil {
+		return
+	}
+
+	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	c.ref.Resize(x, y, w, h)
 }

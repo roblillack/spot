@@ -55,7 +55,7 @@ func QuitButton(ctx *spot.RenderContext) spot.Component {
 		return &ui.Button{
 			X:      210,
 			Y:      370,
-			Width:  180,
+			Width:  -10,
 			Height: 25,
 			Title:  "Please wait...",
 		}
@@ -64,7 +64,7 @@ func QuitButton(ctx *spot.RenderContext) spot.Component {
 	return &ui.Button{
 		X:      210,
 		Y:      370,
-		Width:  180,
+		Width:  -10,
 		Height: 25,
 		Title:  "Quit",
 		OnClick: func() {
@@ -131,9 +131,10 @@ func main() {
 		return &ui.Window{
 			Title: "Hello Spot!",
 			Width: 400, Height: 500,
+			Resizable: true,
 			Children: []spot.Component{
 				&ui.Label{
-					X: 10, Y: 410, Width: 380, Height: 80,
+					X: 10, Y: 410, Width: -10, Height: -10,
 					Value: fmt.Sprintf("%02d:%02d.%03d", int(duration.Minutes())%60,
 						int(duration.Seconds())%60, duration.Milliseconds()%1000),
 					FontSize: 60,
@@ -165,7 +166,7 @@ func main() {
 					}
 				}),
 				&ui.Dropdown{
-					X: 210, Y: 220, Width: 180, Height: 25,
+					X: 210, Y: 220, Width: -10, Height: 25,
 					Items:         []string{"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"},
 					SelectedIndex: counter % 10,
 					OnSelectionDidChange: func(index int) {
@@ -180,7 +181,7 @@ func main() {
 					},
 				},
 				&ui.Checkbox{
-					X: 270, Y: 250, Width: 120, Height: 25,
+					X: 270, Y: 250, Width: -10, Height: 25,
 					Checked: counter%2 == 0,
 					Label:   "is even?",
 					OnChange: func(checked bool) {
@@ -188,26 +189,23 @@ func main() {
 					},
 				},
 				&ui.Slider{
-					X: 210, Y: 190, Width: 180, Height: 25,
+					X: 210, Y: 190, Width: -10, Height: 25,
 					Min: 0, Max: 9, Value: float64(counter % 10),
 					OnValueChanged: func(value float64) {
 						setCounter(int(value))
 					},
 				},
 				&ui.Button{
-					X:      210,
-					Y:      160,
-					Width:  180,
-					Height: 25,
-					Title:  buttonTitle,
+					X: 210, Y: 160, Width: -10, Height: 25,
+					Title: buttonTitle,
 					OnClick: func() {
 						setCounter(counter + 1)
 					},
 				},
-				&ui.Label{X: 210, Y: 100, Width: 180, Height: 25, Value: "Current backend:"},
-				&BlinkingLabel{X: 210, Y: 120, Width: 180, Height: 30, Text: ui.BackendName, Size: 20},
+				&ui.Label{X: 210, Y: 100, Width: -10, Height: 25, Value: "Current backend:"},
+				&BlinkingLabel{X: 210, Y: 120, Width: -10, Height: 30, Text: ui.BackendName, Size: 20},
 				&ui.ListBox{
-					X: 210, Y: 285, Width: 180, Height: 75,
+					X: 210, Y: 285, Width: -10, Height: 75,
 					Values:    []string{"Null", "Eins", "Zwei", "Drei", "Vier", "Fünf", "Sechs", "Sieben", "Acht", "Neun"},
 					Selection: []int{counter % 10},
 					OnSelect: func(selection []int) {
@@ -218,7 +216,7 @@ func main() {
 				},
 				spot.Make(QuitButton),
 				&ui.TextView{
-					X: 10, Y: 10, Width: 380, Height: 80,
+					X: 10, Y: 10, Width: -10, Height: 80,
 					Text: randText,
 					// FontSize: 11,
 					// Editable: false, Selectable: false, Bezeled: false, NoBackground: false,
