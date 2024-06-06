@@ -2,6 +2,7 @@
 
 # Spot
 
+[![Build status](https://github.com/roblillack/spot/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/roblillack/spot/actions)
 [![Go Reference](https://pkg.go.dev/badge/github.com/roblillack/spot.svg)](https://pkg.go.dev/github.com/roblillack/spot)
 [![Go Report Card](https://goreportcard.com/badge/github.com/roblillack/spot)](https://goreportcard.com/report/github.com/roblillack/spot)
 
