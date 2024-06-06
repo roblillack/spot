@@ -12,6 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: gcc libgl1-mesa-dev xorg-dev
+          version: 1.0
+
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
