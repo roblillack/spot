@@ -9,7 +9,7 @@ import "unsafe"
 // TextView - represents a textView control that can trigger actions.
 type TextView struct {
 	ptr      C.TextViewPtr
-	callback func()
+	callback func(string)
 }
 
 var textviews []*TextView
@@ -24,6 +24,11 @@ func NewTextView(x int, y int, width int, height int) *TextView {
 	}
 	textviews = append(textviews, tv)
 	return tv
+}
+
+// GetText gets the text of the text view
+func (textview *TextView) GetText() string {
+	return C.GoString(C.TextView_Text(textview.ptr))
 }
 
 // SetText sets the text of the text view
@@ -48,5 +53,18 @@ func (c *TextView) SetEditable(editable bool) {
 		C.TextView_SetEditable(c.ptr, 1)
 	} else {
 		C.TextView_SetEditable(c.ptr, 0)
+	}
+}
+
+func (c *TextView) OnChange(fn func(value string)) {
+	c.callback = fn
+}
+
+//export onTextViewDidChange
+func onTextViewDidChange(id C.int) {
+	textViewId := int(id)
+	if textViewId < len(textviews) && textviews[textViewId].callback != nil {
+		tf := textviews[textViewId]
+		tf.callback(tf.GetText())
 	}
 }

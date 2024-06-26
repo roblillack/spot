@@ -25,6 +25,8 @@ func (w *TextEditor) Update(nextComponent spot.Control) bool {
 		w.ref.SetFontSize(w.FontSize)
 	}
 
+	w.ref.OnChange(next.OnChange)
+
 	return true
 }
 
