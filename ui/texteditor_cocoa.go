@@ -43,6 +43,7 @@ func (w *TextEditor) Mount(parent spot.Control) any {
 	if w.FontSize > 0 {
 		w.ref.SetFontSize(w.FontSize)
 	}
+	w.ref.OnChange(w.OnChange)
 
 	if window, ok := parent.(*Window); ok && window != nil && window.ref != nil {
 		window.ref.AddTextView(w.ref)
