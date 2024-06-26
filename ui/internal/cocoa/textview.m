@@ -1,5 +1,6 @@
 #import "textview.h"
 #include "_cgo_export.h"
+#import "textviewdelegate.h"
 
 @implementation TextViewHandler
 @end
@@ -8,6 +9,10 @@ TextViewPtr TextView_New(int goTextViewId, int x, int y, int w, int h) {
   /* create the NSTextView and add it to the window */
   NSTextView *textView =
       [[[NSTextView alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
+
+  id d = [[TextViewDelegate alloc] init];
+  [d setGoTextViewId:goTextViewId];
+  [textView setDelegate:d];
 
   NSScrollView *scrollView =
       [[[NSScrollView alloc] initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
@@ -18,6 +23,12 @@ TextViewPtr TextView_New(int goTextViewId, int x, int y, int w, int h) {
   scrollView.borderType = NSBezelBorder;
 
   return (TextViewPtr)scrollView;
+}
+
+const char *TextView_Text(TextViewPtr ptr) {
+  NSTextView *c = ((NSScrollView *)ptr).documentView;
+  return
+      [[[c textStorage] string] cStringUsingEncoding:NSISOLatin1StringEncoding];
 }
 
 void TextView_SetText(TextViewPtr ptr, const char *text) {
