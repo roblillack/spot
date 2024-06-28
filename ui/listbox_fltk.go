@@ -141,3 +141,10 @@ func (c *ListBox) Mount(parent spot.Control) any {
 
 	return c.ref
 }
+
+func (c *ListBox) Unmount() {
+	if c.ref != nil {
+		c.ref.Destroy()
+		c.ref = nil
+	}
+}
