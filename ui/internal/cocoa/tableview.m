@@ -49,7 +49,7 @@ TableViewPtr TableView_New(int goTableViewId, int x, int y, int w, int h) {
   column.width = w;
   [tableView addTableColumn:column];
 
-  TableViewController *d = [[[TableViewController alloc] init] autorelease];
+  TableViewController *d = [[TableViewController alloc] init];
   d.goTableViewId = goTableViewId;
 
   // This line removes the header view entirely

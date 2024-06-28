@@ -102,7 +102,7 @@ func (tableView *TableView) selectedRows() []int {
 //export onTableViewSelectionDidChange
 func onTableViewSelectionDidChange(id C.int) {
 	tableViewID := int(id)
-	if tableViewID < len(tableViews) && tableViews[tableViewID].callback != nil {
+	if tableViewID < len(tableViews) {
 		x := tableViews[tableViewID]
 		if x.callback != nil {
 			x.callback(x.selectedRows())
