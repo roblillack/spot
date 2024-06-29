@@ -65,7 +65,9 @@ func (c *Image) draw() {
 
 	switch img := c.Image.(type) {
 	case *image.RGBA:
-		c.ref.SetImage(img)
+		if img != nil {
+			c.ref.SetImage(img)
+		}
 	default:
 		panic(fmt.Sprintf("unsupported image type: %T", img))
 	}
