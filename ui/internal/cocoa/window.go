@@ -16,6 +16,7 @@ const (
 	didMove          WindowEvent = 1
 	didMiniaturize   WindowEvent = 2
 	didDeminiaturize WindowEvent = 3
+	shouldClose      WindowEvent = 4
 )
 
 // EventHandler - handler functions that accepts the updated window as parameter
@@ -199,6 +200,10 @@ func (wnd *Window) OnDidDeminiaturize(fn EventHandler) {
 
 func (wnd *Window) OnDidMove(fn EventHandler) {
 	wnd.callbacks[didMove] = fn
+}
+
+func (wnd *Window) OnShouldClose(fn EventHandler) {
+	wnd.callbacks[shouldClose] = fn
 }
 
 //export onWindowEvent
