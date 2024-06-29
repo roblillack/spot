@@ -13,7 +13,7 @@ type TextView struct {
 }
 
 var _ spot.Component = &TextView{}
-var _ spot.Control = &TextView{}
+var _ spot.Mountable = &TextView{}
 
 func (c *TextView) Render(ctx *spot.RenderContext) spot.Component {
 	return c

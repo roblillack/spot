@@ -16,7 +16,7 @@ type Slider struct {
 }
 
 var _ spot.Component = &Slider{}
-var _ spot.Control = &Slider{}
+var _ spot.Mountable = &Slider{}
 
 func (c *Slider) Render(ctx *spot.RenderContext) spot.Component {
 	return c

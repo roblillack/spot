@@ -11,7 +11,7 @@ import (
 
 type nativeTypeImage = *goFltk.Box
 
-func (c *Image) Update(nextControl spot.Control) bool {
+func (c *Image) Update(nextControl spot.Mountable) bool {
 	next, ok := nextControl.(*Image)
 	if !ok {
 		return false
@@ -28,7 +28,7 @@ func (c *Image) Update(nextControl spot.Control) bool {
 	return true
 }
 
-func (c *Image) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (c *Image) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	if c.ref != nil {
 		return c.ref
 	}
@@ -37,7 +37,7 @@ func (c *Image) Mount(ctx *spot.RenderContext, parent spot.Control) any {
 		return nil
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref = goFltk.NewBox(goFltk.DOWN_BOX, x, y, w, h)
 	c.ref.SetEventHandler(c.handleEvent)
 	c.draw()
@@ -89,11 +89,11 @@ func (c *Image) draw() {
 	c.ref.Redraw()
 }
 
-func (c *Image) Layout(ctx *spot.RenderContext, parent spot.Control) {
+func (c *Image) Layout(ctx *spot.RenderContext, parent spot.Container) {
 	if c.ref == nil {
 		return
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref.Resize(x, y, w, h)
 }

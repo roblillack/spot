@@ -11,7 +11,7 @@ import (
 
 type nativeTypeWindow = *goFltk.Window
 
-func (w *Window) Update(nextComponent spot.Control) bool {
+func (w *Window) Update(nextComponent spot.Mountable) bool {
 	next, ok := nextComponent.(*Window)
 	if !ok {
 		return false
@@ -43,7 +43,7 @@ func (w *Window) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (w *Window) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (w *Window) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	w.ref = goFltk.NewWindow(w.Width, w.Height, w.Title)
 	// for _, child := range w.children {
 	// 	w.mountChild(child)
@@ -77,6 +77,15 @@ func (w *Window) ContentHeight() int {
 	return w.ref.H()
 }
 
-func (w *Window) Layout(ctx *spot.RenderContext, parent spot.Control) {
+func (w *Window) Layout(ctx *spot.RenderContext, parent spot.Container) {
 	// no-op
+}
+
+func (w *Window) Unmount() {
+	if w.ref == nil {
+		return
+	}
+
+	w.ref.Destroy()
+	w.ref = nil
 }

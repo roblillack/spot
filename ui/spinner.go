@@ -16,7 +16,7 @@ type Spinner struct {
 }
 
 var _ spot.Component = &Spinner{}
-var _ spot.Control = &Spinner{}
+var _ spot.Mountable = &Spinner{}
 
 func (c *Spinner) Render(ctx *spot.RenderContext) spot.Component {
 	return c

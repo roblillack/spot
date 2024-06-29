@@ -12,28 +12,32 @@ type Window struct {
 }
 
 var _ spot.Component = &Window{}
-var _ spot.Control = &Window{}
+var _ spot.Mountable = &Window{}
 var _ spot.Container = &Window{}
 
 func (c *Window) Render(ctx *spot.RenderContext) spot.Component {
 	return c
 }
 
-func (w *Window) BuildNode(ctx *spot.RenderContext) spot.Node {
-	kids := []spot.Node{}
-	for _, child := range w.Children {
-		kid := ctx.BuildNode(child)
-		if kid.Content == nil {
-			if len(kid.Children) > 0 {
-				kids = append(kids, kid.Children...)
-			}
-			continue
-		}
-		kids = append(kids, kid)
-	}
-
-	return spot.Node{
-		Content:  w,
-		Children: kids,
-	}
+func (w *Window) GetChildren() []spot.Component {
+	return w.Children
 }
+
+// func (w *Window) BuildNode(ctx *spot.RenderContext) spot.Node {
+// 	kids := []spot.Node{}
+// 	for _, child := range w.Children {
+// 		kid := ctx.BuildNode(child)
+// 		if kid.Content == nil {
+// 			if len(kid.Children) > 0 {
+// 				kids = append(kids, kid.Children...)
+// 			}
+// 			continue
+// 		}
+// 		kids = append(kids, kid)
+// 	}
+
+// 	return spot.Node{
+// 		Content:  w,
+// 		Children: kids,
+// 	}
+// }

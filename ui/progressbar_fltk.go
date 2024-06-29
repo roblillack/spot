@@ -9,7 +9,7 @@ import (
 
 type nativeTypeProgressBar = *goFltk.Progress
 
-func (b *ProgressBar) Update(nextComponent spot.Control) bool {
+func (b *ProgressBar) Update(nextComponent spot.Mountable) bool {
 	next, ok := nextComponent.(*ProgressBar)
 	if !ok {
 		return false
@@ -37,12 +37,12 @@ func (b *ProgressBar) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (c *ProgressBar) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (c *ProgressBar) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref = goFltk.NewProgress(x, y, w, h)
 	c.ref.SetMaximum(c.Max)
 	c.ref.SetMinimum(c.Min)
@@ -69,11 +69,11 @@ func (c *ProgressBar) Unmount() {
 	c.ref = nil
 }
 
-func (c *ProgressBar) Layout(ctx *spot.RenderContext, parent spot.Control) {
+func (c *ProgressBar) Layout(ctx *spot.RenderContext, parent spot.Container) {
 	if c.ref == nil {
 		return
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref.Resize(x, y, w, h)
 }

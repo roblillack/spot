@@ -9,7 +9,7 @@ import (
 
 type nativeTypeSpinner = *goFltk.Spinner
 
-func (b *Spinner) Update(nextComponent spot.Control) bool {
+func (b *Spinner) Update(nextComponent spot.Mountable) bool {
 	next, ok := nextComponent.(*Spinner)
 	if !ok {
 		return false
@@ -42,12 +42,12 @@ func (b *Spinner) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (c *Spinner) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (c *Spinner) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref = goFltk.NewSpinner(x, y, w, h)
 	c.ref.SetMaximum(c.Max)
 	c.ref.SetMinimum(c.Min)
@@ -75,11 +75,11 @@ func (c *Spinner) Unmount() {
 	c.ref = nil
 }
 
-func (c *Spinner) Layout(ctx *spot.RenderContext, parent spot.Control) {
+func (c *Spinner) Layout(ctx *spot.RenderContext, parent spot.Container) {
 	if c.ref == nil {
 		return
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref.Resize(x, y, w, h)
 }

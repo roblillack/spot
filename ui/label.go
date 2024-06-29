@@ -24,7 +24,7 @@ type Label struct {
 }
 
 var _ spot.Component = &Label{}
-var _ spot.Control = &Label{}
+var _ spot.Mountable = &Label{}
 
 func (c *Label) Render(ctx *spot.RenderContext) spot.Component {
 	return c

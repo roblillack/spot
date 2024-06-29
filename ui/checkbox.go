@@ -14,7 +14,7 @@ type Checkbox struct {
 }
 
 var _ spot.Component = &Checkbox{}
-var _ spot.Control = &Checkbox{}
+var _ spot.Mountable = &Checkbox{}
 
 func (c *Checkbox) Render(ctx *spot.RenderContext) spot.Component {
 	return c

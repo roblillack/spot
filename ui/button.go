@@ -14,7 +14,7 @@ type Button struct {
 }
 
 var _ spot.Component = &Button{}
-var _ spot.Control = &Button{}
+var _ spot.Mountable = &Button{}
 
 func (b *Button) Render(ctx *spot.RenderContext) spot.Component {
 	return b

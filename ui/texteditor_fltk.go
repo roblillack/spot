@@ -9,7 +9,7 @@ import (
 
 type nativeTypeTextEditor = *goFltk.TextEditor
 
-func (c *TextEditor) Update(nextComponent spot.Control) bool {
+func (c *TextEditor) Update(nextComponent spot.Mountable) bool {
 	next, ok := nextComponent.(*TextEditor)
 	if !ok {
 		return false
@@ -26,12 +26,12 @@ func (c *TextEditor) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (c *TextEditor) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (c *TextEditor) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref = goFltk.NewTextEditor(x, y, w, h)
 	c.ref.SetBuffer(goFltk.NewTextBuffer())
 	c.ref.Buffer().SetText(c.Text)
@@ -66,7 +66,7 @@ func (c *TextEditor) Unmount() {
 	c.ref = nil
 }
 
-func (c *TextEditor) Layout(ctx *spot.RenderContext, parent spot.Control) {
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+func (c *TextEditor) Layout(ctx *spot.RenderContext, parent spot.Container) {
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref.Resize(x, y, w, h)
 }

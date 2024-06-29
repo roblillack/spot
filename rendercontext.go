@@ -2,6 +2,7 @@ package spot
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	"sync"
 )
@@ -35,13 +36,51 @@ func (ctx *RenderContext) BuildNode(component Component) Node {
 			list = append(list, childNode)
 		}
 		return Node{Children: list}
-
 	case Container:
-		return c.BuildNode(ctx)
-	case Control:
+		node := Node{Content: c}
+		for _, child := range c.GetChildren() {
+			childNode := ctx.BuildNode(child)
+			node.Children = append(node.Children, childNode)
+		}
+		return node
+	case Mountable:
 		return Node{Content: c}
 	default:
 		return ctx.BuildNode(component.Render(ctx))
+	}
+}
+
+// BuildNode recursively renders a component and its children into a tree
+// of UI controls.
+func (ctx *RenderContext) RenderTree(component Component) Mountable {
+	if component == nil {
+		return nil
+	}
+
+	switch c := component.(type) {
+	// case Fragment:
+	// 	list := []Node{}
+	// 	for _, e := range c {
+	// 		childNode := ctx.BuildNode(e)
+	// 		if childNode.Content == nil {
+	// 			if len(childNode.Children) != 0 {
+	// 				list = append(list, childNode.Children...)
+	// 			}
+	// 			continue
+	// 		}
+	// 		list = append(list, childNode)
+	// 	}
+	// 	return Node{Children: list}
+	case Container:
+		children := c.GetChildren()
+		for idx, child := range c.GetChildren() {
+			children[idx] = ctx.RenderTree(child)
+		}
+		return c
+	case Mountable:
+		return c
+	default:
+		return ctx.RenderTree(component.Render(ctx))
 	}
 }
 
@@ -67,6 +106,19 @@ func printNodes(node *Node, indent int) {
 		printNodes(&child, indent+1)
 	}
 	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), node.Content)
+}
+
+func printTree(component Component, indent int) {
+	container, ok := component.(Container)
+	if !ok {
+		fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), component)
+	}
+
+	fmt.Printf("%s<%T>\n", strings.Repeat("  ", indent), container)
+	for _, child := range container.GetChildren() {
+		printTree(child, indent+1)
+	}
+	fmt.Printf("%s</%T>\n", strings.Repeat("  ", indent), container)
 }
 
 func (ctx *RenderContext) TriggerUpdate() {
@@ -115,5 +167,22 @@ func (ctx *RenderContext) Mount() {
 }
 
 func (ctx *RenderContext) Layout() {
-	ctx.root.Layout(ctx, nil)
+	// ctx.root.Layout(ctx, nil)
+	ctx.layout(ctx.root.Content, nil)
+}
+
+func (ctx *RenderContext) layout(c Component, parent Container) {
+	log.Printf("Layouting %T\n", c)
+
+	if layoutable, ok := c.(Layoutable); ok {
+		log.Printf("-> Layoutable\n")
+		layoutable.Layout(ctx, parent)
+	}
+
+	if container, ok := c.(Container); ok {
+		log.Printf("-> Container\n")
+		for _, child := range container.GetChildren() {
+			ctx.layout(child, container)
+		}
+	}
 }

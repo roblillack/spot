@@ -1,8 +1,12 @@
 package ui
 
-import "github.com/roblillack/spot"
+import (
+	"log"
 
-func calcLayout(parent spot.Control, cX, cY, cW, cH int) (int, int, int, int) {
+	"github.com/roblillack/spot"
+)
+
+func CalcLayout(parent spot.Component, cX, cY, cW, cH int) (int, int, int, int) {
 	if parent == nil {
 		return cX, cY, cW, cH
 	}
@@ -71,6 +75,8 @@ func calcLayout(parent spot.Control, cX, cY, cW, cH int) (int, int, int, int) {
 		y = cY
 		h = cH
 	}
+
+	log.Printf("CalcLayout: parent=%T (%dx%d) =(%dx%d)=> (%dx%d)\n", parent, pW, pH, cX, cY, w, h)
 
 	return x, y, w, h
 }

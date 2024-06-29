@@ -9,7 +9,7 @@ import (
 
 type nativeTypeTextView = *goFltk.TextDisplay
 
-func (c *TextView) Update(nextComponent spot.Control) bool {
+func (c *TextView) Update(nextComponent spot.Mountable) bool {
 	next, ok := nextComponent.(*TextView)
 	if !ok {
 		return false
@@ -24,12 +24,12 @@ func (c *TextView) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (c *TextView) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (c *TextView) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref = goFltk.NewTextDisplay(x, y, w, h)
 	c.ref.SetBuffer(goFltk.NewTextBuffer())
 	c.ref.Buffer().SetText(c.Text)
@@ -52,7 +52,7 @@ func (c *TextView) Unmount() {
 	c.ref = nil
 }
 
-func (c *TextView) Layout(ctx *spot.RenderContext, parent spot.Control) {
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+func (c *TextView) Layout(ctx *spot.RenderContext, parent spot.Container) {
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref.Resize(x, y, w, h)
 }

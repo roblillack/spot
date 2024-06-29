@@ -21,7 +21,7 @@ type TextField struct {
 }
 
 var _ spot.Component = &TextField{}
-var _ spot.Control = &TextField{}
+var _ spot.Mountable = &TextField{}
 
 func (c *TextField) Render(ctx *spot.RenderContext) spot.Component {
 	return c

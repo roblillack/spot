@@ -19,7 +19,7 @@ type Image struct {
 }
 
 var _ spot.Component = &Image{}
-var _ spot.Control = &Image{}
+var _ spot.Mountable = &Image{}
 
 func (c *Image) Render(ctx *spot.RenderContext) spot.Component {
 	return c

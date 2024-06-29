@@ -17,7 +17,7 @@ type Dropdown struct {
 }
 
 var _ spot.Component = &Dropdown{}
-var _ spot.Control = &Dropdown{}
+var _ spot.Mountable = &Dropdown{}
 
 func (c *Dropdown) Render(ctx *spot.RenderContext) spot.Component {
 	return c

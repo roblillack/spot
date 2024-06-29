@@ -13,11 +13,12 @@ type ListBox struct {
 	Multiselect bool
 	Selection   []int
 	OnSelect    func([]int)
-	ref         nativeTypeListBox
+
+	ref nativeTypeListBox
 }
 
 var _ spot.Component = &ListBox{}
-var _ spot.Control = &ListBox{}
+var _ spot.Mountable = &ListBox{}
 
 func (c *ListBox) Render(ctx *spot.RenderContext) spot.Component {
 	return c

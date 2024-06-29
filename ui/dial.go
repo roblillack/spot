@@ -15,7 +15,7 @@ type Dial struct {
 }
 
 var _ spot.Component = &Dial{}
-var _ spot.Control = &Dial{}
+var _ spot.Mountable = &Dial{}
 
 func (c *Dial) Render(ctx *spot.RenderContext) spot.Component {
 	return c

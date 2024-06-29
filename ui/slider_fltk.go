@@ -9,7 +9,7 @@ import (
 
 type nativeTypeSlider = *goFltk.Slider
 
-func (c *Slider) Update(nextComponent spot.Control) bool {
+func (c *Slider) Update(nextComponent spot.Mountable) bool {
 	next, ok := nextComponent.(*Slider)
 	if !ok {
 		return false
@@ -45,12 +45,12 @@ func (c *Slider) callback() {
 	}
 }
 
-func (c *Slider) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (c *Slider) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref = goFltk.NewSlider(x, y, w, h)
 	c.ref.SetMaximum(c.Max)
 	c.ref.SetMinimum(c.Min)
@@ -75,11 +75,11 @@ func (c *Slider) Unmount() {
 	}
 }
 
-func (c *Slider) Layout(ctx *spot.RenderContext, parent spot.Control) {
+func (c *Slider) Layout(ctx *spot.RenderContext, parent spot.Container) {
 	if c.ref == nil {
 		return
 	}
 
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref.Resize(x, y, w, h)
 }

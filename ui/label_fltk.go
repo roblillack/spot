@@ -9,7 +9,7 @@ import (
 
 type nativeTypeLabel = *goFltk.Box
 
-func (c *Label) Update(nextComponent spot.Control) bool {
+func (c *Label) Update(nextComponent spot.Mountable) bool {
 	next, ok := nextComponent.(*Label)
 	if !ok {
 		return false
@@ -59,13 +59,13 @@ func (c *Label) setAlign(a LabelAlignment) {
 	}
 }
 
-func (c *Label) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (c *Label) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	if c.ref != nil {
 		return c.ref
 	}
 
 	// w.ref = goFltk.NewTextDisplay(w.X, w.Y, w.Width, w.Height)
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref = goFltk.NewBox(goFltk.NO_BOX, x, y, w, h)
 	c.ref.SetLabel(c.Value)
 	c.setAlign(c.Align)
@@ -92,7 +92,7 @@ func (c *Label) Unmount() {
 	}
 }
 
-func (c *Label) Layout(ctx *spot.RenderContext, parent spot.Control) {
-	x, y, w, h := calcLayout(parent, c.X, c.Y, c.Width, c.Height)
+func (c *Label) Layout(ctx *spot.RenderContext, parent spot.Container) {
+	x, y, w, h := CalcLayout(parent, c.X, c.Y, c.Width, c.Height)
 	c.ref.Resize(x, y, w, h)
 }

@@ -9,7 +9,7 @@ import (
 
 type nativeTypeDial = *goFltk.Slider
 
-func (b *Dial) Update(nextComponent spot.Control) bool {
+func (b *Dial) Update(nextComponent spot.Mountable) bool {
 	next, ok := nextComponent.(*Dial)
 	if !ok {
 		return false
@@ -37,12 +37,12 @@ func (b *Dial) Update(nextComponent spot.Control) bool {
 	return true
 }
 
-func (b *Dial) Mount(ctx *spot.RenderContext, parent spot.Control) any {
+func (b *Dial) Mount(ctx *spot.RenderContext, parent spot.Mountable) any {
 	if b.ref != nil {
 		return b.ref
 	}
 
-	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	x, y, w, h := CalcLayout(parent, b.X, b.Y, b.Width, b.Height)
 	b.ref = goFltk.NewSlider(x, y, w, h)
 	b.ref.SetMaximum(b.Max)
 	b.ref.SetMinimum(b.Min)
@@ -71,11 +71,11 @@ func (b *Dial) Unmount() {
 	b.ref = nil
 }
 
-func (b *Dial) Layout(ctx *spot.RenderContext, parent spot.Control) {
+func (b *Dial) Layout(ctx *spot.RenderContext, parent spot.Container) {
 	if b.ref == nil {
 		return
 	}
 
-	x, y, w, h := calcLayout(parent, b.X, b.Y, b.Width, b.Height)
+	x, y, w, h := CalcLayout(parent, b.X, b.Y, b.Width, b.Height)
 	b.ref.Resize(x, y, w, h)
 }

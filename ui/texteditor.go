@@ -14,7 +14,7 @@ type TextEditor struct {
 }
 
 var _ spot.Component = &TextEditor{}
-var _ spot.Control = &TextEditor{}
+var _ spot.Mountable = &TextEditor{}
 
 func (c *TextEditor) Render(ctx *spot.RenderContext) spot.Component {
 	return c

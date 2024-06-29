@@ -15,7 +15,7 @@ type ProgressBar struct {
 }
 
 var _ spot.Component = &ProgressBar{}
-var _ spot.Control = &ProgressBar{}
+var _ spot.Mountable = &ProgressBar{}
 
 func (c *ProgressBar) Render(ctx *spot.RenderContext) spot.Component {
 	return c
