@@ -4,8 +4,11 @@
 @implementation InteractiveView
 - (void)mouseDown:(NSEvent *)theEvent {
   NSPoint p = [self convertPoint:theEvent.locationInWindow fromView:nil];
-  onInteractiveViewClicked((InteractiveViewPtr)self, p.x, p.y,
-                           theEvent.buttonNumber != 1);
+  onInteractiveViewClicked((InteractiveViewPtr)self, p.x, p.y, false);
+}
+- (void)rightMouseDown:(NSEvent *)theEvent {
+  NSPoint p = [self convertPoint:theEvent.locationInWindow fromView:nil];
+  onInteractiveViewClicked((InteractiveViewPtr)self, p.x, p.y, true);
 }
 @end
 

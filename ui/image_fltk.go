@@ -68,7 +68,7 @@ func (c *Image) handleEvent(e goFltk.Event) bool {
 	// }
 
 	if e == goFltk.PUSH {
-		c.OnClick(goFltk.EventX()-c.X, goFltk.EventY()-c.Y, goFltk.EventButton1())
+		c.OnClick(goFltk.EventX()-c.X, goFltk.EventY()-c.Y, !goFltk.EventButton1())
 	}
 
 	return false
