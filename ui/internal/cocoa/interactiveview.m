@@ -16,6 +16,7 @@ InteractiveViewPtr InteractiveView_New(int x, int y, int w, int h) {
   InteractiveView *control = [[[InteractiveView alloc]
       initWithFrame:NSMakeRect(x, y, w, h)] autorelease];
   [control setBordered:NO];
+  [control setTitle:@""];
   // [control setBezelStyle:NSBezelStyleShadowlessSquare];
   // [control setButtonType:NSMomentaryChangeButton];
   [control setImageScaling:NSImageScaleAxesIndependently];
