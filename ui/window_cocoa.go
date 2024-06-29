@@ -40,6 +40,10 @@ func (w *Window) Update(nextComponent spot.Control) bool {
 func (w *Window) Mount(parent spot.Control) any {
 	w.ref = cocoa.NewCenteredWindow(w.Title, w.Width, w.Height)
 	w.ref.SetAllowsResizing(w.Resizable)
+	// w.ref.SetCloseButtonEnabled(false)
+	// w.ref.OnShouldClose(func(wnd *cocoa.Window) {
+	// 	fmt.Println("Window closed")
+	// })
 
 	w.ref.MakeKeyAndOrderFront()
 	w.ref.AddDefaultQuitMenu()
