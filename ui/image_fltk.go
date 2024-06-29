@@ -75,7 +75,7 @@ func (c *Image) handleEvent(e goFltk.Event) bool {
 }
 
 func (c *Image) draw() {
-	if c.ref == nil {
+	if c.ref == nil || isImageNil(c.Image) {
 		return
 	}
 
