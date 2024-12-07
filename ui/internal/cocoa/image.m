@@ -2,7 +2,7 @@
 #include "_cgo_export.h"
 
 ImagePtr Image_NewWithRGBA(int w, int h, unsigned char *rgba) {
-  NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc]
+  NSBitmapImageRep *bitmap = [[[NSBitmapImageRep alloc]
       initWithBitmapDataPlanes:NULL
                     pixelsWide:w
                     pixelsHigh:h
@@ -12,12 +12,12 @@ ImagePtr Image_NewWithRGBA(int w, int h, unsigned char *rgba) {
                       isPlanar:NO
                 colorSpaceName:NSCalibratedRGBColorSpace
                    bytesPerRow:w * 4
-                  bitsPerPixel:32];
+                  bitsPerPixel:32] autorelease];
 
   unsigned char *bitmapData = [bitmap bitmapData];
   memcpy(bitmapData, rgba, w * h * 4);
 
-  NSImage *theImage = [[NSImage alloc] init];
+  NSImage *theImage = [[[NSImage alloc] init] autorelease];
   [theImage addRepresentation:bitmap];
 
   return (ImagePtr)theImage;
